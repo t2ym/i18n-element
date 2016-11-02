@@ -1,7 +1,7 @@
 <!--
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
---><html><head><link rel="import" href="../../../i18n-behavior.html">
+--><html><head><link rel="import" href="../../../../i18n-behavior/i18n-behavior.html">
 <link rel="import" href="../../../../iron-input/iron-input.html">
 
   <template id="advanced-binding-element" basepath="edge-case/" localizable-text="embedded">
@@ -15,7 +15,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       <span slot="2">{{text.annotated-format.2}}</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
 
     <span>{{tr('key',text.nodefault)}}</span>
     <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{text.defaultValue}}</span><span slot="2">{{text.defaultValue}}</span></i18n-format></span>
@@ -30,13 +30,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <json-data>
 {
   "meta": {},
-  "model": {
-    "aria-attributes": {
-      "title": "tooltip text",
-      "aria-label": "aria label text",
-      "aria-valuetext": "aria value text"
-    }
-  },
+  "model": {},
   "annotated-format": [
     "{{tr(status,text.statusMessageFormats)}}",
     "{{parameter}}",
@@ -79,7 +73,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       <span slot="2">{{text.annotated-format.2}}</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
 
     <span>{{tr('key',text.nodefault)}}</span>
     <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{text.defaultValue}}</span><span slot="2">{{text.defaultValue}}</span></i18n-format></span>
@@ -94,13 +88,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <json-data>
 {
   "meta": {},
-  "model": {
-    "aria-attributes": {
-      "title": "tooltip text",
-      "aria-label": "aria label text",
-      "aria-valuetext": "aria value text"
-    }
-  },
+  "model": {},
   "annotated-format": [
     "{{tr(status,text.statusMessageFormats)}}",
     "{{parameter}}",

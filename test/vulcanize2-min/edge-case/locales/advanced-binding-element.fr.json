@@ -2,13 +2,7 @@
   "meta": {
     "todo": []
   },
-  "model": {
-    "aria-attributes": {
-      "title": "fr tooltip text",
-      "aria-label": "fr aria label text",
-      "aria-valuetext": "fr aria value text"
-    }
-  },
+  "model": {},
   "annotated-format": [
     "{{tr(status,text.statusMessageFormats)}}",
     "{{parameter}}",

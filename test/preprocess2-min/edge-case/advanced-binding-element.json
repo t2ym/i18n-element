@@ -1,12 +1,6 @@
 {
   "meta": {},
-  "model": {
-    "aria-attributes": {
-      "title": "tooltip text",
-      "aria-label": "aria label text",
-      "aria-valuetext": "aria value text"
-    }
-  },
+  "model": {},
   "annotated-format": [
     "{{tr(status,text.statusMessageFormats)}}",
     "{{parameter}}",
