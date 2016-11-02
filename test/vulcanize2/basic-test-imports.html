@@ -15775,23 +15775,19 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     <div id="outer-div">
       <div id="ordinary-div" attr="This is not targeted for extraction">{{text.ordinary-div}}</div>
 
-      <input id="standard-input" placeholder="standard HTML5 attribute">
-      <input placeholder="standard HTML5 attribute without id">
+      <input id="standard-input" placeholder="{{model.standard-input.placeholder}}">
+      <input placeholder="{{model.outer-div:input_2.placeholder}}">
 
-      <paper-input id="paper-input-element" label="paper-input label" error-message="paper-input error message" placeholder="paper-input placeholder" value="this is not a target">
+      <paper-input id="paper-input-element" label="{{model.paper-input-element.label}}" error-message="{{model.paper-input-element.error-message}}" placeholder="{{model.paper-input-element.placeholder}}" value="this is not a target">
       </paper-input>
 
-      <paper-input label="paper-input label without id" error-message="paper-input error message without id" placeholder="paper-input placeholder without id" value="this is not a target">
+      <paper-input label="{{model.outer-div:paper-input_4.label}}" error-message="{{model.outer-div:paper-input_4.error-message}}" placeholder="{{model.outer-div:paper-input_4.placeholder}}" value="this is not a target">
       </paper-input>
 
-      <google-chart type="pie" id="pie-chart" options="{&quot;title&quot;: &quot;Distribution of days in 2001H1&quot;}" cols="[ {&quot;label&quot;: &quot;Month&quot;, &quot;type&quot;: &quot;string&quot;},{&quot;label&quot;: &quot;Days&quot;, &quot;type&quot;: &quot;number&quot;} ]" rows="[ [&quot;Jan&quot;, 31],[&quot;Feb&quot;, 28],[&quot;Mar&quot;, 31],[&quot;Apr&quot;, 30],[&quot;May&quot;, 31],[&quot;Jun&quot;, 30] ]">
+      <google-chart type="pie" id="pie-chart" options="{{model.pie-chart.options}}" cols="{{model.pie-chart.cols}}" rows="{{model.pie-chart.rows}}">
       </google-chart>
 
-      <google-chart id="column-chart" type="column" options="{&quot;title&quot;: &quot;Inventory&quot;}" data="[ [&quot;Year&quot;, &quot;Things&quot;, &quot;Stuff&quot;],
-                [&quot;2004&quot;, 1000, 400],
-                [&quot;2005&quot;, 1170, 460],
-                [&quot;2006&quot;, 660, 1120],
-                [&quot;2007&quot;, 1030, 540] ]">
+      <google-chart id="column-chart" type="column" options="{{model.column-chart.options}}" data="{{model.column-chart.data}}">
       </google-chart>
 
       <text-attribute-element id="custom-attr" custom-text-attr1="{{model.custom-attr.custom-text-attr1}}" custom-text-attr2="{{model.custom-attr.custom-text-attr2}}" custom-text-attr3="{{model.custom-attr.custom-text-attr3}}" out-of-scope-attr="out of scope attr">
@@ -15815,14 +15811,103 @@ customElements.define(I18nDomBind.is, I18nDomBind);
 
     </div>
     <template>
-      <json-data id="json-data-id" attr1="this attr1 is extracted" i18n-target-attr="this attribute is also extracted"></json-data>
-      <json-data attr1="this attr1 without id is extracted" i18n-target-attr="this attribute without id is also extracted"></json-data>
+      <json-data id="json-data-id" attr1="{{model.json-data-id.attr1}}" i18n-target-attr="{{model.json-data-id.i18n-target-attr}}"></json-data>
+      <json-data attr1="{{model.template_2:json-data_1.attr1}}" i18n-target-attr="{{model.template_2:json-data_1.i18n-target-attr}}"></json-data>
     </template>
   <template id="localizable-text">
 <json-data>
 {
   "meta": {},
   "model": {
+    "standard-input": {
+      "placeholder": "standard HTML5 attribute"
+    },
+    "outer-div:input_2": {
+      "placeholder": "standard HTML5 attribute without id"
+    },
+    "paper-input-element": {
+      "label": "paper-input label",
+      "error-message": "paper-input error message",
+      "placeholder": "paper-input placeholder"
+    },
+    "outer-div:paper-input_4": {
+      "label": "paper-input label without id",
+      "error-message": "paper-input error message without id",
+      "placeholder": "paper-input placeholder without id"
+    },
+    "pie-chart": {
+      "options": {
+        "title": "Distribution of days in 2001H1"
+      },
+      "cols": [
+        {
+          "label": "Month",
+          "type": "string"
+        },
+        {
+          "label": "Days",
+          "type": "number"
+        }
+      ],
+      "rows": [
+        [
+          "Jan",
+          31
+        ],
+        [
+          "Feb",
+          28
+        ],
+        [
+          "Mar",
+          31
+        ],
+        [
+          "Apr",
+          30
+        ],
+        [
+          "May",
+          31
+        ],
+        [
+          "Jun",
+          30
+        ]
+      ]
+    },
+    "column-chart": {
+      "options": {
+        "title": "Inventory"
+      },
+      "data": [
+        [
+          "Year",
+          "Things",
+          "Stuff"
+        ],
+        [
+          "2004",
+          1000,
+          400
+        ],
+        [
+          "2005",
+          1170,
+          460
+        ],
+        [
+          "2006",
+          660,
+          1120
+        ],
+        [
+          "2007",
+          1030,
+          540
+        ]
+      ]
+    },
     "custom-attr": {
       "custom-text-attr1": "custom text attribute 1",
       "custom-text-attr2": "custom text attribute 2",
@@ -15863,6 +15948,14 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     },
     "selective-attr4": {
       "i18n-target6": "i18n-target6 attribute 3"
+    },
+    "json-data-id": {
+      "attr1": "this attr1 is extracted",
+      "i18n-target-attr": "this attribute is also extracted"
+    },
+    "template_2:json-data_1": {
+      "attr1": "this attr1 without id is extracted",
+      "i18n-target-attr": "this attribute without id is also extracted"
     }
   },
   "ordinary-div": "text 1"
@@ -15880,23 +15973,19 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     <div id="outer-div">
       <div id="ordinary-div" attr="This is not targeted for extraction">{{text.ordinary-div}}</div>
 
-      <input id="standard-input" placeholder="standard HTML5 attribute">
-      <input placeholder="standard HTML5 attribute without id">
+      <input id="standard-input" placeholder="{{model.standard-input.placeholder}}">
+      <input placeholder="{{model.outer-div:input_2.placeholder}}">
 
-      <paper-input id="paper-input-element" label="paper-input label" error-message="paper-input error message" placeholder="paper-input placeholder" value="this is not a target">
+      <paper-input id="paper-input-element" label="{{model.paper-input-element.label}}" error-message="{{model.paper-input-element.error-message}}" placeholder="{{model.paper-input-element.placeholder}}" value="this is not a target">
       </paper-input>
 
-      <paper-input label="paper-input label without id" error-message="paper-input error message without id" placeholder="paper-input placeholder without id" value="this is not a target">
+      <paper-input label="{{model.outer-div:paper-input_4.label}}" error-message="{{model.outer-div:paper-input_4.error-message}}" placeholder="{{model.outer-div:paper-input_4.placeholder}}" value="this is not a target">
       </paper-input>
 
-      <google-chart type="pie" id="pie-chart" options="{&quot;title&quot;: &quot;Distribution of days in 2001H1&quot;}" cols="[ {&quot;label&quot;: &quot;Month&quot;, &quot;type&quot;: &quot;string&quot;},{&quot;label&quot;: &quot;Days&quot;, &quot;type&quot;: &quot;number&quot;} ]" rows="[ [&quot;Jan&quot;, 31],[&quot;Feb&quot;, 28],[&quot;Mar&quot;, 31],[&quot;Apr&quot;, 30],[&quot;May&quot;, 31],[&quot;Jun&quot;, 30] ]">
+      <google-chart type="pie" id="pie-chart" options="{{model.pie-chart.options}}" cols="{{model.pie-chart.cols}}" rows="{{model.pie-chart.rows}}">
       </google-chart>
 
-      <google-chart id="column-chart" type="column" options="{&quot;title&quot;: &quot;Inventory&quot;}" data="[ [&quot;Year&quot;, &quot;Things&quot;, &quot;Stuff&quot;],
-                [&quot;2004&quot;, 1000, 400],
-                [&quot;2005&quot;, 1170, 460],
-                [&quot;2006&quot;, 660, 1120],
-                [&quot;2007&quot;, 1030, 540] ]">
+      <google-chart id="column-chart" type="column" options="{{model.column-chart.options}}" data="{{model.column-chart.data}}">
       </google-chart>
 
       <text-attribute-element id="custom-attr" custom-text-attr1="{{model.custom-attr.custom-text-attr1}}" custom-text-attr2="{{model.custom-attr.custom-text-attr2}}" custom-text-attr3="{{model.custom-attr.custom-text-attr3}}" out-of-scope-attr="out of scope attr">
@@ -15920,14 +16009,103 @@ customElements.define(I18nDomBind.is, I18nDomBind);
 
     </div>
     <template>
-      <json-data id="json-data-id" attr1="this attr1 is extracted" i18n-target-attr="this attribute is also extracted"></json-data>
-      <json-data attr1="this attr1 without id is extracted" i18n-target-attr="this attribute without id is also extracted"></json-data>
+      <json-data id="json-data-id" attr1="{{model.json-data-id.attr1}}" i18n-target-attr="{{model.json-data-id.i18n-target-attr}}"></json-data>
+      <json-data attr1="{{model.template_2:json-data_1.attr1}}" i18n-target-attr="{{model.template_2:json-data_1.i18n-target-attr}}"></json-data>
     </template>
   <template id="localizable-text">
 <json-data>
 {
   "meta": {},
   "model": {
+    "standard-input": {
+      "placeholder": "standard HTML5 attribute"
+    },
+    "outer-div:input_2": {
+      "placeholder": "standard HTML5 attribute without id"
+    },
+    "paper-input-element": {
+      "label": "paper-input label",
+      "error-message": "paper-input error message",
+      "placeholder": "paper-input placeholder"
+    },
+    "outer-div:paper-input_4": {
+      "label": "paper-input label without id",
+      "error-message": "paper-input error message without id",
+      "placeholder": "paper-input placeholder without id"
+    },
+    "pie-chart": {
+      "options": {
+        "title": "Distribution of days in 2001H1"
+      },
+      "cols": [
+        {
+          "label": "Month",
+          "type": "string"
+        },
+        {
+          "label": "Days",
+          "type": "number"
+        }
+      ],
+      "rows": [
+        [
+          "Jan",
+          31
+        ],
+        [
+          "Feb",
+          28
+        ],
+        [
+          "Mar",
+          31
+        ],
+        [
+          "Apr",
+          30
+        ],
+        [
+          "May",
+          31
+        ],
+        [
+          "Jun",
+          30
+        ]
+      ]
+    },
+    "column-chart": {
+      "options": {
+        "title": "Inventory"
+      },
+      "data": [
+        [
+          "Year",
+          "Things",
+          "Stuff"
+        ],
+        [
+          "2004",
+          1000,
+          400
+        ],
+        [
+          "2005",
+          1170,
+          460
+        ],
+        [
+          "2006",
+          660,
+          1120
+        ],
+        [
+          "2007",
+          1030,
+          540
+        ]
+      ]
+    },
     "custom-attr": {
       "custom-text-attr1": "custom text attribute 1",
       "custom-text-attr2": "custom text attribute 2",
@@ -15968,6 +16146,14 @@ customElements.define(I18nDomBind.is, I18nDomBind);
     },
     "selective-attr4": {
       "i18n-target6": "i18n-target6 attribute 3"
+    },
+    "json-data-id": {
+      "attr1": "this attr1 is extracted",
+      "i18n-target-attr": "this attribute is also extracted"
+    },
+    "template_2:json-data_1": {
+      "attr1": "this attr1 without id is extracted",
+      "i18n-target-attr": "this attribute without id is also extracted"
     }
   },
   "ordinary-div": "text 1"
