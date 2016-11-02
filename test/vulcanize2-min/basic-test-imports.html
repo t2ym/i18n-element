@@ -18788,6 +18788,19 @@ suite('I18nElement with ' +
   ];
 
   suitesRunner(suites);
+
+  suite('disconnect i18n-dom-bind', function () {
+    test('disconnect', function (done) {
+      var p = document.querySelector('i18n-dom-bind#simple-text-dom-bind');
+      var parent = p.parentNode;
+      parent.removeChild(p);
+      p.addEventListener('dom-change', function (e) {
+        assert.equal(p.parentNode.childNodes[2].textContent, ' outermost text at the beginning ', true, 'i18n-dom-bind is rendered');
+        done();
+      })
+      parent.appendChild(p);
+    });
+  });
 });
 </script>
 </div></body></html>
