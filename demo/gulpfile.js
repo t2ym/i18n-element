@@ -101,7 +101,7 @@ var scan = gulpif('*.html', i18nPreprocess({
   srcPath: 'poc', // path to source root
   targetVersion: 2, // target Polymer version
   attributesRepositoryPath: 
-    '../i18n-attr-repo.html', // path to i18n-attr-repo.html
+    '../../i18n-behavior/i18n-attr-repo.html', // path to i18n-attr-repo.html
   dropHtml: false // do not drop HTMLs
 }));
 
