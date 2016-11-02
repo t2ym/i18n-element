@@ -52,7 +52,7 @@ gulp.task('scan', function () {
       constructAttributesRepository: true, // construct attributes repository
       attributesRepository: attributesRepository, // output object
       srcPath: 'test/src', // path to source root
-      attributesRepositoryPath: 'i18n-attr-repo.html', // path to i18n-attr-repo.html
+      attributesRepositoryPath: './bower_components/i18n-behavior/i18n-attr-repo.html', // path to i18n-attr-repo.html
       dropHtml: true // drop HTMLs
     }))
     .pipe(gulp.dest('test/preprocess')); // no outputs; dummy output path
@@ -386,7 +386,7 @@ gulp.task('scan2', function () {
       constructAttributesRepository: true, // construct attributes repository
       attributesRepository: attributesRepository, // output object
       srcPath: 'test/src2', // path to source root
-      attributesRepositoryPath: 'i18n-attr-repo.html', // path to i18n-attr-repo.html
+      attributesRepositoryPath: './bower_components/i18n-behavior/i18n-attr-repo.html', // path to i18n-attr-repo.html
       dropHtml: true, // drop HTMLs,
       targetVersion: 2
     }))
