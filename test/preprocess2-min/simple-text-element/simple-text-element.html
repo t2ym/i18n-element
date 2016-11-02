@@ -192,7 +192,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     break;
   case 'base-element':
     {
-      class SimpleTextElement extends BaseElements.I18nElement {
+      class SimpleTextElement extends Mixins.Logger(BaseElements.I18nElement) {
         static get is() { return 'simple-text-element' }
         static get config () {
           return {
