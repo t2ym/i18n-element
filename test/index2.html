@@ -38,16 +38,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         (nativeShadow ? [ '?xhr=fake&suppress=true' /*, '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?xhr=fake&suppress=true' ]).forEach(function (dom) {
           (nativeES6 ? 
             [
-              'mixin',
+              //'mixin',
               'base-element',
               'thin',
-              'legacy'
+              //'legacy'
             ] :
             [
-              'mixin',
+              //'mixin',
               'base-element',
               'thin',
-              'legacy'
+              //'legacy'
             ]
           ).forEach(function (syntax) {
             (nativeCustomElementsV1 ?
