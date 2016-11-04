@@ -382,7 +382,7 @@ gulp.task('patch-browserjs', () => {
   return gulp.src([ 'bower_components/web-component-tester/browser.js' ])
     .pipe(replace(
       "'test-fixture/test-fixture.html'", 
-      "customElements.get.toString().indexOf('native code') < 0 ? \"test-fixture/test-fixture-es5.html\" : \"test-fixture/test-fixture.html\"", 'g'))
+      "window.location.pathname.match(/(-min.html|-min\/)/) ? \"test-fixture/test-fixture-es5.html\" : \"test-fixture/test-fixture.html\"", 'g'))
     .pipe(debug())
     .pipe(gulp.dest('bower_components/web-component-tester/'));
 });
