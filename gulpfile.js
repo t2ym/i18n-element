@@ -379,12 +379,12 @@ gulp.task('webcomponents-min', () => {
 });
 
 gulp.task('patch-browserjs', () => {
-  return gulp.src([ 'bower_components/web-component-tester/browser.js' ])
-    .pipe(replace(
+  return gulp.src([ 'bower_components/web-component-tester/**/*' ])
+    .pipe(gulpif('browser.js', replace(
       "'test-fixture/test-fixture.html'", 
-      "'test-fixture/test-fixture-es5.html'", 'g'))
+      "'test-fixture/test-fixture-es5.html'", 'g')))
     .pipe(debug())
-    .pipe(gulp.dest('bower_components/web-component-tester/'));
+    .pipe(gulp.dest('bower_components/web-component-tester-es5/'));
 });
 
 // Scan HTMLs and construct localizable attributes repository
@@ -599,6 +599,9 @@ gulp.task('minify2', function() {
     .pipe(gulpif('*-test.html', 
       replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
               '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
+    .pipe(gulpif('*-test.html', 
+      replace('"../../../web-component-tester/browser.js"',
+              '"../../../web-component-tester-es5/browser.js"', 'g')))
     .pipe(gulpif('*.html', crisper({
       scriptInHead: false
     })))
@@ -643,6 +646,9 @@ gulp.task('minify2-min', function() {
     .pipe(gulpif('*-test.html', 
       replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
               '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
+    .pipe(gulpif('*-test.html', 
+      replace('"../../../web-component-tester/browser.js"',
+              '"../../../web-component-tester-es5/browser.js"', 'g')))
     .pipe(gulpif('*.html', crisper({
       scriptInHead: false
     })))
@@ -743,6 +749,7 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'patchshadycss',
     'polyfillclone',
     'webcomponents-min',
+    'patch-browserjs',
     'scan2',
     'src2-min',
     'preprocess2',
