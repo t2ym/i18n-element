@@ -267,6 +267,7 @@ gulp.task('i18n', () => {
 gulp.task('vulcanize', () => {
   return gulp.src([ '../bower_components/i18n-element/demo/poc/**/* ' ], { base: '../bower_components/i18n-element/demo/poc' })
     .pipe(gulpif('index.html', replace(/"[.][.]\/[.][.]\/[.][.]\/webcomponentsjs\/webcomponents-lite[.]js"/, '"../webcomponentsjs/webcomponents-lite.min.js"', 'g')))
+    .pipe(gulpif('index.html', replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->', '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
     .pipe(gulpif('imports.html', vulcanize({
       abspath: '',
       excludes: [],
