@@ -382,7 +382,7 @@ gulp.task('patch-browserjs', () => {
   return gulp.src([ 'bower_components/web-component-tester/browser.js' ])
     .pipe(replace(
       "'test-fixture/test-fixture.html'", 
-      "window.location.pathname.match(/(-min.html|-min\/)/) ? \"test-fixture/test-fixture-es5.html\" : \"test-fixture/test-fixture.html\"", 'g'))
+      "'test-fixture/test-fixture-es5.html'", 'g'))
     .pipe(debug())
     .pipe(gulp.dest('bower_components/web-component-tester/'));
 });
@@ -743,7 +743,6 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'patchshadycss',
     'polyfillclone',
     'webcomponents-min',
-    'patch-browserjs',
     'scan2',
     'src2-min',
     'preprocess2',
