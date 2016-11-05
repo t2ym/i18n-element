@@ -45,7 +45,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         var id;
         var classId;
         var obj;
-        var name = proto.name || functionName(proto);
+        var name = proto.hasOwnProperty('name') ? proto.name : functionName(proto);
         var current; // currentScript
         var template = null;
         var previous; // previousSibling template
