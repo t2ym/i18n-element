@@ -390,7 +390,7 @@ function setupFixture (params, fixtureModel) {
         else {
           //console.log('setupFixture: element ready without lang-updated');
           setTimeout(function () {
-            if (params.lang === '' || params.lang === 'en') {
+            if ((params.lang === '' || params.lang === 'en') && element.fire) {
               element.fire('lang-updated');
             }
           }, 500);
@@ -511,12 +511,18 @@ function suitesRunner (suites) {
             (params.assign && params.assign.lang ? ' for ' + params.assign.lang : ''), function () {
         assert.isString(el.lang, 'lang property is a string');
         assert.equal(el.lang, params.lang, 'lang property is set');
-        assert.isString(el.effectiveLang, 'effectiveLang property is a string');
-        assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang property is set');
-        assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
-        assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
-        assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
-        assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
+        if (typeof params.effectiveLang !== 'undefined') {
+          assert.isString(el.effectiveLang, 'effectiveLang property is a string');
+          assert.equal(el.effectiveLang, params.effectiveLang, 'effectiveLang property is set');
+        }
+        if (typeof params.templateDefaultLang !== 'undefined') {
+          assert.isString(el.templateDefaultLang, 'templateDefaultLang property is a string');
+          assert.equal(el.templateDefaultLang, params.templateDefaultLang, 'templateDefaultLang property is set');
+        }
+        if (typeof params.observeHtmlLang !== 'undefined') {
+          assert.isBoolean(el.observeHtmlLang, 'observeHtmlLang property is a Boolean');
+          assert.equal(el.observeHtmlLang, params.observeHtmlLang, 'observeHtmlLang property is set');
+        }
         if (params.text) {
           var actual;
           expected = deepMap(deepcopy(params.text), params.text, minifyText);
