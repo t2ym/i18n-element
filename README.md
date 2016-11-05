@@ -207,6 +207,7 @@ Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponen
 | template-default-lang       | `templateDefaultLang` tests |
 | preference                  | `i18n-preference` tests     |
 | no-persist                  | `i18n-preference` tests     |
+| define-element              | `Define = class` tests      |
 
 ### Test on Build Phases
 
