@@ -14692,9 +14692,11 @@ class I18nDomBind extends Mixins.Localizable(Polymer.LegacyElement) {
       for (var n=this.root.firstChild; n; n=n.nextSibling) {
         this._children[this._children.length] = n;
       }
+      /* Issue #4 is no longer reproducible
       for (var prop in this.__dataProto) {
         this[prop] = this.__dataProto[prop];
       }
+      */
       this._flushProperties(this);
     }
     this._insertChildren();
