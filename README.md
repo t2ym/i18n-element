@@ -102,6 +102,7 @@ Additional Import:
 - Element class is registered as `Define.ElementClass`
 - Applicable to both Class Expressions Mixin and I18N Base Element Class
 - Applicable to non-I18N element classes as well
+- Either template id or class name can be omitted if the template and the class are in a dedicated HTML without other custom element definitions
 - [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) 1.2.3 or later is required for vulcanized applications
 - `targetVersion: 2` option is required for `gulp-i18n-preprocess`
 
