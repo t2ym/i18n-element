@@ -387,6 +387,15 @@ gulp.task('patch-browserjs', () => {
     .pipe(gulp.dest('bower_components/web-component-tester-es5/'));
 });
 
+gulp.task('patch-web-component-tester', () => {
+  // Patch with PR https://github.com/Polymer/web-component-tester/pull/399/commits/67062d199a5bb8ad114652d5b2a9ed7a31e82b46
+  return gulp.src([ 'node_modules/web-component-tester/runner/webserver.js' ])
+    .pipe(gulpif('webserver.js', replace(
+      "yield wct.emitHook('prepare:webserver', app);",
+      "yield wct.emitHook('prepare:webserver', app, () => {});", 'g')))
+    .pipe(gulp.dest('node_modules/web-component-tester/runner/'));
+});
+
 // Scan HTMLs and construct localizable attributes repository
 gulp.task('scan2', function () {
   return gulp.src([ 'test/src2/**/*.html', '!test/src2/**/*-test.html' ]) // input custom element HTMLs
@@ -750,6 +759,7 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'polyfillclone',
     'webcomponents-min',
     'patch-browserjs',
+    'patch-web-component-tester',
     'scan2',
     'src2-min',
     'preprocess2',
