@@ -104,7 +104,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             id = UncamelCase(name);
             classId = name;
           }
+          var isNoIdPrevious = previous && !previous.id && id;
+          if (isNoIdPrevious) {
+            previous.id = id; // temporarily supply id
+          }
           var rawTemplate = proto._rawTemplate || proto.template;
+          if (isNoIdPrevious) {
+            previous.removeAttribute('id');
+          }
           if (!template && rawTemplate && !name) {
             // Pattern g)
             template = rawTemplate;
