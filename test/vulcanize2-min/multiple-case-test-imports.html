@@ -14579,7 +14579,14 @@ Object.defineProperty(BaseElements, 'I18nElement', {
             id = UncamelCase(name);
             classId = name;
           }
+          var isNoIdPrevious = previous && !previous.id && id;
+          if (isNoIdPrevious) {
+            previous.id = id; // temporarily supply id
+          }
           var rawTemplate = proto._rawTemplate || proto.template;
+          if (isNoIdPrevious) {
+            previous.removeAttribute('id');
+          }
           if (!template && rawTemplate && !name) {
             // Pattern g)
             template = rawTemplate;

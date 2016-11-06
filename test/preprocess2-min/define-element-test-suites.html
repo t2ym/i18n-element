@@ -9,6 +9,7 @@ suite('I18nElement with ' +
   function () {
 
   var lang0 = '';
+  var lang1 = 'en';
   var localDOM_simple_define = [
     { select: 'div:not([id])', 'previousTextSibling.data': ' outermost text at the beginning ' },
     { select: 'h1', textContent: 'outermost header 1' },
@@ -48,6 +49,18 @@ suite('I18nElement with ' +
     }),
     s('no class name but is define element default', 'simple define element default', { 
       fixture: 'no-class-name-but-is-define-element-default-fixture'
+    }),
+    s('i18n no template id define element default', 'simple define element default', { 
+      fixture: 'i18n-no-template-id-define-element-default-fixture',
+      lang: lang1
+    }),
+    s('i18n no class name define element default', 'simple define element default', { 
+      fixture: 'i18n-no-class-name-define-element-default-fixture',
+      lang: lang1
+    }),
+    s('i18n no class name but is define element default', 'simple define element default', { 
+      fixture: 'i18n-no-class-name-but-is-define-element-default-fixture',
+      lang: lang1
     })
   ];
 
