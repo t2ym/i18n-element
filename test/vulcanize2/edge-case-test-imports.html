@@ -14272,15 +14272,7 @@ Handle and judge JSON object attributes.
   }
 })(document);
 </script>
-<script>/*
-@license
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+<script>
 // From polymer#2.0-preview src/legacy/class.html
 Polymer.Utils = Polymer.Utils || {};
 Polymer.Utils.MixinBehavior = function(behavior, Base) {
@@ -14333,10 +14325,12 @@ Polymer.Utils.MixinBehavior = function(behavior, Base) {
       this._invokeFunction(behavior.created);
     }
 
+    /* unused method
     _applyConfigMetaData() {
       super._applyConfigMetaData();
       this._applyConfigMetaDataFrom(behavior);
     }
+    */
 
     _applyListeners() {
       super._applyListeners();
@@ -14376,7 +14370,8 @@ Polymer.Utils.MixinBehavior = function(behavior, Base) {
   }
 
   return PolymerGenerated;
-}</script><script>
+}
+</script><script>
 // Globally expose base elements and mixins
 window.BaseElements = window.BaseElements || {};
 window.Mixins = window.Mixins || {};
