@@ -18,7 +18,7 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 - This is just a proof-of-concept demo and not applicable to general purposes yet
 - Bower dependencies with their branch names have no tags, i.e., no versions, and have to be updated in sync with the branches frequently. 
-- Raw PoC demo supported browsers: Chrome 54+ (native), Firefox 49, Edge 14, Safari 10
+- Raw PoC demo supported browsers: Chrome 54+ (native), Firefox 49, Edge 13+, Safari 10
 - The modules are dependent upon modules from [`i18n-behavior#2.0-develop`](https://github.com/t2ym/i18n-behavior/tree/2.0-develop)
 - Some Polymer 1.x modules (`iron-localstorage`) are running as Polymer 2.x modules without compatibility tests
 - Other dependent modules come from their `2.0-develop` branches
