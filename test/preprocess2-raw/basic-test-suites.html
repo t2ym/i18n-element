@@ -1298,5 +1298,18 @@ suite('I18nElement with ' +
       parent.appendChild(p);
     });
   });
+
+  suite('no template i18n-dom-bind', function () {
+    test('connect', function (done) {
+      var container = document.createElement('div');
+      var el = document.createElement('i18n-dom-bind');
+      el.id = 'no-template-dom-bind';
+      assert.throws(function () {
+        container.appendChild(el);
+        el.render();
+      }, 'i18n-dom-bind requires a <template> child');
+      done();
+    });
+  });
 });
 </script>
