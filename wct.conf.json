@@ -46,8 +46,7 @@
         "**/i18n-element.html",
         "**/i18n-dom-bind.html",
         "**/define-element.html",
-        "**/mixin-behavior.html",
-        "**/mixin-behavior.js"
+        "**/mixin-behavior.html"
       ],
       "exclude": [
         "/bower_components/**/*",
