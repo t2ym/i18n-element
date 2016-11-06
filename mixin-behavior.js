@@ -59,10 +59,12 @@ Polymer.Utils.MixinBehavior = function(behavior, Base) {
       this._invokeFunction(behavior.created);
     }
 
+    /* unused method
     _applyConfigMetaData() {
       super._applyConfigMetaData();
       this._applyConfigMetaDataFrom(behavior);
     }
+    */
 
     _applyListeners() {
       super._applyListeners();
