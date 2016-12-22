@@ -1,0 +1,51 @@
+{
+  "plugins": {
+    "local": {
+      "browsers": [
+      ]
+    },
+    "sauce": {
+      "disabled": false,
+      "browsers": [
+        {
+          "browserName":  "chrome",
+          "platform":     "Windows 10"
+        },
+        {
+          "browserName":  "firefox",
+          "platform":     "Windows 10"
+        },
+        {
+          "browserName":  "internet explorer",
+          "platform":     "Windows 8.1",
+          "version":      "11"
+        },
+        {
+          "browserName":  "internet explorer",
+          "platform":     "Windows 7",
+          "version":      "10"
+        },
+        {
+          "browserName":  "safari",
+          "platform":     "OS X 10.9",
+          "version":      "7"
+        }
+      ]
+    },
+    "istanbul": {
+      "dir": "test/coverage-report1",
+      "reporters": ["text-summary", "lcov"],
+      "include": [
+        "**/i18n-element.html",
+        "**/i18n-dom-bind.html",
+        "**/define-element.html",
+        "**/mixin-behavior.html",
+        "**/mixin-behavior.js"
+      ],
+      "exclude": [
+        "/bower_components/**/*",
+        "/test/**/*"
+      ]
+    }
+  }
+}

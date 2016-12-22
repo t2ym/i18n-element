@@ -1,0 +1,75 @@
+<!--
+@license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+--><html lang="en" preferred=""><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script>
+/*!
+ * @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
+ * Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+ */
+    </script>
+
+    <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
+    <!-- <script src="../../../custom-elements/src/native-shim.js"></script> -->
+    <script src="../../../web-component-tester/browser.js"></script>
+    <link rel="import" href="define-element-test-imports.html">
+    <style>
+    .test-container.running-test {
+      display: block;
+    }
+    .test-container:not(.running-test) { 
+      display: none;
+    }
+    </style>
+  </head>
+  <body>
+    <h2 id="test-name"></h2>
+
+    <test-fixture class="test-container" id="simple-define-element-default-fixture">
+      <template>
+        <simple-define-element></simple-define-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="no-template-id-define-element-default-fixture">
+      <template>
+        <no-template-id-define-element></no-template-id-define-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="no-class-name-define-element-default-fixture">
+      <template>
+        <no-class-name-define-element></no-class-name-define-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="no-class-name-but-is-define-element-default-fixture">
+      <template>
+        <no-class-name-but-is-define-element></no-class-name-but-is-define-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="i18n-no-class-name-define-element-default-fixture">
+      <template>
+        <i18n-no-class-name-define-element></i18n-no-class-name-define-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="i18n-no-template-id-define-element-default-fixture">
+      <template>
+        <i18n-no-template-id-define-element></i18n-no-template-id-define-element>
+      </template>
+    </test-fixture>
+
+    <test-fixture class="test-container" id="i18n-no-class-name-but-is-define-element-default-fixture">
+      <template>
+        <i18n-no-class-name-but-is-define-element></i18n-no-class-name-but-is-define-element>
+      </template>
+    </test-fixture>
+
+  
+
+</body></html>

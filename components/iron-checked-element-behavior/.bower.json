@@ -1,0 +1,45 @@
+{
+  "name": "iron-checked-element-behavior",
+  "description": "Implements an element that has a checked attribute and can be added to a form",
+  "authors": "The Polymer Authors",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "iron",
+    "behavior"
+  ],
+  "main": "iron-checked-element-behavior.html",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-checked-element-behavior.git"
+  },
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/PolymerElements/iron-checked-element-behavior",
+  "ignore": [],
+  "dependencies": {
+    "polymer": "Polymer/polymer#2.0-preview",
+    "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#2.0-preview",
+    "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#2.0-preview"
+  },
+  "devDependencies": {
+    "paper-styles": "PolymerElements/paper-styles#2.0-preview",
+    "paper-button": "PolymerElements/paper-button#2.0-preview",
+    "iron-component-page": "PolymerElements/iron-component-page#2.0-preview",
+    "test-fixture": "PolymerElements/test-fixture#custom-elements-v1",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#v1"
+  },
+  "resolutions": {
+    "test-fixture": "custom-elements-v1"
+  },
+  "_release": "ef529b220b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "2.0-preview",
+    "commit": "ef529b220b85c86c1554a4719952d27af5bb37fb"
+  },
+  "_source": "git://github.com/PolymerElements/iron-checked-element-behavior.git",
+  "_target": "2.0-preview",
+  "_originalSource": "PolymerElements/iron-checked-element-behavior"
+}

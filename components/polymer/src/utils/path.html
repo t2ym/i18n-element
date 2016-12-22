@@ -1,0 +1,114 @@
+<!--
+@license
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="boot.html">
+
+<script>
+
+  Polymer.Path = {
+
+    isPath: function(path) {
+      return path.indexOf('.') >= 0;
+    },
+
+    root: function(path) {
+      var dotIndex = path.indexOf('.');
+      if (dotIndex === -1) {
+        return path;
+      }
+      return path.slice(0, dotIndex);
+    },
+
+    isDeep: function(path) {
+      return path.indexOf('.') !== -1;
+    },
+
+    // Given `base` is `foo.bar`, `foo` is an ancestor, `foo.bar` is not
+    isAncestor: function(base, path) {
+      //     base.startsWith(path + '.');
+      return base.indexOf(path + '.') === 0;
+    },
+
+    // Given `base` is `foo.bar`, `foo.bar.baz` is an descendant
+    isDescendant: function(base, path) {
+      //     path.startsWith(base + '.');
+      return path.indexOf(base + '.') === 0;
+    },
+
+    // can be read as:  from  to       path
+    translate: function(base, newBase, path) {
+      // Defense?
+      return newBase + path.slice(base.length);
+    },
+
+    matches: function(base, path) {
+      return (base === path) ||
+             this.isAncestor(base, path) ||
+             this.isDescendant(base, path);
+    },
+
+    // Converts array-based paths to flattened path, optionally split into array
+    normalize: function(path, split) {
+      if (Array.isArray(path)) {
+        var parts = [];
+        for (var i=0; i<path.length; i++) {
+          var args = path[i].toString().split('.');
+          for (var j=0; j<args.length; j++) {
+            parts.push(args[j]);
+          }
+        }
+        return split ? parts : parts.join('.');
+      } else {
+        return split ? path.toString().split('.') : path;
+      }
+    },
+
+    get: function(root, path, info) {
+      var prop = root;
+      var parts = this.normalize(path, true);
+      // Loop over path parts[0..n-1] and dereference
+      for (var i=0; i<parts.length; i++) {
+        if (!prop) {
+          return;
+        }
+        var part = parts[i];
+        prop = prop[part];
+      }
+      if (info) {
+        info.path = parts.join('.');
+      }
+      return prop;
+    },
+
+    set: function(root, path, value) {
+      var prop = root;
+      var parts = this.normalize(path, true);
+      var last = parts[parts.length-1];
+      if (parts.length > 1) {
+        // Loop over path parts[0..n-2] and dereference
+        for (var i=0; i<parts.length-1; i++) {
+          var part = parts[i];
+          prop = prop[part];
+          if (!prop) {
+            return;
+          }
+        }
+        // Set value to object at end of path
+        prop[last] = value;
+      } else {
+        // Simple property set
+        prop[path] = value;
+      }
+      return parts.join('.');
+    }
+
+  };
+
+</script>

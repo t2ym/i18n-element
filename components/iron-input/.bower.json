@@ -1,0 +1,46 @@
+{
+  "name": "iron-input",
+  "description": "An input element with data binding",
+  "authors": [
+    "The Polymer Authors"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer",
+    "input"
+  ],
+  "main": "iron-input.html",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-input.git"
+  },
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/PolymerElements/iron-input",
+  "ignore": [],
+  "dependencies": {
+    "iron-a11y-announcer": "PolymerElements/iron-a11y-announcer#2.0-preview",
+    "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#2.0-preview",
+    "polymer": "Polymer/polymer#2.0-preview"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "polymerelements/iron-demo-helpers#2.0-preview",
+    "iron-validator-behavior": "PolymerElements/iron-validator-behavior#2.0-preview",
+    "paper-styles": "polymerelements/paper-styles#2.0-preview",
+    "test-fixture": "PolymerElements/test-fixture#custom-elements-v1",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#v1"
+  },
+  "resolutions": {
+    "test-fixture": "custom-elements-v1"
+  },
+  "_release": "60e8fcd364",
+  "_resolution": {
+    "type": "branch",
+    "branch": "2.0-preview",
+    "commit": "60e8fcd3646e8efc6bd72efd94f4d7e224899b4e"
+  },
+  "_source": "git://github.com/PolymerElements/iron-input.git",
+  "_target": "2.0-preview",
+  "_originalSource": "PolymerElements/iron-input"
+}

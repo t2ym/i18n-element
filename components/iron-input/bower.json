@@ -1,0 +1,38 @@
+{
+  "name": "iron-input",
+  "version": "2.0.0",
+  "description": "An input element with data binding",
+  "authors": [
+    "The Polymer Authors"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer",
+    "input"
+  ],
+  "main": "iron-input.html",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-input.git"
+  },
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/PolymerElements/iron-input",
+  "ignore": [],
+  "dependencies": {
+    "iron-a11y-announcer": "PolymerElements/iron-a11y-announcer#2.0-preview",
+    "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#2.0-preview",
+    "polymer": "Polymer/polymer#2.0-preview"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "polymerelements/iron-demo-helpers#2.0-preview",
+    "iron-validator-behavior": "PolymerElements/iron-validator-behavior#2.0-preview",
+    "paper-styles": "polymerelements/paper-styles#2.0-preview",
+    "test-fixture": "PolymerElements/test-fixture#custom-elements-v1",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#v1"
+  },
+  "resolutions": {
+    "test-fixture": "custom-elements-v1"
+  }
+}
