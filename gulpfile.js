@@ -373,7 +373,7 @@ gulp.task('webcomponents-min', () => {
     .pipe(crisper({
       scriptInHead: false
     }))
-    .pipe(gulpif('*.js', uglify()))
+    //.pipe(gulpif('*.js', uglify()))
     .pipe(debug())
     .pipe(gulp.dest('test/webcomponentsjs/'));
 });
@@ -755,7 +755,7 @@ gulp.task('pretest', ['clean'], function(cb) {
 
 gulp.task('pretest2', ['clean2'], function(cb) {
   runSequence(
-    'patchshadycss',
+    //'patchshadycss',
     'polyfillclone',
     'webcomponents-min',
     'patch-browserjs',
