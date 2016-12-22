@@ -65,7 +65,7 @@ gulp.task('webcomponents-min', () => {
     .pipe(crisper({
       scriptInHead: false
     }))
-    //.pipe(gulpif('*.js', uglify()))
+    .pipe(gulpif('*.js', uglify()))
     .pipe(debug())
     .pipe(gulp.dest('./webcomponentsjs/'));
 });
