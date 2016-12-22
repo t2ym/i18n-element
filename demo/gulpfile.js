@@ -43,7 +43,7 @@ gulp.task('clean', function() {
 
 gulp.task('patchshadycss', () => {
   return gulp.src([ '../bower_components/shadycss/shadycss.min.js' ])
-    .pipe(replace(/\n}\)[.]call\(this\)\n/, '\n}).call(this);\n', 'g'))
+    //.pipe(replace(/\n}\)[.]call\(this\)\n/, '\n}).call(this);\n', 'g'))
     .pipe(debug())
     .pipe(gulp.dest('../bower_components/shadycss/'));
 });
@@ -65,7 +65,7 @@ gulp.task('webcomponents-min', () => {
     .pipe(crisper({
       scriptInHead: false
     }))
-    .pipe(gulpif('*.js', uglify()))
+    //.pipe(gulpif('*.js', uglify()))
     .pipe(debug())
     .pipe(gulp.dest('./webcomponentsjs/'));
 });
