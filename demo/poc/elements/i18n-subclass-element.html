@@ -23,18 +23,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <script>
 class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
   static get is() { return 'i18n-subclass-element'; }
-  /*
   static get config() {
     return {
       listeners: {
         'lang-updated': '_langUpdated'
       }
     };
-  }
-  */
-  connectedCallback() {
-    super.connectedCallback();
-    this.listen(this, 'lang-updated', '_langUpdated');
   }
   _langUpdated() {
     this.model = deepcopy(this.text.model);

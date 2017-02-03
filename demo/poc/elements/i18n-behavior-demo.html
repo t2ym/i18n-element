@@ -124,18 +124,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           observers: [
             '_update(effectiveLang,recipientsLength,recipientsIndex,text.model.data.recipients)'
           ],
-          /*
+
           listeners: {
             'lang-updated': '_langUpdated'
           }
-          */
         };
       }
 
       connectedCallback() {
         super.connectedCallback();
         this.observeHtmlLang = false;
-        this.listen(this, 'lang-updated', '_langUpdated');
         this._updateParameters();
       }
 
