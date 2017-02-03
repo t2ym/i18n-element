@@ -89,6 +89,18 @@ Mixins.Localizable = function (base) {
     get is () {
       return this.constructor.is;
     }
+    connectedCallback() {
+      super.connectedCallback();
+      // Fix #43. Explicit attachment of listeners since config.listeners is ineffective in 2.0-preview as of Feb 3, 2017
+      let config = this.constructor.config;
+      if (config && config.listeners) {
+        for (let listener in config.listeners) {
+          if (listener.indexOf('.') < 0) {
+            this.listen(this, listener, config.listeners[listener]);
+          }
+        }
+      }
+    }
   };
 }
 
