@@ -25,9 +25,9 @@ class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
   static get is() { return 'i18n-subclass-element'; }
   static get config() {
     return {
-      listeners: {
-        'lang-updated': '_langUpdated'
-      }
+      observers: [
+        '_langUpdated(effectiveLang)'
+      ]
     };
   }
   _langUpdated() {
