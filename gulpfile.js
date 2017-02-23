@@ -412,9 +412,9 @@ gulp.task('scan2', function () {
 
 gulp.task('src2-min', function () {
   return gulp.src([ 'test/src2/**/*' ])
-    .pipe(gulpif('*-test.html', 
-      replace('../../../webcomponentsjs/webcomponents-lite.js',
-              '../webcomponentsjs/webcomponents-lite.min.js')))
+    //.pipe(gulpif('*-test.html', 
+    //  replace('../../../webcomponentsjs/webcomponents-lite.js',
+    //          '../webcomponentsjs/webcomponents-loader.js')))
     .pipe(gulp.dest('test/src2-min'));
 });
 
@@ -480,9 +480,9 @@ gulp.task('preprocess2-raw', function () {
 
 gulp.task('preprocess2-min', function () {
   return gulp.src([ 'test/preprocess2/**/*' ])
-    .pipe(gulpif('*-test.html', 
-      replace('../../../webcomponentsjs/webcomponents-lite.js',
-              '../webcomponentsjs/webcomponents-lite.min.js')))
+    //.pipe(gulpif('*-test.html', 
+    //  replace('../../../webcomponentsjs/webcomponents-lite.js',
+    //          '../webcomponentsjs/webcomponents-loader.js')))
     .pipe(gulp.dest('test/preprocess2-min'));
 });
 
@@ -501,7 +501,7 @@ gulp.task('vulcanize2', function() {
     .pipe(gulpif('*-test-imports.html', vulcanize({
       excludes: [
         'bower_components/webcomponentsjs/webcomponents-lite.js',
-        'bower_components/webcomponentsjs/webcomponents-lite.min.js',
+        'bower_components/webcomponentsjs/webcomponents-loader.js',
         'bower_components/web-component-tester/browser.js'
       ],
       stripComments: true,
@@ -531,7 +531,7 @@ gulp.task('vulcanize2-min', function() {
     .pipe(gulpif('*-test-imports.html', vulcanize({
       excludes: [
         'bower_components/webcomponentsjs/webcomponents-lite.js',
-        'bower_components/webcomponentsjs/webcomponents-lite.min.js',
+        'bower_components/webcomponentsjs/webcomponents-loader.js',
         'bower_components/web-component-tester/browser.js'
       ],
       stripComments: true,
@@ -605,9 +605,9 @@ gulp.task('empty-mini-bundle-ja2', function (done) {
 
 gulp.task('minify2', function() {
   return gulp.src(['test/vulcanize2/**/*', '!test/vulcanize2/bundle.json'])
-    .pipe(gulpif('*-test.html', 
-      replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
-              '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
+    //.pipe(gulpif('*-test.html', 
+    //  replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
+    //          '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
     .pipe(gulpif('*-test.html', 
       replace('"../../../web-component-tester/browser.js"',
               '"../../../web-component-tester-es5/browser.js"', 'g')))
@@ -652,9 +652,9 @@ gulp.task('minify2', function() {
 
 gulp.task('minify2-min', function() {
   return gulp.src(['test/vulcanize2-min/**/*', '!test/vulcanize2-min/bundle.json'])
-    .pipe(gulpif('*-test.html', 
-      replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
-              '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
+    //.pipe(gulpif('*-test.html', 
+    //  replace('<!-- <script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script> -->',
+    //          '<script src="..\/..\/..\/custom-elements\/src\/native-shim.js"><\/script>', 'g')))
     .pipe(gulpif('*-test.html', 
       replace('"../../../web-component-tester/browser.js"',
               '"../../../web-component-tester-es5/browser.js"', 'g')))
@@ -756,8 +756,8 @@ gulp.task('pretest', ['clean'], function(cb) {
 gulp.task('pretest2', ['clean2'], function(cb) {
   runSequence(
     //'patchshadycss',
-    'polyfillclone',
-    'webcomponents-min',
+    //'polyfillclone',
+    //'webcomponents-min',
     'patch-browserjs',
     'patch-web-component-tester',
     'scan2',
