@@ -16193,7 +16193,7 @@ Object.defineProperty(BaseElements, 'I18nElement', {
         var cousin; // dom5.serialize output support
 
         current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                        : document._currentScript;
+                                        : (document._currentScript || document.currentScript);
 
         previous = current.previousSibling;
         while (previous && !previous.tagName) {
