@@ -248,12 +248,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class ComplexCompoundBindingElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'complex-compound-binding-element' }
-        static get config () {
-          return {
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
-          }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated(e) {
@@ -278,12 +276,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class ComplexCompoundBindingElement extends BaseElements.I18nElement {
         static get is() { return 'complex-compound-binding-element' }
-        static get config () {
-          return {
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
-          }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated(e) {
@@ -307,12 +303,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   case 'thin':
     {
       Define = class ComplexCompoundBindingElement extends BaseElements.I18nElement {
-        static get config () {
-          return {
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
-          }
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated(e) {

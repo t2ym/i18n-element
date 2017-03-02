@@ -184,16 +184,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class CommentedSimpleTextElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'commented-simple-text-element' }
-        static get config () {
-          return {
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
-          }
-        }
-
-        ready() {
-          super.ready();
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated (e) {
@@ -210,16 +203,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class CommentedSimpleTextElement extends BaseElements.I18nElement {
         static get is() { return 'commented-simple-text-element' }
-        static get config () {
-          return {
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
-          }
-        }
-
-        ready() {
-          super.ready();
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated (e) {
@@ -235,12 +221,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   case 'thin':
     {
       Define = class CommentedSimpleTextElement extends BaseElements.I18nElement {
-        static get config () {
-          return {
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
-          }
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         ready() {

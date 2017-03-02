@@ -94,20 +94,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class PluralGenderElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'plural-gender-element' }
-        static get config () {
+        static get properties() {
           return {
-            properties: {
-              sender: {
-                type: Object
-              },
-              recipients: {
-                type: Array
-              }
+            sender: {
+              type: Object
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
+            recipients: {
+              type: Array
+            }
           }
+        }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated(e) {
@@ -138,20 +138,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class PluralGenderElement extends BaseElements.I18nElement {
         static get is() { return 'plural-gender-element' }
-        static get config () {
+        static get properties() {
           return {
-            properties: {
-              sender: {
-                type: Object
-              },
-              recipients: {
-                type: Array
-              }
+            sender: {
+              type: Object
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
+            recipients: {
+              type: Array
+            }
           }
+        }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated(e) {
@@ -181,20 +181,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   case 'thin':
     {
       Define = class PluralGenderElement extends BaseElements.I18nElement {
-        static get config () {
+        static get properties() {
           return {
-            properties: {
-              sender: {
-                type: Object
-              },
-              recipients: {
-                type: Array
-              }
+            sender: {
+              type: Object
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
+            recipients: {
+              type: Array
+            }
           }
+        }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated(e) {

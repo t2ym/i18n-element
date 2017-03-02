@@ -139,25 +139,25 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class AdvancedBindingElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'advanced-binding-element' }
-        static get config () {
+        static get properties () {
           return {
-            properties: {
-              status: {
-                type: String,
-                value: 'ok'
-              },
-              value: {
-                type: String
-              },
-              parameter: {
-                type: String
-              }
+            status: {
+              type: String,
+              value: 'ok'
             },
-            listeners: {
-              'lang-updated': '_langUpdated',
-              'rendered': '_rendered'
-            }          
+            value: {
+              type: String
+            },
+            parameter: {
+              type: String
+            }
           }
+        }
+
+        ready() {
+          super.ready();
+          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('rendered', this._rendered);
         }
 
         connectedCallback() {
@@ -208,25 +208,25 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class AdvancedBindingElement extends BaseElements.I18nElement {
         static get is() { return 'advanced-binding-element' }
-        static get config () {
+        static get properties () {
           return {
-            properties: {
-              status: {
-                type: String,
-                value: 'ok'
-              },
-              value: {
-                type: String
-              },
-              parameter: {
-                type: String
-              }
+            status: {
+              type: String,
+              value: 'ok'
             },
-            listeners: {
-              'lang-updated': '_langUpdated',
-              'rendered': '_rendered'
-            }          
+            value: {
+              type: String
+            },
+            parameter: {
+              type: String
+            }
           }
+        }
+
+        ready() {
+          super.ready();
+          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('rendered', this._rendered);
         }
 
         connectedCallback() {
@@ -275,25 +275,25 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   case 'thin':
     {
       Define = class AdvancedBindingElement extends BaseElements.I18nElement {
-        static get config () {
+        static get properties () {
           return {
-            properties: {
-              status: {
-                type: String,
-                value: 'ok'
-              },
-              value: {
-                type: String
-              },
-              parameter: {
-                type: String
-              }
+            status: {
+              type: String,
+              value: 'ok'
             },
-            listeners: {
-              'lang-updated': '_langUpdated',
-              'rendered': '_rendered'
-            }          
+            value: {
+              type: String
+            },
+            parameter: {
+              type: String
+            }
           }
+        }
+
+        ready() {
+          super.ready();
+          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('rendered', this._rendered);
         }
 
         connectedCallback() {

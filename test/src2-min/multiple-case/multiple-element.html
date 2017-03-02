@@ -38,19 +38,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class MultipleElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'multiple-element' }
-        static get config () {
+        static get properties() {
           return {
-            properties: {
-              count: {
-                type: Number,
-                value: 100
-              }
-            },
-
-            listeners: {
-              'lang-updated': 'langUpdated'
-            }          
+            count: {
+              type: Number,
+              value: 100
+            }
           }
+        }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         getArray(count) {
@@ -104,19 +103,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class MultipleElement extends BaseElements.I18nElement {
         static get is() { return 'multiple-element' }
-        static get config () {
+        static get properties() {
           return {
-            properties: {
-              count: {
-                type: Number,
-                value: 100
-              }
-            },
-
-            listeners: {
-              'lang-updated': 'langUpdated'
-            }          
+            count: {
+              type: Number,
+              value: 100
+            }
           }
+        }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         getArray(count) {
@@ -169,19 +167,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   case 'thin':
     {
       Define = class MultipleElement extends BaseElements.I18nElement {
-        static get config () {
+        static get properties() {
           return {
-            properties: {
-              count: {
-                type: Number,
-                value: 100
-              }
-            },
-
-            listeners: {
-              'lang-updated': 'langUpdated'
-            }          
+            count: {
+              type: Number,
+              value: 100
+            }
           }
+        }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         getArray(count) {

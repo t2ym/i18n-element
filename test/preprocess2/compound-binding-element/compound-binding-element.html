@@ -392,26 +392,22 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class CompoundBindingElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'compound-binding-element' }
-        static get config () {
+        static get properties () {
           return {
-            properties: {
-              param1: {
-                type: String,
-                value: 'parameter 1'
-              },
-              param2: {
-                type: String,
-                value: 'parameter 2'
-              }
+            param1: {
+              type: String,
+              value: 'parameter 1'
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
+            param2: {
+              type: String,
+              value: 'parameter 2'
+            }
           }
         }
 
-        ready() {
-          super.ready();
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated (e) {
@@ -428,26 +424,22 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class CompoundBindingElement extends BaseElements.I18nElement {
         static get is() { return 'compound-binding-element' }
-        static get config () {
+        static get properties () {
           return {
-            properties: {
-              param1: {
-                type: String,
-                value: 'parameter 1'
-              },
-              param2: {
-                type: String,
-                value: 'parameter 2'
-              }
+            param1: {
+              type: String,
+              value: 'parameter 1'
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
+            param2: {
+              type: String,
+              value: 'parameter 2'
+            }
           }
         }
 
-        ready() {
-          super.ready();
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated (e) {
@@ -463,26 +455,22 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   case 'thin':
     {
       Define = class CompoundBindingElement extends BaseElements.I18nElement {
-        static get config () {
+        static get properties () {
           return {
-            properties: {
-              param1: {
-                type: String,
-                value: 'parameter 1'
-              },
-              param2: {
-                type: String,
-                value: 'parameter 2'
-              }
+            param1: {
+              type: String,
+              value: 'parameter 1'
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
-            }          
+            param2: {
+              type: String,
+              value: 'parameter 2'
+            }
           }
         }
 
-        ready() {
-          super.ready();
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
         }
 
         _langUpdated (e) {

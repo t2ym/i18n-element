@@ -91,37 +91,38 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class TextAttributeElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'text-attribute-element'; }
-        static get config() {
+        static get properties() {
           return {
-            properties: {
-              customTextAttr1: {
-                type: String,
-                reflectToAttribute: true
-              },
-              customTextAttr2: {
-                type: String,
-                reflectToAttribute: true
-              },
-              customTextAttr3: {
-                type: String,
-                reflectToAttribute: true
-              },
-              outOfScopeAttr: {
-                type: String,
-                reflectToAttribute: true
-              },
-              i18nTarget: {
-                type: String
-              },
-              i18nTarget2: {
-                type: String
-              }
+            customTextAttr1: {
+              type: String,
+              reflectToAttribute: true
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
+            customTextAttr2: {
+              type: String,
+              reflectToAttribute: true
+            },
+            customTextAttr3: {
+              type: String,
+              reflectToAttribute: true
+            },
+            outOfScopeAttr: {
+              type: String,
+              reflectToAttribute: true
+            },
+            i18nTarget: {
+              type: String
+            },
+            i18nTarget2: {
+              type: String
             }
-          };
+          }
         }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
+        }
+
         _langUpdated () {
           this.model = deepcopy(this.text.model);
         }
@@ -133,37 +134,38 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     {
       class TextAttributeElement extends BaseElements.I18nElement {
         static get is() { return 'text-attribute-element'; }
-        static get config() {
+        static get properties() {
           return {
-            properties: {
-              customTextAttr1: {
-                type: String,
-                reflectToAttribute: true
-              },
-              customTextAttr2: {
-                type: String,
-                reflectToAttribute: true
-              },
-              customTextAttr3: {
-                type: String,
-                reflectToAttribute: true
-              },
-              outOfScopeAttr: {
-                type: String,
-                reflectToAttribute: true
-              },
-              i18nTarget: {
-                type: String
-              },
-              i18nTarget2: {
-                type: String
-              }
+            customTextAttr1: {
+              type: String,
+              reflectToAttribute: true
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
+            customTextAttr2: {
+              type: String,
+              reflectToAttribute: true
+            },
+            customTextAttr3: {
+              type: String,
+              reflectToAttribute: true
+            },
+            outOfScopeAttr: {
+              type: String,
+              reflectToAttribute: true
+            },
+            i18nTarget: {
+              type: String
+            },
+            i18nTarget2: {
+              type: String
             }
-          };
+          }
         }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
+        }
+
         _langUpdated () {
           this.model = deepcopy(this.text.model);
         }
@@ -174,37 +176,38 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   case 'thin':
     {
       Define = class TextAttributeElement extends BaseElements.I18nElement {
-        static get config() {
+        static get properties() {
           return {
-            properties: {
-              customTextAttr1: {
-                type: String,
-                reflectToAttribute: true
-              },
-              customTextAttr2: {
-                type: String,
-                reflectToAttribute: true
-              },
-              customTextAttr3: {
-                type: String,
-                reflectToAttribute: true
-              },
-              outOfScopeAttr: {
-                type: String,
-                reflectToAttribute: true
-              },
-              i18nTarget: {
-                type: String
-              },
-              i18nTarget2: {
-                type: String
-              }
+            customTextAttr1: {
+              type: String,
+              reflectToAttribute: true
             },
-            listeners: {
-              'lang-updated': '_langUpdated'
+            customTextAttr2: {
+              type: String,
+              reflectToAttribute: true
+            },
+            customTextAttr3: {
+              type: String,
+              reflectToAttribute: true
+            },
+            outOfScopeAttr: {
+              type: String,
+              reflectToAttribute: true
+            },
+            i18nTarget: {
+              type: String
+            },
+            i18nTarget2: {
+              type: String
             }
-          };
+          }
         }
+
+        connectedCallback () {
+          super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated);
+        }
+
         _langUpdated () {
           this.model = deepcopy(this.text.model);
         }
