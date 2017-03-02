@@ -32,9 +32,28 @@ Mixins.Localizable = function (base) {
       let template = Polymer.DomModule.import(id, 'template');
       if (id && !template) {
         let current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                            : document._currentScript;
-        template = (current ? current.ownerDocument
-                    .querySelector('template[id=' + id + ']') : null) || 
+                                            : document._currentScript || document.currentScript;
+        let _tmpNode = current;
+        let ownerDocument = current ? current.ownerDocument : document;
+        let baseURI = ownerDocument.baseURI;
+        if (current && current.ownerDocument && current.ownerDocument.nodeType === current.ownerDocument.DOCUMENT_NODE) {
+          while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
+            _tmpNode = _tmpNode.parentNode;
+          }
+          if (_tmpNode &&
+            (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
+             _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
+            ownerDocument = _tmpNode;
+            baseURI = ownerDocument.baseURI;
+          }
+          else if (_tmpNode && _tmpNode.import === _tmpNode) {
+            ownerDocument = _tmpNode;
+            baseURI = ownerDocument.href; // link node
+          }
+        }
+        template = ownerDocument.querySelector('template[id=' + id + ']') ||
                    document.querySelector('template[id=' + id + ']');
         if (!template && id !== 'i18n-dom-bind') {
           template = document.createElement('template');
@@ -43,17 +62,19 @@ Mixins.Localizable = function (base) {
         }
         if (template) {
           let domModule = document.createElement('dom-module');
-          let assetUrl = new URL((current ? current.baseURI : null) ||
-            (window.currentImport ? window.currentImport.baseURI : null) ||
-            (current && current.ownerDocument ? current.ownerDocument.baseURI : null) ||
-            document.baseURI);
+          let assetpath = typeof URL === 'function' && URL.name === 'URL'
+            ? new URL((current ? current.baseURI : null) ||
+                (window.currentImport ? window.currentImport.baseURI : null) ||
+                baseURI ||
+                document.baseURI).pathname
+            : (uri => { let a = document.createElement('a'); a.href = uri; return ('/' + a.pathname).replace(/^\/\//, '/'); })(baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
                                   template.hasAttribute('basepath') ?
                                     template.getAttribute('basepath') :
                                     template.hasAttribute('assetpath') ? 
                                       template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                      assetpath);
           domModule.register(id);
           this._template = template;
         }

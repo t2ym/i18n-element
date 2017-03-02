@@ -53,6 +53,26 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
         current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
                                         : (document._currentScript || document.currentScript);
+        var _tmpNode = current;
+        var ownerDocument = current ? current.ownerDocument : document;
+        var baseURI = ownerDocument.baseURI;
+        if (current && current.ownerDocument && current.ownerDocument.nodeType === current.ownerDocument.DOCUMENT_NODE) {
+          while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
+            _tmpNode = _tmpNode.parentNode;
+          }
+          if (_tmpNode &&
+            (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
+             _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
+            ownerDocument = _tmpNode;
+            baseURI = ownerDocument.baseURI;
+          }
+          else if (_tmpNode && _tmpNode.import === _tmpNode) {
+            ownerDocument = _tmpNode;
+            baseURI = ownerDocument.href; // link node
+          }
+        }
 
         previous = current.previousSibling;
         while (previous && !previous.tagName) {
@@ -118,8 +138,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
           if (!rawTemplate && !template) {
             // Pattern b), c)
-            template = current.ownerDocument
-                        .querySelector('template[id=' + id + ']') || 
+            template = ownerDocument.querySelector('template[id=' + id + ']') ||
                        document.querySelector('template[id=' + id + ']');
           }
           if (!rawTemplate && !template && previous && !previous.id) {
@@ -139,16 +158,19 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         // register dom-module
         if (template) {
           var domModule = document.createElement('dom-module');
-          let assetUrl = new URL(current.baseURI ||
-            (window.currentImport ? window.currentImport.baseURI : null) ||
-            current.ownerDocument.baseURI);
+          var assetpath = typeof URL === 'function' && URL.name === 'URL'
+            ? new URL((current ? current.baseURI : null) ||
+                (window.currentImport ? window.currentImport.baseURI : null) ||
+                baseURI ||
+                document.baseURI).pathname
+            : (uri => { let a = document.createElement('a'); a.href = uri; return ('/' + a.pathname).replace(/^\/\//, '/'); })(baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
                                   template.hasAttribute('basepath') ?
                                     template.getAttribute('basepath') :
                                     template.hasAttribute('assetpath') ? 
                                       template.getAttribute('assetpath') : 
-                                      assetUrl.pathname);
+                                      assetpath);
           domModule.register(id);
           proto._template = template;
           proto.finalize();
