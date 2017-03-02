@@ -3,7 +3,7 @@
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 -->
 <!-- i18n-element.html: Proof of Concept version -->
-<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../i18n-behavior/i18n-behavior.html">
 
 <script>
@@ -118,7 +118,7 @@ Mixins.Logger = (base) => class extends base {
 // I18N Base Element
 Object.defineProperty(BaseElements, 'I18nElement', {
   get: function () {
-    return Mixins.Localizable(Polymer.LegacyElement);
+    return Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement));
   }
 });
 </script>

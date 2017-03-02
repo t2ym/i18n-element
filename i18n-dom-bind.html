@@ -15,7 +15,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 <script>
 // i18n-dom-bind based on Polymer/polymer#2.0-preview src/templatizer/dom-bind.html
-class I18nDomBind extends Mixins.Localizable(Polymer.LegacyElement) {
+class I18nDomBind extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
   static get is() { return 'i18n-dom-bind'; }
 
   connectedCallback() {
