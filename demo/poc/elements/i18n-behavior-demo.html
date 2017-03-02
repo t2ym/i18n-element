@@ -87,7 +87,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
   </template>
   <script>
-    class I18nBehaviorDemo extends Mixins.Localizable(Polymer.LegacyElement) {
+    class I18nBehaviorDemo extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
       static get is() { return 'i18n-behavior-demo'; }
       static get config() {
         return {
