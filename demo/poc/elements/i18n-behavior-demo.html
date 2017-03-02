@@ -89,50 +89,46 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   <script>
     class I18nBehaviorDemo extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
       static get is() { return 'i18n-behavior-demo'; }
-      static get config() {
+      static get properties() {
         return {
-          properties: {
-            recipientsLength: {
-              type: Number,
-              value: 2
-            },
-            recipientsIndex: {
-              type: Number,
-              value: 0
-            },
-            langIndex: {
-              type: Number,
-              value: 0
-            },
-            langList: {
-              type: Array,
-              value: function () {
-                return [ 'en', 'fr', 'ja' ];
-              }
-            },
-            recipients: {
-              type: Array
-            },
-            markdown: {
-              type: String,
-              notify: true,
-              value: '',
-              observer: '_markdownChanged'
+          recipientsLength: {
+            type: Number,
+            value: 2
+          },
+          recipientsIndex: {
+            type: Number,
+            value: 0
+          },
+          langIndex: {
+            type: Number,
+            value: 0
+          },
+          langList: {
+            type: Array,
+            value: function () {
+              return [ 'en', 'fr', 'ja' ];
             }
           },
-
-          observers: [
-            '_update(effectiveLang,recipientsLength,recipientsIndex,text.model.data.recipients)'
-          ],
-
-          listeners: {
-            'lang-updated': '_langUpdated'
+          recipients: {
+            type: Array
+          },
+          markdown: {
+            type: String,
+            notify: true,
+            value: '',
+            observer: '_markdownChanged'
           }
-        };
+        }
+      }
+      static get observers() {
+        return [
+          '_update(effectiveLang,recipientsLength,recipientsIndex,text.model.data.recipients)'
+        ]
       }
 
       connectedCallback() {
         super.connectedCallback();
+        this.addEventListener('lang-updated', this._langUpdated.bind(this));
         this.observeHtmlLang = false;
         this._updateParameters();
       }
