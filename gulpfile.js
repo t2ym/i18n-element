@@ -758,8 +758,8 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     //'patchshadycss',
     //'polyfillclone',
     //'webcomponents-min',
-    'patch-browserjs',
-    'patch-web-component-tester',
+    //'patch-browserjs',
+    //'patch-web-component-tester',
     'scan2',
     'src2-min',
     'preprocess2',
@@ -767,6 +767,7 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'attributes-repository2',
     'preprocess2-raw',
     'empty-ja2',
+    /*
     'preprocess2-min',
     'clone2',
     'vulcanize2',
@@ -783,7 +784,6 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'mini-bundles2',
     'empty-mini-bundle-ja2',
     'fake-server',
-    /*
     'feedback',
     */
     cb);
