@@ -137,7 +137,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   default:
   case 'mixin':
     {
-      class AdvancedBindingElement extends Mixins.Localizable(Polymer.LegacyElement) {
+      class AdvancedBindingElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'advanced-binding-element' }
         static get config () {
           return {

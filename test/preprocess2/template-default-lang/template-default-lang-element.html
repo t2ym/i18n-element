@@ -170,7 +170,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   default:
   case 'mixin':
     {
-      class TemplateDefaultLangElement extends Mixins.Logger(Mixins.Localizable(Polymer.LegacyElement)) {
+      class TemplateDefaultLangElement extends Mixins.Logger(Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement))) {
         static get is() { return 'template-default-lang-element'; }
         static get config() {
           return {

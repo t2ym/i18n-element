@@ -34,7 +34,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   default:
   case 'mixin':
     {
-      class ItemElement extends Mixins.Localizable(Polymer.LegacyElement) {
+      class ItemElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'item-element' }
       }
       customElements.define(ItemElement.is, ItemElement);

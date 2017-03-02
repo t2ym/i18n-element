@@ -36,7 +36,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   default:
   case 'mixin':
     {
-      class MultipleElement extends Mixins.Localizable(Polymer.LegacyElement) {
+      class MultipleElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'multiple-element' }
         static get config () {
           return {

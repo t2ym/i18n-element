@@ -168,7 +168,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   default:
   case 'mixin':
     {
-      class SimpleTextIdElement extends Mixins.Localizable(Polymer.LegacyElement) {
+      class SimpleTextIdElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'simple-text-id-element' }
         static get config () {
           return {

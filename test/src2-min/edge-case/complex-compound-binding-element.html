@@ -169,7 +169,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
   default:
   case 'mixin':
     {
-      class ComplexCompoundBindingElement extends Mixins.Localizable(Polymer.LegacyElement) {
+      class ComplexCompoundBindingElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
         static get is() { return 'complex-compound-binding-element' }
         static get config () {
           return {
