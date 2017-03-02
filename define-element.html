@@ -159,10 +159,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         if (template) {
           var domModule = document.createElement('dom-module');
           var assetpath = typeof URL === 'function' && URL.name === 'URL'
-            ? new URL((current ? current.baseURI : null) ||
-                (window.currentImport ? window.currentImport.baseURI : null) ||
-                baseURI ||
-                document.baseURI).pathname
+            ? new URL(baseURI || document.baseURI).pathname
             : (uri => { let a = document.createElement('a'); a.href = uri; return ('/' + a.pathname).replace(/^\/\//, '/'); })(baseURI);
           domModule.appendChild(template);
           domModule.setAttribute('assetpath', 
