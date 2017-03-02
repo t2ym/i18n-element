@@ -186,7 +186,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         static get is() { return 'commented-simple-text-element' }
         connectedCallback () {
           super.connectedCallback();
-          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
         }
 
         _langUpdated (e) {
@@ -205,7 +205,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         static get is() { return 'commented-simple-text-element' }
         connectedCallback () {
           super.connectedCallback();
-          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
         }
 
         _langUpdated (e) {
@@ -223,7 +223,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       Define = class CommentedSimpleTextElement extends BaseElements.I18nElement {
         connectedCallback () {
           super.connectedCallback();
-          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
         }
 
         ready() {

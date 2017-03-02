@@ -109,15 +109,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
         }
 
-        ready() {
-          super.ready();
-          this.addEventListener('lang-updated', this._langUpdated);
-          this.addEventListener('rendered', this._rendered);
-        }
-
         connectedCallback() {
           //console.log('advanced-binding-element: connected');
           super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
+          this.addEventListener('rendered', this._rendered.bind(this));
         }
 
         disconnectedCallback() {
@@ -178,15 +174,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
         }
 
-        ready() {
-          super.ready();
-          this.addEventListener('lang-updated', this._langUpdated);
-          this.addEventListener('rendered', this._rendered);
-        }
-
         connectedCallback() {
           //console.log('advanced-binding-element: connected');
           super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
+          this.addEventListener('rendered', this._rendered.bind(this));
         }
 
         disconnectedCallback() {
@@ -245,15 +237,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }
         }
 
-        ready() {
-          super.ready();
-          this.addEventListener('lang-updated', this._langUpdated);
-          this.addEventListener('rendered', this._rendered);
-        }
-
         connectedCallback() {
           //console.log('advanced-binding-element: connected');
           super.connectedCallback();
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
+          this.addEventListener('rendered', this._rendered.bind(this));
         }
 
         disconnectedCallback() {

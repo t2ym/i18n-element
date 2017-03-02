@@ -412,7 +412,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
         connectedCallback() {
           super.connectedCallback();
-          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
           this._intervalId = window.setInterval(this._checkChartStatus.bind(this), 1000);
           setTimeout(function () {
             this.isPieChartRendered = true;
@@ -474,7 +474,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
         connectedCallback() {
           super.connectedCallback();
-          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
           this._intervalId = window.setInterval(this._checkChartStatus.bind(this), 1000);
           setTimeout(function () {
             this.isPieChartRendered = true;
@@ -534,7 +534,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       Define = class SimpleAttributeElement extends BaseElements.I18nElement {
         connectedCallback() {
           super.connectedCallback();
-          this.addEventListener('lang-updated', this._langUpdated);
+          this.addEventListener('lang-updated', this._langUpdated.bind(this));
           this._intervalId = window.setInterval(this._checkChartStatus.bind(this), 1000);
           setTimeout(function () {
             this.isPieChartRendered = true;
