@@ -39,7 +39,7 @@ bower install i18n-element
 
 ### `Mixins.Localizable` [Class Expressions Mixin](http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 
-- Extend Polymer.LegacyElement for now
+- Extend Polymer.LegacyElementMixin(HTMLElement) for now
 
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/localizable-element.html)
 
