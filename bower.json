@@ -51,8 +51,8 @@
     "test-fixture": "PolymerElements/test-fixture"
   },
   "resolutions": {
-    "polymer": "2.0.0-rc.1",
-    "webcomponentsjs": "1.0.0-rc.4",
+    "polymer": "^2.0.0-rc.2",
+    "webcomponentsjs": "v1.0.0-rc.5",
     "test-fixture": "3.0.0-rc.1",
     "i18n-behavior": "2.0-develop",
     "i18n-format": "2.0-develop",
