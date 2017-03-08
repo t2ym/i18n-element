@@ -9,27 +9,19 @@ I18N Base Element for Polymer 2.x (work in progress)
 
 ## Proof of Concept Demo on GitHub Pages
 
-### [Raw PoC Demo](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html) for ES6-ready browsers
-### [PoC Demo with Polyfill/Vulcanize/Babel/Uglify](https://t2ym.github.io/i18n-element/components/i18n-element/demo/pocmin/) for Safari 8+, IE 11, and ES6-ready browsers
+### [PoC Demo](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html) for ES6-ready browsers
 
 [Demo Source index.html](https://github.com/t2ym/i18n-element/blob/master/demo/poc/index.html)
 
 ### Notes
 
-- This is just a proof-of-concept demo and not applicable to general purposes yet
-- Bower dependencies with their branch names have no tags, i.e., no versions, and have to be updated in sync with the branches frequently. 
-- Raw PoC demo supported browsers: Chrome 54+ (native), Firefox 49, Edge 13+, Safari 10
+- This is still work in progress and not applicable to general purposes yet
+- Some bower dependencies with their branch names have no tags, i.e., no versions, and have to be updated in sync with the branches frequently. 
+- PoC demo supported browsers: Chrome 54+ (native), Firefox 49, Edge 13+, Safari 10
 - The modules are dependent upon modules from [`i18n-behavior#2.0-develop`](https://github.com/t2ym/i18n-behavior/tree/2.0-develop)
-- Some Polymer 1.x modules (`iron-localstorage`) are running as Polymer 2.x modules without compatibility tests
-- Other dependent modules come from their `2.0-develop` branches
-- Internal function `MixinBehavior` is borrowed from [`polymer#2.0-preview src/legacy/class.html`](https://github.com/Polymer/polymer/blob/2.0-preview/src/legacy/class.html)
+- Other dependent modules come from their `2.0-preview` branches
 - Support ShadowDOM V1 `slot` with [`i18n-format`](https://github.com/t2ym/i18n-format/tree/2.0-develop) and [`i18n-number`](https://github.com/t2ym/i18n-number/tree/2.0-develop) in their `2.0-develop` branches
 - `Mixins.Logger` is just for logging debug information and can be omitted
-- Polyfill for IE11: [`es6-shim`](https://github.com/paulmillr/es6-shim), [`get-own-property-symbols`](https://github.com/es-shims/get-own-property-symbols), vulcanize app and polymer, and babel es2015 in addition to webcomponents-lite.js
-- [`demo/gulpfile.js`](https://github.com/t2ym/i18n-element/blob/master/demo/gulpfile.js) to build PoC Demo with Polyfill/Vulcanize/Babel
-- [`Pre-Transpiled Polymer 2.0-preview`](https://github.com/Polymer/polymer/commit/fb70b870656442f3766a8d055f27ab541dc0c978) has not been supported yet
-- Missing `webcomponents-lite.min.js` in [`v1` branch](https://github.com/webcomponents/webcomponentsjs/tree/v1) is generated in the gulp tasks
-- [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
 
 ## Install
 
@@ -60,7 +52,7 @@ bower install i18n-element
   </template>
 </dom-module>
 <script>
-class LocalizableElement extends Mixins.Localizable(Polymer.LegacyElement) {
+class LocalizableElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
   static get is() { return 'localizable-element'; }
 }
 customElements.define(LocalizableElement.is, LocalizableElement);
@@ -69,7 +61,7 @@ customElements.define(LocalizableElement.is, LocalizableElement);
 
 ### `BaseElements.I18nElement` I18N Base Element Class
 
-- Equivalent to `Mixins.Localizable(Polymer.LegacyElement)`
+- Equivalent to `Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement))`
 
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-subclass-element.html)
 
@@ -173,29 +165,6 @@ Additional Import:
 </i18n-dom-bind>
 ```
 
-## Use Native Shadow DOM v1 on Safari 10 for PoC Demo
-
-Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponents-lite.js` to use native Shadow DOM v1
-
-`bower_components/webcomponentsjs/webcomponents-lite.js`:
-```javascript
-  // construct full dependency list
-  var modules = [
-    'URL/URL.js',
-    'WeakMap/WeakMap.js',
-    'Template/Template.js',
-    'HTMLImports/HTMLImports.js',
-    'WebComponents/pre-polyfill.js',
-    '../../custom-elements/custom-elements.min.js',
-    //'../../shadydom/shadydom.min.js',
-    //'../../shadycss/shadycss.min.js',
-    'WebComponents/post-polyfill.js',
-    // these scripts are loaded here due to polyfill timing issues
-    'WebComponents/dom.js',
-    'WebComponents/unresolved.js'
-  ];
-```
-
 ## [Tests](https://t2ym.github.io/i18n-element/components/i18n-element/test/index2.html) on GitHub Pages
 
 ### Test Suites
@@ -216,14 +185,10 @@ Comment out `shadydom.min.js` and `shadycss.min.js` dependencies in `webcomponen
 |:------------------|:-----------|:---------------------|:------------------------|:-----------------------------|
 | src2              | Hard-coded | Modular              | Modular                 | HTML Embedded                |
 | preprocess2       | Extracted  | Modular              | Modular                 | HTML Embedded                |
-| minify2-min       | Extracted  | Bundled and Minified | Vulcanized and Minified | Transpiled and Minified      |
 
 ### Notes
 
 - 4 syntax variants (`Mixins.Localizable`, `BaseElements.I18nElement`, `Define = class`, `Polymer({ is, behaviors })`) are tested
-- Tests on IE11 with Polyfill/Vulcanize/Babel/Uglify
-- [test-fixture](https://github.com/t2ym/test-fixture/tree/ce-v1-babel) is transpiled to ES5 by Babel
-- [`custom-elements/src/native-shim.js`](https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js) to support native Custom Elements v1 with ES5 from Babel
 
 ## Targeted Features follow
 ## == Original README of [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) inapplicable to `i18n-element` for now
