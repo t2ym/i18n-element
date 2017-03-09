@@ -783,7 +783,9 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     'minify2-min',
     'mini-bundles2',
     'empty-mini-bundle-ja2',
+    */
     'fake-server',
+    /*
     'feedback',
     */
     cb);

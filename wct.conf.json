@@ -23,6 +23,11 @@
           "version":      "14"
         },
         {
+          "browserName":  "microsoftedge",
+          "platform":     "Windows 10",
+          "version":      "13"
+        },
+        {
           "browserName":  "safari",
           "platform":     "OS X 10.12",
           "version":      "10"
