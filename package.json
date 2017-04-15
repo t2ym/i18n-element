@@ -64,7 +64,7 @@
     "run-sequence": "^1.1.5",
     "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
-    "web-component-tester": "https://github.com/t2ym/web-component-tester#wct6-plugin",
+    "web-component-tester": "https://github.com/t2ym/web-component-tester#c0f1b9e2a67fef86a20b888758641a8bbb98677b",
     "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul#0.10.1-wct6.7",
     "xliff-conv": "^1.0.10"
   }
