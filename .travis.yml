@@ -7,7 +7,7 @@ dist: trusty
 before_script:
   - npm install -g bower
   - export PATH=$PWD/node_modules/.bin:$PATH
-  - polymer install --variants
+  - bower install
 env:
   global:
     - secure: "CyaV7Jsu4OP9dOIZ9TXR54Wh9GON+WWhXOqGNHEFcK+ir4Y7qfBOsMdQD86I8JMtL2dx81Y1tOsSVsGMcc/lmBysG+7O9Ec9drhIAoW//uHzfrGCAKtCLPdEIegObDZvCYOP/ZTqCvGtUo2O+5Q31DDwDGtNgPuCAqtSlxaNXf0TiTbzTvdBdG2TrndHAOIQQa4BP91ctYfewK0wa4G6zY37um1g2rH6uB1bgIITUFoYUunBxMfO8x8qf7VPvH16kPBVgwP/kjC2tGnoYqLsf5bpUzk5xtUInST9Wg/dOzZ2cIxK5z0v4BtCKJGpvbQLVT6RtQaWhkXw/X2IG9t07+vt+I9mFrep6FTnnW5gA87jom56ZZ5N+tgnMAXdXGokDzgRLSnXphHG7SOA7mkLzUEg+EleEZEys+dCm31inGX2MxDiQKQqcBBq1XtNOUFBzONqPZTbquC3l3DTqeehjjMsewBpGXg/etSLognLZSX0pR0DrLSxtIrd6M/Ofn7fhD//nU9LIZHSUptV/Lwh4qZvEnuP3Ju76AShcZJdomP1n0hpmOTSyYETt/plLrmrbaWgfuTehcfPfXzcNpwsAorEVJ6I7Pfr9fPQ3PZO6f0m8rFackS0eBaM+v6BK9eV4IkkmXt5SjDH3MgP00lXmIx4jyy6TI0Cyxiu7Kjg4U8="
