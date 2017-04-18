@@ -27,13 +27,11 @@
     "bower_components"
   ],
   "dependencies": {
-    "polymer": "^2.0.0-rc.5",
+    "polymer": "^2.0.0-rc.6",
     "deepcopy": "^0.6.3",
     "iron-localstorage": "PolymerElements/iron-localstorage#2.0-preview",
     "iron-ajax": "PolymerElements/iron-ajax#2.0-preview",
-    "i18n-behavior": "#2.0-develop",
-    "i18n-format": "#2.0-develop",
-    "i18n-number": "#2.0-develop"
+    "i18n-behavior": "#2.0-develop"
   },
   "devDependencies": {
     "web-component-tester": "t2ym/web-component-tester#wct6-plugin",
@@ -51,12 +49,10 @@
     "test-fixture": "PolymerElements/test-fixture"
   },
   "resolutions": {
-    "polymer": "2.0.0-rc.5",
-    "webcomponentsjs": "^v1.0.0-rc.5",
-    "test-fixture": "3.0.0-rc.1",
+    "polymer": "^2.0.0-rc.6",
+    "webcomponentsjs": "^v1.0.0-rc.8",
+    "test-fixture": "^3.0.0-rc.1",
     "i18n-behavior": "2.0-develop",
-    "i18n-format": "2.0-develop",
-    "i18n-number": "2.0-develop",
     "iron-ajax": "2.0-preview",
     "iron-flex-layout": "2.0-preview",
     "paper-styles": "2.0-preview",
