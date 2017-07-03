@@ -31,7 +31,7 @@
     "i18n-behavior": "^2.0.0"
   },
   "devDependencies": {
-    "web-component-tester": "t2ym/web-component-tester#wct6-plugin",
+    "web-component-tester": "t2ym/web-component-tester#^6.0.0",
     "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
     "paper-input": "PolymerElements/paper-input#^2.0.0",
