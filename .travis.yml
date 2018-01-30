@@ -22,5 +22,5 @@ addons:
       - google-chrome-stable
   sauce_connect: true
 script:
-  - xvfb-run wct --verbose
-  - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi
+  - xvfb-run wct --skip-plugin=istanbul
+  - #if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage-report*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi
