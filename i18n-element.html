@@ -99,6 +99,13 @@ Mixins.Localizable = function (base) {
     }
     static _i18nPreprocess(template) {
       if (this.is && template && !this._templateLocalizable) {
+        // Fix #56. [Polymer 2.4] Override this.prototype.__proto__.__proto__.__proto__.templateDefaultLang getter/setter
+        Object.defineProperty(this.prototype, 'templateDefaultLang', {
+          configurable: false,
+          enumerable: true,
+          value: 'en',
+          writable: true,
+        });
         this._templateLocalizable = this.prototype._constructDefaultBundle(template);
       }
       return template;
