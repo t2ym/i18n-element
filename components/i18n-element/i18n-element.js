@@ -16,8 +16,16 @@ Mixins.Localizable = function (base) {
 
   return class Localizable extends mixinBehaviors([BehaviorsStore._I18nBehavior], base) {
     constructor () {
+      Localizable._renameTemplate(new.target);
       Localizable.template;
       super();
+    }
+    static _renameTemplate(target) {
+      let desc = Object.getOwnPropertyDescriptor(target, 'template');
+      if (desc) {
+        Object.defineProperty(target, '_rawTemplate', desc);
+        Reflect.deleteProperty(target, 'template');
+      }
     }
     static get _rawTemplate() {
       let id = this.is;

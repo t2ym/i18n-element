@@ -8,11 +8,11 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 class LocalizableElement extends Mixins.Logger(Mixins.Localizable(LegacyElementMixin(HTMLElement))) {
   static get template() {
-    return this._i18nPreprocess(html`
+    return html`
     <span id="label1">Localizable UI label 1</span><br>
     <span id="label2">Localizable UI label 2</span><br>
     <span id="label3">Localizable UI label 3</span>
-`);
+`;
   }
 
   static get is() { return 'localizable-element'; }

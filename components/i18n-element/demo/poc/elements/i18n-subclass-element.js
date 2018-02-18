@@ -17,13 +17,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
   static get template() {
-    return this._i18nPreprocess(html`
+    return html`
     <span id="label1">Subclass UI label 1</span><br>
     <span id="label2">Subclass UI label 2</span><br>
     <span id="label3">Subclass UI label 3</span><br>
     <span>complex <b>parameterized</b> sentences <i>abc</i></span><br>
     <input placeholder="localizable attribute" i18n-attr="i18n attr">
-`);
+`;
   }
 
   static get is() { return 'i18n-subclass-element'; }

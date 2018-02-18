@@ -16,7 +16,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 class I18nBehaviorDemo extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
   static get template() {
-    return this._i18nPreprocess(html`
+    return html`
     <style>
     h2 {
       font-size: 14px;
@@ -83,7 +83,7 @@ class I18nBehaviorDemo extends Mixins.Localizable(LegacyElementMixin(HTMLElement
         "fr": "French"
       }</json-data>
     </template>
-`);
+`;
   }
 
   static get is() { return 'i18n-behavior-demo'; }
