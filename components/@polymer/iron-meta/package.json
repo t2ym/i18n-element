@@ -1,0 +1,68 @@
+{
+  "_from": "@polymer/iron-meta@^3.0.0-pre.7",
+  "_id": "@polymer/iron-meta@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-UOnlckMy5hNFf1VaJdOC2xiDVXi10DVQEiI1uUU45wlTFnVfssc5HFu7+TduU3wHPrBJ14km8ug8uSoTOaMhUw==",
+  "_location": "/@polymer/iron-meta",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/iron-meta@^3.0.0-pre.7",
+    "name": "@polymer/iron-meta",
+    "escapedName": "@polymer%2firon-meta",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.7",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.7"
+  },
+  "_requiredBy": [
+    "/@polymer/iron-icon",
+    "/@polymer/iron-iconset-svg",
+    "/@polymer/iron-validatable-behavior"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/iron-meta/-/iron-meta-3.0.0-pre.8.tgz",
+  "_shasum": "820585d219f7a76c940be6cc3cf851e9df66db38",
+  "_spec": "@polymer/iron-meta@^3.0.0-pre.7",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out/node_modules/@polymer/iron-icon",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/iron-meta/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "Useful for sharing information across a DOM tree",
+  "devDependencies": {
+    "@polymer/paper-styles": "^3.0.0-pre.7",
+    "@polymer/test-fixture": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/iron-meta#readme",
+  "keywords": [
+    "web-components",
+    "polymer"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "iron-meta.html",
+  "name": "@polymer/iron-meta",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-meta.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

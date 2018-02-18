@@ -1,0 +1,72 @@
+{
+  "_from": "@polymer/iron-a11y-announcer@^3.0.0-pre.7",
+  "_id": "@polymer/iron-a11y-announcer@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-sDIIAaSGkrkE5SjLJOlsyN6oVIIl/UDnFfqlohBqPe8n57YKOvPlrcc3//l+es2+q333FvRMwGKK7wylwOj6nQ==",
+  "_location": "/@polymer/iron-a11y-announcer",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/iron-a11y-announcer@^3.0.0-pre.7",
+    "name": "@polymer/iron-a11y-announcer",
+    "escapedName": "@polymer%2firon-a11y-announcer",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.7",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.7"
+  },
+  "_requiredBy": [
+    "/@polymer/iron-input",
+    "/@polymer/paper-toast"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/iron-a11y-announcer/-/iron-a11y-announcer-3.0.0-pre.8.tgz",
+  "_shasum": "f8da5f22de28e12448738e376f0427e695835191",
+  "_spec": "@polymer/iron-a11y-announcer@^3.0.0-pre.7",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out/node_modules/@polymer/paper-toast",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/iron-a11y-announcer/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "A singleton element that simplifies announcing text to screen readers.",
+  "devDependencies": {
+    "@polymer/iron-component-page": "^3.0.0-pre.7",
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.7",
+    "@polymer/iron-test-helpers": "^3.0.0-pre.7",
+    "@polymer/paper-button": "^3.0.0-pre.7",
+    "@polymer/test-fixture": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/iron-a11y-announcer#readme",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "a11y",
+    "live"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "iron-a11y-announcer.html",
+  "name": "@polymer/iron-a11y-announcer",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-a11y-announcer.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for i18n-element.html</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="index.html">All files</a> i18n-element.html
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>58/58</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.12% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>64/68</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>14/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>55/55</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">181x</span>
+<span class="cline-any cline-yes">181x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">181x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">569x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7557x</span>
+<span class="cline-any cline-yes">7557x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9151x</span>
+<span class="cline-any cline-yes">9151x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9151x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9151x</span>
+<span class="cline-any cline-yes">9151x</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-yes">233x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">233x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">219x</span>
+<span class="cline-any cline-yes">219x</span>
+<span class="cline-any cline-yes">219x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-yes">225x</span>
+<span class="cline-any cline-yes">225x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">80x</span>
+<span class="cline-any cline-yes">225x</span>
+<span class="cline-any cline-yes">225x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">225x</span>
+<span class="cline-any cline-yes">225x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9151x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8864x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">698x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">542x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8864x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">542x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">542x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8864x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">300540x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18375x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">181x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">156x</span>
+<span class="cline-any cline-yes">156x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">156x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">181x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">542x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;!--
+@license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori &lt;t2y3141592@gmail.com&gt;. All rights reserved.
+--&gt;
+&lt;link rel="import" href="../polymer/polymer.html"&gt;
+&lt;link rel="import" href="../i18n-behavior/i18n-behavior.html"&gt;
+&nbsp;
+&lt;script&gt;
+// Globally expose base elements and mixins
+window.BaseElements = window.BaseElements || {};
+window.Mixins = window.Mixins || {};
+&nbsp;
+// Localizable mixin
+Mixins.Localizable = function (base) {
+&nbsp;
+  return class Localizable extends Polymer.mixinBehaviors([BehaviorsStore._I18nBehavior], base) {
+    constructor () {
+      Localizable.template;
+      super();
+    }
+    static get _rawTemplate() {
+      let id = this.is;
+      let name = this.name ||
+        (typeof this === 'function' ?
+                this.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "") :
+<span class="branch-1 cbranch-no" title="branch not covered" >                undefined)</span>;
+      if (!id &amp;&amp; name &amp;&amp; name !== 'Localizable' &amp;&amp; name != 'class' &amp;&amp; !name.match(/^_class/)) {
+        id = this.is = this._uncamelCase(name);
+      }
+      // TODO: template fetching should be flexible to detect super.template
+      let template = Polymer.DomModule.import(id, 'template');
+      if (id &amp;&amp; !template) {
+        let current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
+                                            : document._currentScript || document.currentScript;
+        let _tmpNode = current;
+        let ownerDocument = current ? current.ownerDocument : document;
+        let baseURI = ownerDocument.baseURI;
+        if (current &amp;&amp; current.ownerDocument &amp;&amp; current.ownerDocument.nodeType === current.ownerDocument.DOCUMENT_NODE) {
+          while (_tmpNode &amp;&amp; _tmpNode.tagName !== 'LINK' &amp;&amp;
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &amp;&amp;
+            _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
+            _tmpNode = _tmpNode.parentNode;
+          }
+          if (_tmpNode &amp;&amp;
+            (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
+             _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
+            ownerDocument = _tmpNode;
+            baseURI = ownerDocument.baseURI;
+          }
+          else <span class="missing-if-branch" title="else path not taken" >E</span>if (_tmpNode &amp;&amp; _tmpNode.import === _tmpNode) {
+            ownerDocument = _tmpNode;
+            baseURI = ownerDocument.href; // link node
+          }
+        }
+        template = ownerDocument.querySelector('template[id=' + id + ']') ||
+                   document.querySelector('template[id=' + id + ']');
+        if (!template &amp;&amp; id !== 'i18n-dom-bind') {
+          template = document.createElement('template');
+          template.setAttribute('id', id);
+          console.warn('Localizable._rawTemplate: ' + id + ' has no template. Supplying an empty template');
+        }
+        if (template) {
+          let domModule = document.createElement('dom-module');
+          let assetpath = typeof URL === 'function' &amp;&amp; URL.name === 'URL'
+            ? new URL(baseURI || <span class="branch-1 cbranch-no" title="branch not covered" >document.baseURI)</span>.pathname
+            : (uri =&gt; { let a = document.createElement('a'); a.href = uri; return ('/' + a.pathname).replace(/^\/\//, '/'); })(baseURI);
+          domModule.appendChild(template);
+          domModule.setAttribute('assetpath', 
+                                  template.hasAttribute('basepath') ?
+                                    template.getAttribute('basepath') :
+                                    template.hasAttribute('assetpath') ? 
+<span class="branch-0 cbranch-no" title="branch not covered" >                                      template.getAttribute('assetpath') </span>: 
+                                      assetpath);
+          domModule.register(id);
+          this._template = template;
+        }
+      }
+      return template;
+    }
+    static get template() {
+      return this._i18nPreprocess(this._rawTemplate);
+    }
+    static _uncamelCase(name) {
+      return name
+        // insert a hyphen between lower &amp; upper
+        .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+        // space before last upper in a sequence followed by lower
+        .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/, '$1 $2$3')
+        // replace spaces with hyphens
+        .replace(/ /g, '-')
+        // lowercase
+        .toLowerCase();
+    }
+    static get _templateLocalizable () {
+      return this.hasOwnProperty('__templateLocalizable');
+    }
+    static set _templateLocalizable (value) {
+      this.__templateLocalizable = value;
+    }
+    static _i18nPreprocess(template) {
+      if (this.is &amp;&amp; template &amp;&amp; !this._templateLocalizable) {
+        // Fix #56. [Polymer 2.4] Override this.prototype.__proto__.__proto__.__proto__.templateDefaultLang getter/setter
+        Object.defineProperty(this.prototype, 'templateDefaultLang', {
+          configurable: false,
+          enumerable: true,
+          value: 'en',
+          writable: true,
+        });
+        this._templateLocalizable = this.prototype._constructDefaultBundle(template);
+      }
+      return template;
+    }
+    get is () {
+      return this.constructor.is;
+    }
+    connectedCallback() {
+      super.connectedCallback();
+    }
+  };
+}
+&nbsp;
+// Logger mixin
+Mixins.Logger = (base) =&gt; class extends base {
+  connectedCallback() {
+    super.connectedCallback();
+    console.log('&lt;' + Object.getPrototypeOf(this).constructor.is + '&gt;: ' +
+      'id = ' + this.id + ', ' +
+      'this.text = ' + JSON.stringify(this.text, null, 2));
+    console.log('Preprocessed template = \n', Object.getPrototypeOf(this).constructor.template);
+  }
+};
+&nbsp;
+// I18N Base Element
+Object.defineProperty(BaseElements, 'I18nElement', {
+  get: function () {
+    return Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement));
+  }
+});
+&lt;/script&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jan 30 2018 17:39:36 GMT+0900 (JST)
+</div>
+</div>
+<script src="./prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="./sorter.js"></script>
+</body>
+</html>

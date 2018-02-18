@@ -1,0 +1,73 @@
+{
+  "_from": "@polymer/iron-dropdown@^3.0.0-pre.7",
+  "_id": "@polymer/iron-dropdown@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-5B4QsbpLJDILEexXgqKoVeQB5F9thro2TAz9ZsLwd1STMhVlU6r/jpm3zR5CiOtQmOf203oW5ifTS2JRJ4kPng==",
+  "_location": "/@polymer/iron-dropdown",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/iron-dropdown@^3.0.0-pre.7",
+    "name": "@polymer/iron-dropdown",
+    "escapedName": "@polymer%2firon-dropdown",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.7",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.7"
+  },
+  "_requiredBy": [
+    "/@polymer/paper-menu-button"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/iron-dropdown/-/iron-dropdown-3.0.0-pre.8.tgz",
+  "_shasum": "a9429a4b6ed2c5f73e9fc25e5482f57839334460",
+  "_spec": "@polymer/iron-dropdown@^3.0.0-pre.7",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out/node_modules/@polymer/paper-menu-button",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/iron-dropdown/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/iron-behaviors": "^3.0.0-pre.7",
+    "@polymer/iron-overlay-behavior": "^3.0.0-pre.7",
+    "@polymer/neon-animation": "^3.0.0-pre.7",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "An unstyled element that works similarly to a native browser select",
+  "devDependencies": {
+    "@polymer/iron-component-page": "^3.0.0-pre.7",
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.7",
+    "@polymer/iron-image": "^3.0.0-pre.7",
+    "@polymer/iron-test-helpers": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11",
+    "web-animations-js": "^2.3.1"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/iron-dropdown",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "polymer"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "iron-dropdown.html",
+  "name": "@polymer/iron-dropdown",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-dropdown.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

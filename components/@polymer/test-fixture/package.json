@@ -1,0 +1,51 @@
+{
+  "_from": "@polymer/test-fixture@^3.0.0-pre.8",
+  "_id": "@polymer/test-fixture@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-o/9ZJPN1i2w/RT474FiQQoeGDmOOt15eT3eVobB0Tcx6gUcNUwCtlMnOByLkugj1UDj3JAJoxw77ld0nUvvQkw==",
+  "_location": "/@polymer/test-fixture",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/test-fixture@^3.0.0-pre.8",
+    "name": "@polymer/test-fixture",
+    "escapedName": "@polymer%2ftest-fixture",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.8",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.8"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "/wct-browser-legacy"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/test-fixture/-/test-fixture-3.0.0-pre.8.tgz",
+  "_shasum": "e5a058efa6ea1e6cc49ce126e13875c97074291f",
+  "_spec": "@polymer/test-fixture@^3.0.0-pre.8",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out",
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A simple element to fixture DOM for tests",
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "keywords": [
+    "web-components",
+    "polymer",
+    "testing"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "test-fixture.html",
+  "name": "@polymer/test-fixture",
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

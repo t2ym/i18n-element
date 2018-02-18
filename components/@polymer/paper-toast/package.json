@@ -1,0 +1,73 @@
+{
+  "_from": "@polymer/paper-toast@^3.0.0-pre.7",
+  "_id": "@polymer/paper-toast@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-ingO1mYgUOq6losmoFruLNNhZBMnHWTKAVi72TE6wAaPST1AC+M+diIMsYLNCUfz1YHL4YAS3/Xl9ZUNlgQk1A==",
+  "_location": "/@polymer/paper-toast",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/paper-toast@^3.0.0-pre.7",
+    "name": "@polymer/paper-toast",
+    "escapedName": "@polymer%2fpaper-toast",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.7",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.7"
+  },
+  "_requiredBy": [
+    "/@polymer/iron-component-page"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/paper-toast/-/paper-toast-3.0.0-pre.8.tgz",
+  "_shasum": "6bca5443a7c5db24719b4c78b75478595401dccb",
+  "_spec": "@polymer/paper-toast@^3.0.0-pre.7",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out/node_modules/@polymer/iron-component-page",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/paper-toast/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/iron-a11y-announcer": "^3.0.0-pre.7",
+    "@polymer/iron-fit-behavior": "^3.0.0-pre.7",
+    "@polymer/iron-overlay-behavior": "^3.0.0-pre.7",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "A material design notification toast",
+  "devDependencies": {
+    "@polymer/iron-component-page": "^3.0.0-pre.7",
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.7",
+    "@polymer/paper-button": "^3.0.0-pre.7",
+    "@polymer/test-fixture": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/paper-toast#readme",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "toast",
+    "notification"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "paper-toast.html",
+  "name": "@polymer/paper-toast",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/paper-toast.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

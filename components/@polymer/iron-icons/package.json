@@ -1,0 +1,70 @@
+{
+  "_from": "@polymer/iron-icons@^3.0.0-pre.7",
+  "_id": "@polymer/iron-icons@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-HfBrve6NuuJRIHJq3kuUYPqdOWBBjV4+nfkavLF9+0d2qLa98j2KT6PR6t0s2Ksr1NIfD4MUuKLxZ1hYZUc5mA==",
+  "_location": "/@polymer/iron-icons",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/iron-icons@^3.0.0-pre.7",
+    "name": "@polymer/iron-icons",
+    "escapedName": "@polymer%2firon-icons",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.7",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.7"
+  },
+  "_requiredBy": [
+    "/@polymer/iron-component-page"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/iron-icons/-/iron-icons-3.0.0-pre.8.tgz",
+  "_shasum": "6adf32c7294acb4d159c770c0a471819b38ae145",
+  "_spec": "@polymer/iron-icons@^3.0.0-pre.7",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out/node_modules/@polymer/iron-component-page",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/iron-icons/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/iron-icon": "^3.0.0-pre.7",
+    "@polymer/iron-iconset-svg": "^3.0.0-pre.7",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "A set of icons for use with iron-icon",
+  "devDependencies": {
+    "@polymer/iron-component-page": "^3.0.0-pre.7",
+    "@polymer/iron-meta": "^3.0.0-pre.7",
+    "@polymer/paper-styles": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/paper-icons",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "icon"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "iron-icons.html",
+  "name": "@polymer/iron-icons",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-icons.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

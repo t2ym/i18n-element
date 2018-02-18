@@ -1,0 +1,75 @@
+{
+  "_from": "@polymer/paper-item@^3.0.0-pre.8",
+  "_id": "@polymer/paper-item@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-lXv0bsBulGf2qW8oKFii/Tfo5ZHn6EfUiJ1/Jed1jwL0CeIIWCpmeqoBck9xeOzLpbOSpjZPtikcTFP0xwEPRQ==",
+  "_location": "/@polymer/paper-item",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/paper-item@^3.0.0-pre.8",
+    "name": "@polymer/paper-item",
+    "escapedName": "@polymer%2fpaper-item",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.8",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.8"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/paper-item/-/paper-item-3.0.0-pre.8.tgz",
+  "_shasum": "42e494bf8f8ffbc1eb77422e8560d397b9262ee8",
+  "_spec": "@polymer/paper-item@^3.0.0-pre.8",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/paper-item/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/iron-behaviors": "^3.0.0-pre.7",
+    "@polymer/iron-flex-layout": "^3.0.0-pre.7",
+    "@polymer/paper-styles": "^3.0.0-pre.7",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "A material-design styled list item",
+  "devDependencies": {
+    "@polymer/iron-component-page": "^3.0.0-pre.7",
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.7",
+    "@polymer/iron-icon": "^3.0.0-pre.7",
+    "@polymer/iron-icons": "^3.0.0-pre.7",
+    "@polymer/iron-test-helpers": "^3.0.0-pre.7",
+    "@polymer/paper-icon-button": "^3.0.0-pre.7",
+    "@polymer/paper-input": "^3.0.0-pre.7",
+    "@polymer/test-fixture": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/paper-item",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "item"
+  ],
+  "license": "BSD-3-Clause",
+  "name": "@polymer/paper-item",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/paper-item.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

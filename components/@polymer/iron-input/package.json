@@ -1,0 +1,72 @@
+{
+  "_from": "@polymer/iron-input@^3.0.0-pre.7",
+  "_id": "@polymer/iron-input@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-5irXECRuufFPGrn48q9jAEeex9VzkZmalHrWMoh7ODGWC1jwor4W+b3O+gnfCcArj4OchiDBgejLA4KKtwYxAw==",
+  "_location": "/@polymer/iron-input",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/iron-input@^3.0.0-pre.7",
+    "name": "@polymer/iron-input",
+    "escapedName": "@polymer%2firon-input",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.7",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.7"
+  },
+  "_requiredBy": [
+    "/@polymer/paper-input"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/iron-input/-/iron-input-3.0.0-pre.8.tgz",
+  "_shasum": "532d9133da836f17cf1a1f2a79f76794523e9f23",
+  "_spec": "@polymer/iron-input@^3.0.0-pre.7",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out/node_modules/@polymer/paper-input",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/iron-input/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/iron-a11y-announcer": "^3.0.0-pre.7",
+    "@polymer/iron-validatable-behavior": "^3.0.0-pre.7",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "An input element with data binding",
+  "devDependencies": {
+    "@polymer/iron-component-page": "^3.0.0-pre.7",
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.7",
+    "@polymer/iron-validator-behavior": "^3.0.0-pre.7",
+    "@polymer/paper-styles": "^3.0.0-pre.7",
+    "@polymer/test-fixture": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/iron-input",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "input"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "iron-input.html",
+  "name": "@polymer/iron-input",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-input.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

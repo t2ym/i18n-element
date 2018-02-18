@@ -1,0 +1,70 @@
+{
+  "_from": "@polymer/iron-icon@^3.0.0-pre.7",
+  "_id": "@polymer/iron-icon@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-BANDIHu7vrRZvF0/6oZFPs6mTKE34Iuq7UCy3rCFqhz4y7gbxfGoWtRDlEhbUIK4f//ZS2K9gRtmIbdcoMVEcg==",
+  "_location": "/@polymer/iron-icon",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/iron-icon@^3.0.0-pre.7",
+    "name": "@polymer/iron-icon",
+    "escapedName": "@polymer%2firon-icon",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.7",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.7"
+  },
+  "_requiredBy": [
+    "/@polymer/iron-icons",
+    "/@polymer/paper-dropdown-menu",
+    "/@polymer/paper-icon-button"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/iron-icon/-/iron-icon-3.0.0-pre.8.tgz",
+  "_shasum": "5f1a5aa53ee74e0e76932a6ddd77f9ee380f055f",
+  "_spec": "@polymer/iron-icon@^3.0.0-pre.7",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out/node_modules/@polymer/iron-icons",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/iron-icon/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@polymer/iron-flex-layout": "^3.0.0-pre.7",
+    "@polymer/iron-meta": "^3.0.0-pre.7",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "An element that supports displaying an icon",
+  "devDependencies": {
+    "@polymer/iron-component-page": "^3.0.0-pre.7",
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.7",
+    "@polymer/iron-icons": "^3.0.0-pre.7",
+    "@polymer/iron-iconset": "^3.0.0-pre.7",
+    "@polymer/promise-polyfill": "^3.0.0-pre.7",
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/iron-icon#readme",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "icon"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "iron-icon.html",
+  "name": "@polymer/iron-icon",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-icon.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}

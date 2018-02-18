@@ -1,0 +1,72 @@
+{
+  "_from": "@polymer/iron-component-page@^3.0.0-pre.8",
+  "_id": "@polymer/iron-component-page@3.0.0-pre.8",
+  "_inBundle": false,
+  "_integrity": "sha512-OktSy3Kf13ailIjhqQye600J71bNhRZ1KpGOULLscDz5Oa8kidnZFLnBpxPQ56vI2nF8HF9iPpI1YjJ+lZBZtA==",
+  "_location": "/@polymer/iron-component-page",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@polymer/iron-component-page@^3.0.0-pre.8",
+    "name": "@polymer/iron-component-page",
+    "escapedName": "@polymer%2firon-component-page",
+    "scope": "@polymer",
+    "rawSpec": "^3.0.0-pre.8",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.0-pre.8"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@polymer/iron-component-page/-/iron-component-page-3.0.0-pre.8.tgz",
+  "_shasum": "0ebb43fa5baf40495eaff3863ebf276bf0c7325d",
+  "_spec": "@polymer/iron-component-page@^3.0.0-pre.8",
+  "_where": "/home/fedora/WebComponents/components/i18n-element/modulizer_out",
+  "bugs": {
+    "url": "https://github.com/PolymerElements/iron-component-page/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "The Polymer Authors"
+    }
+  ],
+  "dependencies": {
+    "@polymer/app-layout": "^3.0.0-pre.7",
+    "@polymer/iron-ajax": "^3.0.0-pre.7",
+    "@polymer/iron-doc-viewer": "^3.0.0-pre.7",
+    "@polymer/iron-icons": "^3.0.0-pre.7",
+    "@polymer/paper-icon-button": "^3.0.0-pre.7",
+    "@polymer/paper-styles": "^3.0.0-pre.7",
+    "@polymer/paper-toast": "^3.0.0-pre.7",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  },
+  "deprecated": false,
+  "description": "Turns a raw element definition into beautiful documentation",
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11"
+  },
+  "flat": true,
+  "homepage": "https://github.com/PolymerElements/iron-component-page#readme",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "docs"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "iron-component-page.html",
+  "name": "@polymer/iron-component-page",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-component-page.git"
+  },
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "version": "3.0.0-pre.8"
+}
