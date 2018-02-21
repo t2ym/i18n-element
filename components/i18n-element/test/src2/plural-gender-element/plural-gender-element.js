@@ -41,6 +41,10 @@ default:
 case 'mixin':
   {
     class PluralGenderElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <p>
@@ -113,6 +117,10 @@ case 'mixin':
 case 'base-element':
   {
     class PluralGenderElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <p>
@@ -185,6 +193,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class PluralGenderElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get properties() {
         return {
           sender: {
@@ -227,6 +239,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     <p>
       <i18n-format id="compound-format-text" on-rendered="_rendered">

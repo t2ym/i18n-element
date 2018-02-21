@@ -95,6 +95,10 @@ default:
 case 'mixin':
   {
     class ComplexCompoundBindingElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <h5 id="item-update2">updated: {{text.updated}}, by: 
@@ -205,6 +209,10 @@ case 'mixin':
 case 'base-element':
   {
     class ComplexCompoundBindingElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <h5 id="item-update2">updated: {{text.updated}}, by: 
@@ -315,6 +323,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class ComplexCompoundBindingElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       connectedCallback () {
         super.connectedCallback();
         this.addEventListener('lang-updated', this._langUpdated.bind(this));
@@ -340,6 +352,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     <h5 id="item-update2">updated: {{text.updated}}, by: 
       <dom-repeat items="{{text.authors}}"><template>

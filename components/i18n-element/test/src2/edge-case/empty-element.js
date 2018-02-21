@@ -18,6 +18,10 @@ default:
 case 'mixin':
   {
     class EmptyElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
 
@@ -32,6 +36,10 @@ case 'mixin':
 case 'base-element':
   {
     class EmptyElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
 
@@ -46,12 +54,18 @@ case 'base-element':
 case 'thin':
   {
     Define = class EmptyElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
     }
   }
   break;
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
 
 `,

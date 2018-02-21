@@ -53,6 +53,10 @@ default:
 case 'mixin':
   {
     class AdvancedBindingElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <span id="status">{{tr(status,text.statusMessages)}}</span>
@@ -156,6 +160,10 @@ case 'mixin':
 case 'base-element':
   {
     class AdvancedBindingElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <span id="status">{{tr(status,text.statusMessages)}}</span>
@@ -258,6 +266,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class AdvancedBindingElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get properties () {
         return {
           status: {
@@ -320,6 +332,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     <span id="status">{{tr(status,text.statusMessages)}}</span>
 

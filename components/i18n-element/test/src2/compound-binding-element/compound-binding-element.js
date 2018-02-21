@@ -64,6 +64,10 @@ default:
 case 'mixin':
   {
     class CompoundBindingElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     outermost text at the beginning with compound {{param1}} and {{param2}} variables
@@ -146,6 +150,10 @@ case 'mixin':
 case 'base-element':
   {
     class CompoundBindingElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     outermost text at the beginning with compound {{param1}} and {{param2}} variables
@@ -228,6 +236,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class CompoundBindingElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get properties () {
         return {
           param1: {
@@ -258,6 +270,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     outermost text at the beginning with compound {{param1}} and {{param2}} variables
     <div><div></div></div><!-- nested empty div -->

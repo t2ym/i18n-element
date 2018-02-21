@@ -64,6 +64,10 @@ case 'legacy':
 case 'thin':
   {
     Define = class extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is () { return 'i18n-no-class-name-but-is-define-element'; }
     };
   }

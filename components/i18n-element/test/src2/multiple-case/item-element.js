@@ -19,6 +19,10 @@ default:
 case 'mixin':
   {
     class ItemElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <span id="label">A</span>
@@ -33,6 +37,10 @@ case 'mixin':
 case 'base-element':
   {
     class ItemElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <span id="label">A</span>
@@ -47,12 +55,18 @@ case 'base-element':
 case 'thin':
   {
     Define = class ItemElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
     }
   }
   break;
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     <span id="label">A</span>
 `,

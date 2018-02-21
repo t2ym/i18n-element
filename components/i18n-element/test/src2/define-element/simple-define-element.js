@@ -64,9 +64,17 @@ case 'legacy':
 case 'thin':
   {
     Define = class SimpleDefineElement extends Element {
+      static get importPath() {
+        return import.meta.url;
+      }
+
     };
     // Discard duplicate definition
     Define = class SimpleDefineElement extends Element {
+      static get importPath() {
+        return import.meta.url;
+      }
+
     };
   }
   break;

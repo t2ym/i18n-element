@@ -111,6 +111,10 @@ default:
 case 'mixin':
   {
     class NullTemplateDefaultLangElement extends Mixins.Logger(Mixins.Localizable(LegacyElementMixin(HTMLElement))) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is() { return 'null-template-default-lang-element'; }
 
       connectedCallback () {
@@ -130,6 +134,10 @@ case 'mixin':
 case 'base-element':
   {
     class NullTemplateDefaultLangElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is() { return 'null-template-default-lang-element'; }
 
       connectedCallback () {
@@ -149,6 +157,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class NullTemplateDefaultLangElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       connectedCallback () {
         super.connectedCallback();
         this.addEventListener('lang-updated', this._langUpdated.bind(this));
@@ -165,6 +177,7 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
       is: 'null-template-default-lang-element',
 
       behaviors: [

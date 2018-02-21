@@ -64,6 +64,10 @@ default:
 case 'mixin':
   {
     class FallbackTextElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     outermost text at the beginning 
@@ -134,6 +138,10 @@ case 'mixin':
 case 'base-element':
   {
     class FallbackTextElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     outermost text at the beginning 
@@ -204,6 +212,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class FallbackTextElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       connectedCallback () {
         super.connectedCallback();
         this.addEventListener('lang-updated', this._langUpdated.bind(this));
@@ -221,6 +233,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     outermost text at the beginning 
     <div><div></div></div><!-- nested empty div -->

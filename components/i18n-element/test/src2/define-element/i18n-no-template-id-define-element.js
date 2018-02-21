@@ -64,6 +64,10 @@ case 'legacy':
 case 'thin':
   {
     Define = class I18nNoTemplateIdDefineElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
     };
   }
   break;

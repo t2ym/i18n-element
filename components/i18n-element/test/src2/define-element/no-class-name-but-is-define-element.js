@@ -64,6 +64,10 @@ case 'legacy':
 case 'thin':
   {
     Define = class extends Element {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is () { return 'no-class-name-but-is-define-element'; }
     };
   }

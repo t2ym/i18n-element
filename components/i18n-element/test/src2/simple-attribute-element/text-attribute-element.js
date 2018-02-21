@@ -76,6 +76,10 @@ default:
 case 'mixin':
   {
     class TextAttributeElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is() { return 'text-attribute-element'; }
       static get properties() {
         return {
@@ -119,6 +123,10 @@ case 'mixin':
 case 'base-element':
   {
     class TextAttributeElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is() { return 'text-attribute-element'; }
       static get properties() {
         return {
@@ -162,6 +170,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class TextAttributeElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get properties() {
         return {
           customTextAttr1: {
@@ -203,6 +215,7 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
       is: 'text-attribute-element',
 
       behaviors: [
@@ -248,7 +261,6 @@ case 'legacy':
       _langUpdated: function () {
         this.model = deepcopy(this.text.model);
       }
-
     });
   }
   break;

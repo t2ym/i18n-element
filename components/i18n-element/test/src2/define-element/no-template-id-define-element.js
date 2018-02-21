@@ -64,10 +64,18 @@ case 'legacy':
 case 'thin':
   {
     Define = class NoTemplateIdDefineElement extends Element {
+      static get importPath() {
+        return import.meta.url;
+      }
+
     };
     // No custom element name is defined
     try {
       Define = class extends Element {
+        static get importPath() {
+          return import.meta.url;
+        }
+
       };
     }
     catch (e) {

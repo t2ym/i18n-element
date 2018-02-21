@@ -26,7 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       (nativeES6 ?
         [
           'src2',
-          'preprocess2',
+          //'preprocess2',
           //'minify2-min'
         ] :
         [
@@ -38,9 +38,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         (nativeShadow ? [ '?xhr=fake&suppress=true' /*, '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?xhr=fake&suppress=true' ]).forEach(function (dom) {
           (nativeES6 ? 
             [
-              //'mixin',
-              'base-element',
-              'thin',
+              'mixin',
+              //'base-element',
+              //'thin',
               //'legacy'
             ] :
             [
@@ -57,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 'multiple-case',
                 'template-default-lang',
                 'preference',
-                'no-persist',
+                //'no-persist',
                 'define-element'
               ] :
               [

@@ -20,6 +20,10 @@ default:
 case 'mixin':
   {
     class PreferenceElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <span id="oldLang"></span>
@@ -51,6 +55,10 @@ case 'mixin':
 case 'base-element':
   {
     class PreferenceElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <span id="oldLang"></span>
@@ -82,6 +90,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class PreferenceElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       connectedCallback () {
         super.connectedCallback();
         this.addEventListener('lang-updated', this._langUpdated.bind(this));
@@ -104,6 +116,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     <span id="oldLang"></span>
 `,

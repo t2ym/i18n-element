@@ -10,6 +10,10 @@ default:
 case 'mixin':
   {
     class NoTemplateElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is() { return 'no-template-element' }
     }
     customElements.define(NoTemplateElement.is, NoTemplateElement);
@@ -18,6 +22,10 @@ case 'mixin':
 case 'base-element':
   {
     class NoTemplateElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get is() { return 'no-template-element' }
     }
     customElements.define(NoTemplateElement.is, NoTemplateElement);
@@ -26,13 +34,19 @@ case 'base-element':
 case 'thin':
   {
     Define = class NoTemplateElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
     }
   }
   break;
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
       is: 'no-template-element',
+
       behaviors: [
         BehaviorsStore.I18nBehavior
       ]

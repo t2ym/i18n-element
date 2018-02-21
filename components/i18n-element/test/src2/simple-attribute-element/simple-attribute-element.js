@@ -73,6 +73,10 @@ default:
 case 'mixin':
   {
     class SimpleAttributeElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <style attr="This is not extracted">
@@ -191,6 +195,10 @@ case 'mixin':
 case 'base-element':
   {
     class SimpleAttributeElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <style attr="This is not extracted">
@@ -309,6 +317,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class SimpleAttributeElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       connectedCallback() {
         super.connectedCallback();
         this.addEventListener('lang-updated', this._langUpdated.bind(this));
@@ -368,6 +380,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     <style attr="This is not extracted">
     google-chart {

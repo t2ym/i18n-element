@@ -28,6 +28,10 @@ default:
 case 'mixin':
   {
     class MultipleElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <div id="base">
@@ -106,6 +110,10 @@ case 'mixin':
 case 'base-element':
   {
     class MultipleElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get template() {
         return html`
     <div id="base">
@@ -184,6 +192,10 @@ case 'base-element':
 case 'thin':
   {
     Define = class MultipleElement extends BaseElements.I18nElement {
+      static get importPath() {
+        return import.meta.url;
+      }
+
       static get properties() {
         return {
           count: {
@@ -247,6 +259,8 @@ case 'thin':
 case 'legacy':
   {
     Polymer({
+      importPath: import.meta.url,
+
       _template: html`
     <div id="base">
       <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
