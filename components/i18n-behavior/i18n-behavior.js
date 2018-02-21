@@ -921,18 +921,18 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         var skipFetching = false;
 
         if (lang === '') {
-          url = this.resolveUrl(id + '.json', document.currentScript ? undefined : this._baseUrl || document.location.href);
+          url = this.resolveUrl(id + '.json'/*, document.currentScript ? undefined : this._baseUrl || document.location.href*/);
         }
         else {
           if (bundles[lang] && bundles[lang].bundle) {
             // missing in the bundle
-            url = this.resolveUrl(localesPath + '/' + id + '.' + lang + '.json', document.currentScript ? undefined : this._baseUrl || document.location.href);
+            url = this.resolveUrl(localesPath + '/' + id + '.' + lang + '.json'/*, document.currentScript ? undefined : this._baseUrl || document.location.href*/);
             skipFetching = !!this.isI18nController;
           }
           else {
             // fetch the bundle
             bundleFetchingInstances[lang] = this;
-            url = this.resolveUrl(startUrl + localesPath + '/bundle.' + lang + '.json', document.currentScript ? undefined : this._baseUrl || document.location.href);
+            url = this.resolveUrl(startUrl + localesPath + '/bundle.' + lang + '.json'/*, document.currentScript ? undefined : this._baseUrl || document.location.href*/);
           }
         }
         this._fetchStatus.ajax.url = url;
@@ -2770,6 +2770,43 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     // Polymer 2.x
     BehaviorsStore._I18nBehavior = BehaviorsStore.I18nBehavior;
     BehaviorsStore.I18nBehavior = [ BehaviorsStore._I18nBehavior ];
+    if (!document.currentScript) {
+      // Polymer 3.x
+      BehaviorsStore.I18nBehavior.push({
+        get _template() { 
+          if (this.__template) {
+            return this.__template;
+          }
+          if (this instanceof HTMLElement &&
+            this.constructor.name === 'PolymerGenerated' &&
+            !this.constructor.__finalizeClass) {
+            this.constructor.__finalizeClass = this.constructor._finalizeClass;
+            this.constructor._finalizeClass = function _finalizeClass() {
+              let info = this.generatedFrom;
+              if (!this._templateLocalizable) {
+                if (info._template) {
+                  this._templateLocalizable = BehaviorsStore._I18nBehavior._constructDefaultBundle(info._template, info.is);
+                }
+                else {
+                  let template = DomModule.import(info.is, 'template');
+                  if (template) {
+                    this._templateLocalizable = BehaviorsStore._I18nBehavior._constructDefaultBundle(template, info.is);
+                  }
+                }
+              }
+              if (!this.hasOwnProperty('importPath')) {
+                Object.defineProperty(this, 'importPath', { value: info.importPath });
+              }
+              return this.__finalizeClass();
+            }
+          }
+          return null;
+        },
+        set _template(value) {
+          this.__template = value;
+        }
+      });
+    }
     Object.defineProperty(BehaviorsStore.I18nBehavior, '0', {
       get: function() {
         var current = (!window.HTMLImports || HTMLImports.hasNative || HTMLImports.useNative) ? document.currentScript : (document._currentScript || document.currentScript);
