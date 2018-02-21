@@ -16,4 +16,8 @@ document.head.appendChild($_documentContainer);
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 Define = class I18nThinElement extends Mixins.Logger(BaseElements.I18nElement) {
+  static get importPath() {
+    return import.meta.url;
+  }
+
 };

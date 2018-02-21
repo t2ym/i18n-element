@@ -15,6 +15,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <link rel="import" href="../../paper-styles/demo-pages.html">
 */
 class I18nBehaviorDemo extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+  static get importPath() {
+    return import.meta.url;
+  }
+
   static get template() {
     return html`
     <style>

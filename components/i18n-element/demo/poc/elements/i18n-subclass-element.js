@@ -16,6 +16,10 @@ document.head.appendChild($_documentContainer);
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
+  static get importPath() {
+    return import.meta.url;
+  }
+
   static get template() {
     return html`
     <span id="label1">Subclass UI label 1</span><br>

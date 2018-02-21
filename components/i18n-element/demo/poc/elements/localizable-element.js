@@ -7,6 +7,10 @@ import { LegacyElementMixin } from '../../../../@polymer/polymer/lib/legacy/lega
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 class LocalizableElement extends Mixins.Logger(Mixins.Localizable(LegacyElementMixin(HTMLElement))) {
+  static get importPath() {
+    return import.meta.url;
+  }
+
   static get template() {
     return html`
     <span id="label1">Localizable UI label 1</span><br>
