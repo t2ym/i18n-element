@@ -9,7 +9,7 @@ addEventListener('fetch', function (event) {
       let response = await fetch(event.request);
       if (response.status === 200 && response.type !== 'opaque') {
         let url = new URL(response.url);
-        if (url.pathname.match(/[.js]$/)) {
+        if (url.pathname.match(/[.]js$/)) {
           let code = await response.text();
           if (code.indexOf('import.meta.url') >= 0) {
             code = code.replace(/import[.]meta[.]url/g, '\'' + response.url + '\'');
