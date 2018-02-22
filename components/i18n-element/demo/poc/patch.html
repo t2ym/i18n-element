@@ -7,7 +7,7 @@ Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     let url = location.pathname.replace(/patch[.]html$/, '');
     if ('serviceWorker' in navigator) {
       try {
-        let registration = await navigator.serviceWorker.register('../../../../../patch-sw.js', { scope: '../../../../../' });
+        let registration = await navigator.serviceWorker.register('../../../../patch-sw.js', { scope: '../../../../' });
         let serviceWorker = registration.active || registration.waiting || registration.installing;
         if (serviceWorker) {
           if (ServiceWorker.state !== 'activated') {
