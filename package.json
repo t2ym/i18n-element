@@ -64,8 +64,9 @@
     "run-sequence": "^1.1.5",
     "strip-bom": "^3.0.0",
     "through2": "^2.0.1",
-    "@t2ym/web-component-tester": "^6.0.2",
-    "wct-istanbul": "^0.12.4",
+    "wct-headless": "^2.2.2",
+    "wct-istanbul": "^0.14.0",
+    "web-component-tester": "^6.6.0",
     "xliff-conv": "^1.0.10"
   }
 }
