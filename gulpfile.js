@@ -791,5 +791,10 @@ gulp.task('pretest2', ['clean2'], function(cb) {
     cb);
 });
 
-require('web-component-tester').gulp.init(gulp, [ 'pretest2' ]);
+//require('web-component-tester').gulp.init(gulp, [ 'pretest2' ]);
+
+gulp.task('patch-wct-browser-legacy', () => {
+  return gulp.src([ 'test/browser.js' ], { base: 'test' })
+    .pipe(gulp.dest('node_modules/wct-browser-legacy'));
+});
 
