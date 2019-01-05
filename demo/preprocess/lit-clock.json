@@ -1,0 +1,13 @@
+{
+  "meta": {},
+  "model": {
+    "target": {
+      "i18n-target-attr": "I18N target attribute value"
+    }
+  },
+  "target": [
+    "Time: {1}:{2}",
+    "{{parts.5}}",
+    "{{parts.6}}"
+  ]
+}
