@@ -1,20 +1,12 @@
 {
   "plugins": {
     "local": {
-      "disabled": true,
-      "browsers": [
-        "chrome", "firefox"
-      ]
-    },
-    "headless": {
-      "disabled": false,
       "browsers": [
         "chrome",
         "firefox"
       ],
-      "browsersOptions": {
+      "browserOptions": {
         "chrome": [
-          "window-size=1920,1080",
           "headless",
           "disable-gpu"
         ],
@@ -29,27 +21,22 @@
         {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
-          "version":      "16"
-        },
-        {
-          "browserName":  "microsoftedge",
-          "platform":     "Windows 10",
-          "version":      "15"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.13",
-          "version":      "11"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.12",
-          "version":      "10"
+          "version":      "17"
         },
         {
           "browserName":  "internet explorer",
           "platform":     "Windows 8.1",
           "version":      "11"
+        },
+        {
+          "browserName":  "safari",
+          "platform":     "OS X 10.13",
+          "version":      "12"
+        },
+        {
+          "browserName":  "safari",
+          "platform":     "OS X 10.11",
+          "version":      "9"
         }
       ]
     },
@@ -57,15 +44,15 @@
       "dir": "test/coverage-report",
       "reporters": ["text-summary", "lcov"],
       "include": [
-        "**/i18n-element.html",
-        "**/i18n-dom-bind.html",
-        "**/define-element.html",
-        "**/mixin-behavior.html"
+        "**/i18n-element.js",
+        "**/i18n-dom-bind.js",
+        "**/define-element.js"
       ],
       "exclude": [
-        "/bower_components/**/*",
+        "/node_modules/**/*",
         "/test/**/*"
       ]
     }
   }
 }
+
