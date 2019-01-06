@@ -1,0 +1,33 @@
+<!-- temporary HTML --><html><head></head><body><encoded-original>CiAgICA8c3BhbiBpZD0ibGFiZWwxIj5TdWJjbGFzcyBVSSBsYWJlbCAxPC9zcGFuPjxicj4KICAgIDxzcGFuIGlkPSJsYWJlbDIiPlN1YmNsYXNzIFVJIGxhYmVsIDI8L3NwYW4+PGJyPgogICAgPHNwYW4gaWQ9ImxhYmVsMyI+U3ViY2xhc3MgVUkgbGFiZWwgMzwvc3Bhbj48YnI+CiAgICA8c3Bhbj5jb21wbGV4IDxiPnBhcmFtZXRlcml6ZWQ8L2I+IHNlbnRlbmNlcyA8aT5hYmM8L2k+PC9zcGFuPjxicj4KICAgIDxpbnB1dCBwbGFjZWhvbGRlcj0ibG9jYWxpemFibGUgYXR0cmlidXRlIiBpMThuLWF0dHI9ImkxOG4gYXR0ciI+Cg==</encoded-original><encoded-original2>PGkxOG4tYXR0ci1yZXBvPgogIDx0ZW1wbGF0ZSBpZD0iY3VzdG9tIj4KICAgIDxpbnB1dCBpMThuLWF0dHI9IiQiPgogIDwvdGVtcGxhdGU+CjwvaTE4bi1hdHRyLXJlcG8+</encoded-original2><link rel="import" href="../../../i18n-element.html"><!-- start of innerHTML --><i18n-attr-repo>
+  <template id="custom">
+    <input i18n-attr="$">
+  </template>
+</i18n-attr-repo><!-- end of innerHTML --><dom-module id="i18n-subclass-element"><template localizable-text="embedded">
+    <span id="label1">{{text.label1}}</span><br>
+    <span id="label2">{{text.label2}}</span><br>
+    <span id="label3">{{text.label3}}</span><br>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_6.0}}</span><b slot="1">{{text.span_6.1}}</b><i slot="2">{{text.span_6.2}}</i></i18n-format></span><br>
+    <input placeholder="{{model.input_8.placeholder}}" i18n-attr$="{{model.input_8.i18n-attr}}">
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {
+    "input_8": {
+      "placeholder": "localizable attribute",
+      "i18n-attr": "i18n attr"
+    }
+  },
+  "label1": "Subclass UI label 1",
+  "label2": "Subclass UI label 2",
+  "label3": "Subclass UI label 3",
+  "span_6": [
+    "complex {1} sentences {2}",
+    "parameterized",
+    "abc"
+  ]
+}
+</json-data>
+</template>
+</template></dom-module><!-- end of dom-module id="i18n-subclass-element" -->
+</body></html>

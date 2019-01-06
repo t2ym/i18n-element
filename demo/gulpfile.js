@@ -428,12 +428,13 @@ function preprocessHtmlTemplates(code) {
 }
 
 var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) {
-  let htmlTemplate = `<!-- temporary HTML --><encoded-original><link rel="import" href="../../../i18n-element.html"><innerHTML>`;
+  let htmlTemplate = `<!-- temporary HTML --><encoded-original><encoded-original2><link rel="import" href="../../../i18n-element.html"><innerHTML>`;
   let code = stripBom(String(file.contents));
   let template = null; //code.match(/html`([^`]*)`/);
   let innerHTML = code.match(/[.]innerHTML[ ]*=[ ]*`([^`]*)`/);
   let nameFromPath = file.path.split('/').pop().replace(/[.]js$/,'');
   let original = '';
+  let original2 = '';
   let templates = extractHtmlTemplates(code);
   //console.log('templates = ' + JSONstringify(templates, null, 2));
   let names = [];
@@ -463,8 +464,8 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
     if (innerHTML) {
       if (extractAnonymousTemplates) {
         if (innerHTML[1].match(/<template id=[^`]*<[/]template>/)) {
-          original = btoa(innerHTML[1]);
-          if (atob(original) !== innerHTML[1]) {
+          original2 = btoa(innerHTML[1]);
+          if (atob(original2) !== innerHTML[1]) {
             console.error('atob(btoa(innerHTML[1])) !== innerHTML[1]');
           }
         }
@@ -480,6 +481,12 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
     }
     else {
       html = html.replace('<encoded-original>', '');
+    }
+    if (original2) {
+      html = html.replace('<encoded-original2>', `<encoded-original2>${original2}</encoded-original2>`);
+    }
+    else {
+      html = html.replace('<encoded-original2>', '');
     }
     let htmlFile = new gutil.File({
       cwd: file.cwd,
@@ -583,15 +590,18 @@ var dropDummyHTML = gulpif('**/*.html', through.obj(function (file, enc, callbac
         _code = code.substring(index + '<!-- start of innerHTML -->'.length);
         index = _code.indexOf('<!-- end of innerHTML -->');
         if (index >= 0) {
-          let original = atob(match1[1]);
-          let preprocessed = _code.substring(0, index);
-          match = preprocessed.match(/<template id="(.*)" basepath="(.*)" localizable-text="embedded">/);
-          if (match) {
-            name = match[1];
-            preprocessedTemplates[name] = {
-              original: original,
-              preprocessed: preprocessed,
-            };
+          match1 = code.match(/<encoded-original2>(.*)<[/]encoded-original2>/);
+          if (match1) {
+            let original = atob(match1[1]);
+            let preprocessed = _code.substring(0, index);
+            match = preprocessed.match(/<template id="(.*)" basepath="(.*)" localizable-text="embedded">/);
+            if (match) {
+              name = match[1];
+              preprocessedTemplates[name] = {
+                original: original,
+                preprocessed: preprocessed,
+              };
+            }
           }
         }
       }

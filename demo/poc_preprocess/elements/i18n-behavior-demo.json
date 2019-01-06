@@ -1,4 +1,5 @@
 {
+  "meta": {},
   "model": {
     "simple-input": {
       "placeholder": "Placeholder String"
@@ -60,15 +61,15 @@
   "pre_10": [
     "lang = {1} ({2})",
     "{{effectiveLang}}",
-    "{{_getLangName(effectiveLang,text.langNames)}}"
+    "{{langName}}"
   ],
   "pre_11": [
     "sender = {1}",
-    "{{_getStringifiedUser(model.data.sender)}}"
+    "{{stringifiedUser}}"
   ],
   "pre_12": [
     "recipients = {1}",
-    "{{_getStringifiedRecipients(recipients)}}"
+    "{{stringifiedRecipients}}"
   ],
   "langNames": {
     "en": "English",
