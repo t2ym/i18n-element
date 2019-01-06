@@ -27,4 +27,7 @@ $_documentContainer.innerHTML = `<template id="i18n-thin-element" basepath="elem
 
 document.head.appendChild($_documentContainer.content);
 Define = class I18nThinElement extends Mixins.Logger(BaseElements.I18nElement) {
+  static get importMeta() {
+    return import.meta;
+  }
 }
