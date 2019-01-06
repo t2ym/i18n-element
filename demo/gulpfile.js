@@ -602,7 +602,7 @@ var preprocessJs = gulpif(['**/*.js'], through.obj(function (file, enc, callback
     preprocessedTemplates[nameFromPath].preprocessed = preprocessedTemplates[nameFromPath].preprocessed.replace(/\\n/g, '\\\\n').replace(/\\"/g, '\\\\"');
     code = code.replace(
       'html`' + preprocessedTemplates[nameFromPath].original + '`',
-      '((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`' + preprocessedTemplates[name].preprocessed + '`)');
+      '((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`' + preprocessedTemplates[nameFromPath].preprocessed + '`)');
     file.contents = Buffer.from(code);
     console.log('preprocessJs name = ' + nameFromPath);
   }
