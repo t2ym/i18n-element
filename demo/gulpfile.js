@@ -43,9 +43,9 @@ var bundles = {};
 var preprocessedTemplates = {};
 
 var title = 'I18N transform';
-var srcDir = 'clock';
-var tmpDir = 'tmp';
-var destDir = 'preprocess';
+var srcDir = 'poc';
+var tmpDir = 'poc_tmp';
+var destDir = 'poc_preprocess';
 
 var xliffOptions = {};
 
@@ -391,7 +391,7 @@ function extractHtmlTemplates(code) {
   return templates;
 }
 
-const extractAnonymousTemplates = false; // true For Polymer 3.0 templates
+const extractAnonymousTemplates = true; // true For Polymer 3.0 templates
 
 const compact = false; // for escodegen
 
