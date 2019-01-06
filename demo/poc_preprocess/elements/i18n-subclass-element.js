@@ -10,7 +10,20 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `
+$_documentContainer.innerHTML = `<i18n-attr-repo>
+  <template id="custom">
+    <input i18n-attr="$">
+  </template>
+</i18n-attr-repo>`;
+
+document.head.appendChild($_documentContainer.content);
+class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
+  static get importMeta() {
+    return import.meta;
+  }
+
+  static get template() {
+    return ((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`
     <span id="label1">{{text.label1}}</span><br>
     <span id="label2">{{text.label2}}</span><br>
     <span id="label3">{{text.label3}}</span><br>
@@ -37,22 +50,7 @@ $_documentContainer.innerHTML = `
 }
 </json-data>
 </template>
-`;
-
-document.head.appendChild($_documentContainer.content);
-class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
-  static get importMeta() {
-    return import.meta;
-  }
-
-  static get template() {
-    return html`
-    <span id="label1">Subclass UI label 1</span><br>
-    <span id="label2">Subclass UI label 2</span><br>
-    <span id="label3">Subclass UI label 3</span><br>
-    <span>complex <b>parameterized</b> sentences <i>abc</i></span><br>
-    <input placeholder="localizable attribute" i18n-attr="i18n attr">
-`;
+`);
   }
 
   static get is() { return 'i18n-subclass-element'; }
