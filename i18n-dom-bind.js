@@ -18,7 +18,7 @@ import deepcopy from 'deepcopy/dist/deepcopy.js';
 // i18n-dom-bind based on Polymer/polymer#2.0-preview src/templatizer/dom-bind.html
 class I18nDomBind extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
   static get importMeta() {
-    return import.meta;
+    return { url: new URL(BehaviorsStore.I18nControllerBehavior.properties.startUrl.value, location.href).href };
   }
 
   static get is() { return 'i18n-dom-bind'; }

@@ -85,7 +85,7 @@ if (!window.Define) {
         }
       }
 
-      previous = current.previousSibling;
+      previous = current && current.previousSibling;
       while (previous && !previous.tagName) {
         previous = previous.previousSibling;
       }
@@ -94,7 +94,7 @@ if (!window.Define) {
       }
       if (!previous) {
         // search for cousin template
-        if (current.parentNode.tagName === 'body'.toUpperCase()) {
+        if (current && current.parentNode.tagName === 'body'.toUpperCase()) {
           previous = current.parentNode.previousSibling;
           while (previous && !previous.tagName) {
             previous = previous.previousSibling;
