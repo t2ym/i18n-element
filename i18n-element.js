@@ -17,15 +17,22 @@ Mixins.Localizable = function (base) {
 
   return class Localizable extends mixinBehaviors([BehaviorsStore._I18nBehavior], base) {
     constructor () {
-      Localizable._renameTemplate(new.target);
-      Localizable.template;
       super();
+    }
+    get _template() {
+      return this._cachedTemplate;
+    }
+    set _template(template) {
+      if (template) {
+        Localizable._renameTemplate(this.constructor);
+      }
+      this._cachedTemplate = template;
     }
     static _renameTemplate(target) {
       let desc = Object.getOwnPropertyDescriptor(target, 'template');
       if (desc) {
         Object.defineProperty(target, '_rawTemplate', desc);
-        Reflect.deleteProperty(target, 'template');
+        delete target.template;
       }
     }
     static get _rawTemplate() {
