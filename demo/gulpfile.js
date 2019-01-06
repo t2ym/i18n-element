@@ -431,7 +431,7 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
   let htmlTemplate = `<!-- temporary HTML --><encoded-original><link rel="import" href="../../../i18n-element.html"><innerHTML>`;
   let code = stripBom(String(file.contents));
   let template = null; //code.match(/html`([^`]*)`/);
-  let innerHTML = code.match(/[.]innerHTML = `([^`]*)`/);
+  let innerHTML = code.match(/[.]innerHTML[ ]*=[ ]*`([^`]*)`/);
   let nameFromPath = file.path.split('/').pop().replace(/[.]js$/,'');
   let original = '';
   let templates = extractHtmlTemplates(code);
@@ -461,13 +461,15 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
       }      
     }
     if (innerHTML) {
-      /*
-      original = btoa(innerHTML[1]);
-      if (atob(original) !== innerHTML[1]) {
-        console.error('atob(btoa(innerHTML[1])) !== innerHTML[1]');
+      if (extractAnonymousTemplates) {
+        if (innerHTML[1].match(/<template id=[^`]*<[/]template>/)) {
+          original = btoa(innerHTML[1]);
+          if (atob(original) !== innerHTML[1]) {
+            console.error('atob(btoa(innerHTML[1])) !== innerHTML[1]');
+          }
+        }
       }
-      */
-      html = html.replace('<innerHTML>', innerHTML[1].replace(/\\[$]/g, '$'));
+      html = html.replace('<innerHTML>', `<!-- start of innerHTML -->${innerHTML[1].replace(/\\[$]/g, '$')}<!-- end of innerHTML -->`);
     }
     else {
       html = html.replace('<innerHTML>', '');
@@ -577,6 +579,22 @@ var dropDummyHTML = gulpif('**/*.html', through.obj(function (file, enc, callbac
           _code = _code.substring(_code.indexOf('<!-- end of dom-module id='));
         }
       }
+      if ((index = code.indexOf('<!-- start of innerHTML -->')) >= 0) {
+        _code = code.substring(index + '<!-- start of innerHTML -->'.length);
+        index = _code.indexOf('<!-- end of innerHTML -->');
+        if (index >= 0) {
+          let original = atob(match1[1]);
+          let preprocessed = _code.substring(0, index);
+          match = preprocessed.match(/<template id="(.*)" basepath="(.*)" localizable-text="embedded">/);
+          if (match) {
+            name = match[1];
+            preprocessedTemplates[name] = {
+              original: original,
+              preprocessed: preprocessed,
+            };
+          }
+        }
+      }
     }
     console.log('dropDummyHTML dropping ', file.path);
     callback(null, null);
@@ -596,14 +614,24 @@ var preprocessJs = gulpif(['**/*.js'], through.obj(function (file, enc, callback
   }
   else if (preprocessedTemplates[nameFromPath] && !preprocessedTemplates[nameFromPath].original.startsWith('${')) {
     // Polymer 3.0 HTML template
-    if (code.indexOf('html`' + preprocessedTemplates[nameFromPath].original + '`') < 0) {
+    let match;
+    if (code.indexOf('html`' + preprocessedTemplates[nameFromPath].original + '`') >= 0) {
+      preprocessedTemplates[nameFromPath].preprocessed = preprocessedTemplates[nameFromPath].preprocessed.replace(/\\n/g, '\\\\n').replace(/\\"/g, '\\\\"');
+      code = code.replace(
+        'html`' + preprocessedTemplates[nameFromPath].original + '`',
+        '((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`' + preprocessedTemplates[nameFromPath].preprocessed + '`)');
+      file.contents = Buffer.from(code);
+    }
+    else if ((match = code.match(/[.]innerHTML([ ]*)=([ ]*)`/)) && code.indexOf('innerHTML' + match[1] + '=' + match[2] + '`' + preprocessedTemplates[nameFromPath].original + '`') >= 0) {
+      preprocessedTemplates[nameFromPath].preprocessed = preprocessedTemplates[nameFromPath].preprocessed.replace(/\\n/g, '\\\\n').replace(/\\"/g, '\\\\"');
+      code = code.replace(
+        'innerHTML' + match[1] + '=' + match[2] + '`' + preprocessedTemplates[nameFromPath].original + '`',
+        'innerHTML' + match[1] + '=' + match[2] + '`' + preprocessedTemplates[nameFromPath].preprocessed + '`');
+      file.contents = Buffer.from(code);
+    }
+    else {
       console.error('preprocessJs name = ' + nameFromPath + ' template not found');
     }
-    preprocessedTemplates[nameFromPath].preprocessed = preprocessedTemplates[nameFromPath].preprocessed.replace(/\\n/g, '\\\\n').replace(/\\"/g, '\\\\"');
-    code = code.replace(
-      'html`' + preprocessedTemplates[nameFromPath].original + '`',
-      '((t) => { t.setAttribute("localizable-text", "embedded"); return t; })(html`' + preprocessedTemplates[nameFromPath].preprocessed + '`)');
-    file.contents = Buffer.from(code);
     console.log('preprocessJs name = ' + nameFromPath);
   }
   callback(null, file);
