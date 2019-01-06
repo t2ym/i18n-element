@@ -4,15 +4,21 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import './test-runner.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
-addEventListener('load', function (event) {
+let intervalId = setInterval(function () {
 var bind = document.querySelector('#simple-attribute-dom-bind');
+if (bind) {
+  clearInterval(intervalId);
+}
+else {
+  return;
+}
 
 bind.addEventListener('dom-change', function onDomChangeForBind (event) {
   if (!bind.done && event.target === bind) {
     bind._langUpdated = function (e) {
       if (e.composedPath()[0] === this) {
-        //console.log('bind._langUpdated: ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang + ' params.lang = ' + (this.params ? this.params.lang : ''));
-        //console.log('bind._langUpdated: deepcopying model for lang ' + this.lang);
+        console.log('bind._langUpdated: ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang + ' params.lang = ' + (this.params ? this.params.lang : ''));
+        console.log('bind._langUpdated: deepcopying model for lang ' + this.lang);
         this.model = deepcopy(this.text.model);
         this.notifyPath('model', this.model);
         this.render();
@@ -20,9 +26,9 @@ bind.addEventListener('dom-change', function onDomChangeForBind (event) {
     }.bind(bind);
 
     bind._onDomChangeAfterLangUpdated = function (e) {
-      //console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang + ' params.lang = ' + (this.params ? this.params.lang : ''));
+      console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' ' + this.lang + ' params.lang = ' + (this.params ? this.params.lang : ''));
       if (this.params && this.params.lang === this.lang) {
-        //console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' firing local-dom-ready');
+        console.log('bind._onDomChangeAfterLangUpdated ' + this.is + ' ' + this.id + ' ' + e.type + ' firing local-dom-ready');
         this.fire('local-dom-ready');
       }
       e.stopPropagation();
@@ -36,7 +42,7 @@ bind.addEventListener('dom-change', function onDomChangeForBind (event) {
     bind.done = true;
   }
 });
-});
+}, 10);
 
 suite('I18nElement with ' + 
   (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM') +
@@ -1288,5 +1294,6 @@ suite('I18nElement with ' +
     })
   ];
 
-  suitesRunner(suites);
+  window.dispatchEvent(new CustomEvent('suites-loaded'));
+  suitesRunner(suites, 100);
 });

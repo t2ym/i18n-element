@@ -19,6 +19,11 @@
       "disabled": false,
       "browsers": [
         {
+          "browserName":  "microsoftedge",
+          "platform":     "Windows 10",
+          "version":      "17"
+        },
+        {
           "browserName":  "safari",
           "platform":     "OS X 10.13",
           "version":      "12"
