@@ -23,5 +23,5 @@ addons:
 script:
   - gulp patch-wct-browser-legacy # cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
   - wct --npm --module-resolution=node --skip-plugin=sauce
-  - wct --npm --module-resolution=node --skip-plugin=istanbul
+  - wct --npm --module-resolution=node --skip-plugin=istanbul --skip-plugin=local
   - 'if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger ''test/coverage-report*/lcov.info'' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi'
