@@ -35,7 +35,7 @@ suite('I18nElement with ' +
       text: { model: {} },
       model: {},
       localDOM: [
-        (function F(){}).name && !navigatorLanguage.match(/Version[/].* Safari[/]/) ? { select: 'span#oldLang', 'lang.raw': navigatorLanguage } : { select: 'span#oldLang' }
+        (function F(){}).name && !navigator.userAgent.match(/Version[/].* Safari[/]/) ? { select: 'span#oldLang', 'lang.raw': navigatorLanguage } : { select: 'span#oldLang' }
       ],
       lightDOM: undefined
     })
