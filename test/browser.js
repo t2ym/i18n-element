@@ -737,6 +737,7 @@ var CLISocket = /** @class */ (function () {
      */
     CLISocket.prototype.observe = function (runner) {
         var _this = this;
+        this.writable = true;
         this.emitEvent('browser-start', {
             url: window.location.toString(),
         });
