@@ -20,10 +20,13 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "3.0.0-pre.13",
+  "version": "3.0.0-pre.14",
   "main": "i18n-element.js",
   "directories": {
     "test": "test"
+  },
+  "nyc": {
+    "exclude": ["!**/node_modules/**"]
   },
   "scripts": {
     "test": "gulp test:local"
