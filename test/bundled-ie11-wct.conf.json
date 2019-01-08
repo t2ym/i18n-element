@@ -1,0 +1,44 @@
+{
+  "plugins": {
+    "local": {
+      "disabled": true,
+      "browsers": [
+        "chrome",
+        "firefox"
+      ],
+      "browserOptions": {
+        "chrome": [
+          "headless",
+          "disable-gpu"
+        ],
+        "firefox": [
+          "--headless"
+        ]
+      }
+    },
+    "sauce": {
+      "disabled": false,
+      "browsers": [
+        {
+          "browserName":  "internet explorer",
+          "platform":     "Windows 8.1",
+          "version":      "11"
+        }
+      ]
+    },
+    "istanbul": {
+      "dir": "test/coverage-report",
+      "reporters": ["text-summary", "lcov"],
+      "include": [
+        "**/i18n-element.js",
+        "**/i18n-dom-bind.js",
+        "**/define-element.js"
+      ],
+      "exclude": [
+        "/node_modules/**/*",
+        "/test/**/*"
+      ]
+    }
+  }
+}
+

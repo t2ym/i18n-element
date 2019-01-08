@@ -1,0 +1,35 @@
+{
+  "entrypoint": "test/bundled/test-name-test.html",
+  "shell": "test/bundled/test-name-test-imports.js",
+  "fragments": [
+  ],
+  "sources": [
+    "test/bundled/test-name-test.html",
+    "test/bundled/test-name-test-imports.js"
+  ],
+  "extraDependencies": [
+  ],
+  "builds": [
+    {
+      "name": "esm-bundled",
+      "browserCapabilities": [
+        "es2015",
+        "modules"
+      ],
+      "js": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "bundle": true,
+      "addServiceWorker": false
+    }
+  ],
+  "npm": true,
+  "componentDir": "node_modules/",
+  "moduleResolution": "node"
+}
