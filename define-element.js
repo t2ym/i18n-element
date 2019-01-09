@@ -49,21 +49,23 @@ if (!window.Define) {
       var previous; // previousSibling template
       var cousin; // dom5.serialize output support
 
-      current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                      : (document._currentScript || document.currentScript);
-      if (!current) {
-        let url = '';//import.meta.url;
+      current = null; // (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript // document.currentScript is always null in ES modules
+                     //                 : (document._currentScript || document.currentScript);
+      // if (!current) { // document.currentScript is always null in ES modules
+        // let url = '';//import.meta.url;
         let scripts = document.querySelectorAll('script[type=module]');
+        /*
         scripts.forEach(script => {
           let src = new URL(script.src, location.href);
           if (url === src) {
             current = script;
           }
         });
-        if (!current) {
+        */
+        // if (!current) {
           current = scripts[0];
-        }
-      }
+        //}
+      // } // document.currentScript is always null in ES modules
       var _tmpNode = current;
       var ownerDocument = current ? current.ownerDocument : document;
       var baseURI = ownerDocument.baseURI;

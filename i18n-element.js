@@ -47,11 +47,12 @@ Mixins.Localizable = function (base) {
       // TODO: template fetching should be flexible to detect super.template
       let template = DomModule.import(id, 'template');
       if (id && !template) {
-        let current = (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript
-                                            : document._currentScript || document.currentScript;
-        let _tmpNode = current;
-        let ownerDocument = current ? current.ownerDocument : document;
+        let current = null; // (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript // document.currentScript is always null in ES modules
+                            //                : document._currentScript || document.currentScript;
+        // let _tmpNode = current; // unused variable
+        let ownerDocument = /* current ? current.ownerDocument : */ document; // document.currentScript is always null in ES modules
         let baseURI = ownerDocument.baseURI;
+        /* document.currentScript is always null in ES modules
         if (current && current.ownerDocument && current.ownerDocument.nodeType === current.ownerDocument.DOCUMENT_NODE) {
           while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
             _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
@@ -69,6 +70,7 @@ Mixins.Localizable = function (base) {
             baseURI = ownerDocument.href; // link node
           }
         }
+        */
         template = ownerDocument.querySelector('template[id=' + id + ']') ||
                    document.querySelector('template[id=' + id + ']');
         if (!template && id !== 'i18n-dom-bind') {
