@@ -1,3 +1,7 @@
+/**
+@license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
+Copyright (c) 2019, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+*/
 'use strict';
 
 const gulp = require('gulp');
@@ -20,6 +24,7 @@ const size = require('gulp-size');
 const merge = require('gulp-merge');
 const through = require('through2');
 const path = require('path');
+const fs = require('fs');
 const stripBom = require('strip-bom');
 const JSONstringify = require('json-stringify-safe');
 const i18nPreprocess = require('gulp-i18n-preprocess');
@@ -761,16 +766,81 @@ var config = {
 // Gulp task to add locales to I18N-ready elements and pages
 // Usage: gulp locales --targets="{space separated list of target locales}"
 gulp.task('locales', function() {
-  var elements = gulp.src([ path.join(srcDir, '*.html') ], { base: srcDir });
-    //.pipe(grepContents(/(i18n-behavior.html|i18n-element.html)/));
-    //.pipe(grepContents(/<dom-module /));
+  return gulp.src([ path.join(srcDir, '**', '*.html'), path.join(srcDir, '**', '*.js') ], { base: srcDir })
+    .pipe(gulpif([ '**/*.js' ], through.obj(function (file, enc, callback) {
+      if (file.isNull()) {
+        return callback(null, file);
+      }
+      if (!file.isBuffer()) {
+        return callback(null, file);
+      }
 
-  var pages = gulp.src([ path.join(srcDir, 'index.html') ], { base: srcDir })
-    .pipe(grepContents(/<i18n-dom-bind /));
+      const localesFolder = 'locales';
+      const locales = config.locales;
+      let stream = this;
+      let dirname = path.dirname(file.path);
+      let basenames = [];
+      let cwd = file.cwd;
+      let base = file.base;
+      let firstFile = true;
 
-  return merge(elements, pages)
-    .pipe(i18nAddLocales(config.locales))
-    .pipe(gulp.dest('tmp'))
+      let contents = String(file.contents);
+      let templates = extractHtmlTemplates(contents);
+      let targetDir = path.join(path.dirname(file.path), localesFolder);
+
+      for (let name in templates) {
+        console.log(file.path, name);
+        if (name === 'anonymous') {
+          if (extractAnonymousTemplates && templates.anonymous.length > 0 && (contents.indexOf('/i18n-element.js') >= 0 || contents.indexOf('/i18n-behavior.js') >= 0)) {
+            // Polymer 3.0: Assuming base name === element name
+            basenames.push(path.basename(file.path, '.js'));
+          }
+        }
+        else {
+          basenames.push(name);
+        }
+      }
+      for (let basename of basenames) {
+        try {
+          fs.mkdirSync(targetDir);
+        }
+        catch (e) {}
+        for (let locale of locales) {
+          let target = path.join(targetDir, basename + '.' + locale + '.json');
+          let stats;
+          try {
+            stats = undefined;
+            stats = fs.statSync(target);
+          }
+          catch (e) {}
+          if (stats) {
+            //console.log('addLocales: existing ' + target);
+          }
+          else {
+            // create an empty placeholder file
+            if (firstFile) {
+              firstFile = false;
+              file.path = target;
+              file.contents = new Buffer('{}');
+            }
+            else {
+              stream.push(new gutil.File({
+                cwd: cwd,
+                base: base,
+                path: target,
+                contents: new Buffer('{}')
+              }));
+            }
+            //console.log('addLocales: creating ' + target);
+          }
+        }
+      }
+
+      callback(null, firstFile ? null : file);
+    })))
+    .pipe(gulpif([ '**/*.html' ], grepContents(/<i18n-dom-bind/)))
+    .pipe(gulpif([ '**/*.html' ], i18nAddLocales(config.locales)))
+    .pipe(gulp.dest(srcDir))
     .pipe(debug({ title: 'Add locales:'}))
 });
 
@@ -799,7 +869,7 @@ gulp.task('i18n', () => {
 });
 
 gulp.task('i18n-attr-repo.html', function () {
-  return gulp.src([ '../node_modules/i18n-behavior/i18n-attr-repo.js' ])
+  return gulp.src([ require.resolve('i18n-behavior/i18n-attr-repo.js') ])
     .pipe(through.obj(function (file, enc, callback) {
       let htmlTemplate = `<!-- temporary HTML --><link rel="import" href="../../../i18n-element.html"><innerHTML><dom-module>`;
       let code = stripBom(String(file.contents));
