@@ -20,13 +20,15 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "3.0.0-pre.14-lit-html.8.6",
+  "version": "3.0.0-pre.16-lit-html.8.6",
   "main": "i18n-element.js",
   "directories": {
     "test": "test"
   },
   "nyc": {
-    "exclude": ["!**/node_modules/**"]
+    "exclude": [
+      "!**/node_modules/**"
+    ]
   },
   "scripts": {
     "test": "gulp test:local"
@@ -80,7 +82,7 @@
     "through2": "^2.0.1",
     "wct-browser-legacy": "^1.0.1",
     "wct-istanbul": "^0.14.0",
-    "web-component-tester": "6.9.2",
+    "web-component-tester": "^6.9.2",
     "xliff-conv": "^1.0.10"
   },
   "resolutions": {
@@ -91,7 +93,7 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "i18n-behavior": "^3.0.0-pre.16",
+    "i18n-behavior": "^3.0.0-pre.17",
     "lit-html": "^1.0.0-rc.1"
   }
 }
