@@ -868,7 +868,7 @@ gulp.task('i18n', () => {
 });
 
 gulp.task('i18n-attr-repo.html', function () {
-  return gulp.src([ '../node_modules/i18n-behavior/i18n-attr-repo.js' ])
+  return gulp.src([ require.resolve('i18n-behavior/i18n-attr-repo.js') ])
     .pipe(through.obj(function (file, enc, callback) {
       let htmlTemplate = `<!-- temporary HTML --><link rel="import" href="../../../i18n-element.html"><innerHTML><dom-module>`;
       let code = stripBom(String(file.contents));
