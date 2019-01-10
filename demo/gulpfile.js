@@ -766,8 +766,8 @@ var config = {
 // Gulp task to add locales to I18N-ready elements and pages
 // Usage: gulp locales --targets="{space separated list of target locales}"
 gulp.task('locales', function() {
-  return gulp.src([ path.join(srcDir, '**', '*.js') ], { base: srcDir })
-    .pipe(through.obj(function (file, enc, callback) {
+  return gulp.src([ path.join(srcDir, '**', '*.html'), path.join(srcDir, '**', '*.js') ], { base: srcDir })
+    .pipe(gulpif([ '**/*.js' ], through.obj(function (file, enc, callback) {
       if (file.isNull()) {
         return callback(null, file);
       }
@@ -837,8 +837,9 @@ gulp.task('locales', function() {
       }
 
       callback(null, firstFile ? null : file);
-    }))
-    //.pipe(i18nAddLocales(config.locales))
+    })))
+    .pipe(gulpif([ '**/*.html' ], grepContents(/<i18n-dom-bind/)))
+    .pipe(gulpif([ '**/*.html' ], i18nAddLocales(config.locales)))
     .pipe(gulp.dest(srcDir))
     .pipe(debug({ title: 'Add locales:'}))
 });
