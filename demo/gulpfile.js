@@ -791,7 +791,7 @@ gulp.task('locales', function() {
       for (let name in templates) {
         console.log(file.path, name);
         if (name === 'anonymous') {
-          if (templates.anonymous.length > 0) {
+          if (extractAnonymousTemplates && templates.anonymous.length > 0 && (contents.indexOf('/i18n-element.js') >= 0 || contents.indexOf('/i18n-behavior.js') >= 0)) {
             // Polymer 3.0: Assuming base name === element name
             basenames.push(path.basename(file.path, '.js'));
           }
