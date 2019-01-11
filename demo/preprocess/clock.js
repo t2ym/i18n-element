@@ -242,15 +242,35 @@ class WorldClockContainer extends i18n(HTMLElement) {
       '<!-- localizable -->',
       '\n      <style>\n        :host {\n          display: block;\n          width: 100%;\n        }\n        world-clock {\n          display: flow;\n          max-width: 300px;\n        }\n      </style>\n      <div>',
       '</div>\n      ',
-      '\n    '
+      '\n      <i18n-format id="compound-format-text" class="text" lang="',
+      '">\n        <json-data>',
+      '</json-data>\n        <i18n-number offset="1" slot="1" lang="',
+      '">',
+      '</i18n-number>\n        <span slot="2">',
+      '</span>\n      </i18n-format>\n    '
     ], ...bind(this, (_bind, text, model, effectiveLang) => [
       _bind,
       text['div_1'],
-      repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item }></world-clock>`)
+      repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item }></world-clock>`),
+      effectiveLang,
+      JSON.stringify(text['compound-format-text']['0']),
+      effectiveLang,
+      this.timezones.length,
+      'GMT' + (this.timezones[0] < 0 ? '' : '+') + this.timezones[0] / 60
     ], {
       'meta': {},
       'model': {},
-      'div_1': 'World Clocks'
+      'div_1': 'World Clocks',
+      'compound-format-text': [
+        {
+          '0': 'No timezones',
+          '1': 'Only 1 timezone for {2} is shown.',
+          'one': '{1} timezone other than {2} is shown.',
+          'other': '{1} timezones other than {2} are shown.'
+        },
+        '{{parts.1 - 1}}',
+        '{{parts.2}}'
+      ]
     }));
   }
   invalidate() {

@@ -255,7 +255,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({mode: 'open'});
-    this.timezones = [ 0, -new Date().getTimezoneOffset() ];
+    this.timezones = [ 0, -new Date().getTimezoneOffset() /*, +new Date().getTimezoneOffset() */];
     let _langUpdatedBindThis = this._langUpdated.bind(this);
     this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
   }
@@ -288,6 +288,16 @@ class WorldClockContainer extends i18n(HTMLElement) {
                (item) => item,
                (item, index) => 
                  /* no I18N for this template itself */html`<world-clock .timezone=${item}></world-clock>`)}
+      <i18n-format id="compound-format-text" class="text">
+        <json-data>{
+          "0": "No timezones",
+          "1": "Only 1 timezone for {2} is shown.",
+          "one": "{1} timezone other than {2} is shown.",
+          "other": "{1} timezones other than {2} are shown."
+        }</json-data>
+        <i18n-number offset="1">${this.timezones.length}</i18n-number>
+        <span>${'GMT' + (this.timezones[0] < 0 ? '' : '+') + (this.timezones[0] / 60)}</span>
+      </i18n-format>
     `;
   }
 

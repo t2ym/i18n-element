@@ -1,7 +1,38 @@
 {
   "meta": {
-    "todo": []
+    "todo": [
+      {
+        "op": "replace",
+        "path": "/compound-format-text/0/0",
+        "value": "No timezones"
+      },
+      {
+        "op": "replace",
+        "path": "/compound-format-text/0/one",
+        "value": "{1} timezone other than {2} is shown."
+      },
+      {
+        "op": "replace",
+        "path": "/compound-format-text/0/other",
+        "value": "{1} timezones other than {2} are shown."
+      },
+      {
+        "op": "replace",
+        "path": "/compound-format-text/0/1",
+        "value": "Only 1 timezone for {2} is shown."
+      }
+    ]
   },
   "model": {},
-  "div_1": "ja 世界時計"
+  "div_1": "ja 世界時計",
+  "compound-format-text": [
+    {
+      "0": "どのタイムゾーンも表示されていません。",
+      "1": "タイムゾーン{2}が1つだけ表示されています。",
+      "one": "{2}以外に、{1}つのタイムゾーンが表示されています。",
+      "other": "{2}以外に、{1}つのタイムゾーンが表示されています。"
+    },
+    "{{parts.1 - 1}}",
+    "{{parts.2}}"
+  ]
 }

@@ -399,8 +399,8 @@ export const html = (strings, ...parts) => {
     let part = preprocessedHtml.substring(0, index + 2);
     preprocessedHtml = preprocessedHtml.substring(index + 2);
     let partMatch = part.match(/^{{parts[.]([0-9]*)(:[a-z]*)?}}$/);
-    if (partMatch && partMatch[2]) {
-      switch (partMatch[2]) {
+    if (partMatch && partMatch[3]) {
+      switch (partMatch[3]) {
       case ':property':
         preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '.$1=$2');
         break;
@@ -422,7 +422,13 @@ export const html = (strings, ...parts) => {
       partIndex++;
     }
     else {
-      let partPath = part.substring(2, part.length - 2).split(/[.]/);
+      let isJSON = false;
+      part = part.substring(2, part.length - 2);
+      if (part.indexOf('serialize(') === 0) {
+        isJSON = true;
+        part = part.substring(10, part.length - 1); // serialize(text...)
+      }
+      let partPath = part.split(/[.]/);
       let value = text;
       let tmpPart = partPath.shift();
       if (tmpPart === 'model') {
@@ -433,6 +439,9 @@ export const html = (strings, ...parts) => {
       }
       while (tmpPart = partPath.shift()) {
         value = value[tmpPart];
+      }
+      if (isJSON) {
+        value = JSON.stringify(value, null, 2);
       }
       //console.log('html: part ' + part + ' = ' + value);
 

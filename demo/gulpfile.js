@@ -272,7 +272,13 @@ function traverseAst(ast, templates) {
                 parts.push(ast.quasi.expressions[parseInt(partMatch[1]) + offset]);
               }
               else {
-                let partPath = part.substring(2, part.length - 2).split(/[.]/);
+                let isJSON = false;
+                part = part.substring(2, part.length - 2);
+                if (part.indexOf('serialize(') === 0) {
+                  isJSON = true;
+                  part = part.substring(10, part.length - 1); // serialize(text...)
+                }
+                let partPath = part.split(/[.]/);
                 let valueExpression = 'text';
                 let tmpPart = partPath.shift();
                 if (tmpPart === 'model') {
@@ -283,6 +289,9 @@ function traverseAst(ast, templates) {
                 }
                 while (tmpPart = partPath.shift()) {
                   valueExpression += `["${tmpPart}"]`;
+                }
+                if (isJSON) {
+                  valueExpression = `JSON.stringify(${valueExpression})`;
                 }
                 //console.log('html: part ' + part + ' = ' + valueExpression);
                 let valueExpressionAst = espree.parse(valueExpression, espreeModuleOptions).body[0].expression;

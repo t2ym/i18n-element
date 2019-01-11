@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file xml:space="default" source-language="en" target-language="ja" datatype="plaintext" original="messages" date="2019-01-05T05:39:40Z" product-name="messages">
+  <file xml:space="default" source-language="en" target-language="ja" datatype="plaintext" original="messages" date="2019-01-11T10:51:03Z" product-name="messages">
     <header>
       <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.11"/>
     </header>
@@ -29,6 +29,30 @@
       <trans-unit id="world-clock-container.div_1" approved="yes">
         <source>World Clocks</source>
         <target state="translated">ja 世界時計</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.0">
+        <source>No timezones</source>
+        <target state="needs-translation">どのタイムゾーンも表示されていません。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.1">
+        <source>Only 1 timezone for {2} is shown.</source>
+        <target state="needs-translation">タイムゾーン{2}が1つだけ表示されています。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.one">
+        <source>{1} timezone other than {2} is shown.</source>
+        <target state="needs-translation">{2}以外に、{1}つのタイムゾーンが表示されています。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.other">
+        <source>{1} timezones other than {2} are shown.</source>
+        <target state="needs-translation">{2}以外に、{1}つのタイムゾーンが表示されています。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.1" approved="yes">
+        <source>{{parts.1 - 1}}</source>
+        <target state="translated">{{parts.1 - 1}}</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.2" approved="yes">
+        <source>{{parts.2}}</source>
+        <target state="translated">{{parts.2}}</target>
       </trans-unit>
       <trans-unit id="world-clock.div_1.0" approved="yes">
         <source> Timezone: GMT{1}

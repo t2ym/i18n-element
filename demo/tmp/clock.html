@@ -1,8 +1,8 @@
-<!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"></head><body><i18n-attr-repo>
+<!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"><!-- start of innerHTML --></head><body><i18n-attr-repo>
   <template id="custom">
     <div i18n-target-attr="$">
   </div></template>
-</i18n-attr-repo><dom-module id="lit-clock"><template localizable-text="embedded">
+</i18n-attr-repo><!-- end of innerHTML --><dom-module id="lit-clock"><template localizable-text="embedded">
       <style>
         :host {
           display: block;
@@ -135,12 +135,27 @@
       </style>
       <div>{{text.div_1}}</div>
       {{parts.0}}
+      <i18n-format id="compound-format-text" class="text" lang="{{effectiveLang}}">
+        <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
+        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{parts.1}}</i18n-number>
+        <span slot="2">{{parts.2}}</span>
+      </i18n-format>
     <template id="localizable-text">
 <json-data>
 {
   "meta": {},
   "model": {},
-  "div_1": "World Clocks"
+  "div_1": "World Clocks",
+  "compound-format-text": [
+    {
+      "0": "No timezones",
+      "1": "Only 1 timezone for {2} is shown.",
+      "one": "{1} timezone other than {2} is shown.",
+      "other": "{1} timezones other than {2} are shown."
+    },
+    "{{parts.1 - 1}}",
+    "{{parts.2}}"
+  ]
 }
 </json-data>
 </template>
