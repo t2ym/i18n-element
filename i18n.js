@@ -399,8 +399,8 @@ export const html = (strings, ...parts) => {
     let part = preprocessedHtml.substring(0, index + 2);
     preprocessedHtml = preprocessedHtml.substring(index + 2);
     let partMatch = part.match(/^{{parts[.]([0-9]*)(:[a-z]*)?}}$/);
-    if (partMatch && partMatch[3]) {
-      switch (partMatch[3]) {
+    if (partMatch && partMatch[2]) {
+      switch (partMatch[2]) {
       case ':property':
         preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '.$1=$2');
         break;
