@@ -31,7 +31,7 @@
     ]
   },
   "scripts": {
-    "test": "gulp test:local"
+    "demo": "cd demo; gulp"
   },
   "author": "Tetsuya Mori <t2y3141592@gmail.com>",
   "license": "BSD-2-Clause",

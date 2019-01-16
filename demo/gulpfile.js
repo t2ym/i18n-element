@@ -465,7 +465,7 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
           if (atob(original) !== template) {
             console.error('atob(btoa(template)) !== template');
           }
-          html += `<dom-module id="${nameFromPath}"><template>${template.replace(/\\[$]/g, '$')}</template></dom-module><!-- end of dom-module id="${nameFromPath}" -->\n`;
+          html += `<dom-module id="${nameFromPath}"><template>${template.replace(/\\[$]/g, '$')}</template></dom-module><!-- end of polymer3 dom-module id="${nameFromPath}" -->\n`;
           names.push(nameFromPath);
         }
       }
@@ -566,12 +566,17 @@ var dropDummyHTML = gulpif('**/*.html', through.obj(function (file, enc, callbac
   let code = stripBom(String(file.contents));
   if (code.indexOf(temporaryHTML) >= 0 || file.path.match(/\/index[.]html$/)) {
     let match1 = code.match(/<encoded-original>(.*)<[/]encoded-original>/);
-    let match2 = code.match(/<dom-module id="(.*)"><template localizable-text="embedded">([^`]*)<[/]template><[/]dom-module><!-- end of dom-module id="(.*)" -->/);
-    if (match1 && match2) {
+    let _match2 = code.match(/<dom-module id="(.*)"><template localizable-text="embedded">/);
+    let match2;
+    if (_match2) {
+      match2 = code.match(new RegExp(
+        '<dom-module id="(' + _match2[1] + ')"><template localizable-text="embedded">([^`]*)<[/]template><[/]dom-module><!-- end of polymer3 dom-module id="(' + _match2[1] + ')" -->'));
+    }
+    if (match1 && match2 && match2[1] === match2[3]) {
       let name = match2[1];
       let original = atob(match1[1]);
       let preprocessed = match2[2];
-      console.log('setting preprocessedTemplates name = ' + name);
+      console.log('setting preprocessedTemplates name = ' + name + ' (Polymer 3.x)');
       preprocessedTemplates[name] = {
         original: original,
         preprocessed: preprocessed,
@@ -597,7 +602,12 @@ var dropDummyHTML = gulpif('**/*.html', through.obj(function (file, enc, callbac
             };
             console.log('setting preprocessedTemplates name = ' + name/* + ' preprocessed = ' + preprocessed*/);
           }
-          _code = _code.substring(_code.indexOf('<!-- end of dom-module id='));
+          if ((index = _code.indexOf('<!-- end of dom-module id=')) >= 0) {
+            _code = _code.substring(index);
+          }
+          else {
+            break;
+          }
         }
       }
       if ((index = code.indexOf('<!-- start of innerHTML -->')) >= 0) {
@@ -656,7 +666,7 @@ var preprocessJs = gulpif(['**/*.js'], through.obj(function (file, enc, callback
     else {
       console.error('preprocessJs name = ' + nameFromPath + ' template not found');
     }
-    console.log('preprocessJs name = ' + nameFromPath);
+    console.log('preprocessJs: preprocessing HTML template for ' + nameFromPath + ' (Polymer 3.x)');
   }
   callback(null, file);
 }));
