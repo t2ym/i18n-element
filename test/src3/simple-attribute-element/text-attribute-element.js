@@ -57,7 +57,7 @@ $_documentContainer.innerHTML = `<i18n-attr-repo>
     <text-attribute-element i18n-target7="invalid!attr=aaa,typeX"></text-attribute-element>
   </template>
 </i18n-attr-repo>
-<template id="text-attribute-element">
+<template id="text-attribute-element" text-attr="custom-text-attr1 custom-text-attr3">
   <span id="attr1">{{customTextAttr1}}</span>
   <span id="attr2">{{customTextAttr2}}</span>
   <span id="attr3">{{customTextAttr3}}</span>
