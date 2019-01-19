@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "3.0.0-pre.20-lit-html.10",
+  "version": "3.0.0-pre.21-lit-html.10",
   "main": "i18n-element.js",
   "directories": {
     "test": "test"
@@ -93,7 +93,7 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "i18n-behavior": "^3.0.0-pre.19",
+    "i18n-behavior": "^3.0.0-pre.20",
     "lit-html": "^1.0.0-rc.2"
   }
 }
