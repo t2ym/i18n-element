@@ -81,10 +81,6 @@ if (!window.Define) {
           ownerDocument = _tmpNode;
           baseURI = ownerDocument.baseURI;
         }
-        else if (_tmpNode && _tmpNode.import === _tmpNode) {
-          ownerDocument = _tmpNode;
-          baseURI = ownerDocument.href; // link node
-        }
       }
 
       previous = current && current.previousSibling;
