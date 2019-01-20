@@ -1296,4 +1296,22 @@ suite('I18nElement with ' +
 
   window.dispatchEvent(new CustomEvent('suites-loaded'));
   suitesRunner(suites, 100);
+
+  suite('i18n-dom-bind extra test', function () {
+    test('disconnect', function (done) {
+      let parents = [];
+      Array.prototype.forEach.call(document.querySelectorAll('i18n-dom-bind'), function (el) {
+        let parent = el.parentElement;
+        parents.push(parent);
+        parent.removeChild(el);
+      });
+      setTimeout(() => {
+        parents.forEach(function (parent) {
+          assert.isOk(parent.innerHTML.match(/\s*/), 'parent of i18n-dom-bind becomes empty on disconnection');
+        });
+        done();
+      }, 100);
+    });
+  });
+
 });
