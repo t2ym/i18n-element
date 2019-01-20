@@ -43,4 +43,23 @@ suite('I18nElement with ' +
 
   suitesRunner(suites);
 
+  if (location.href.indexOf('syntax=thin') >= 0) {
+    suite('thin syntax extra test', function () {
+      test('Define non-I18N custom elements', function (done) {
+        var domModule = document.createElement('dom-module').constructor;
+        ['is-less-class', 'is-class', 'inner-template', 'empty-template', 'inner-is'].forEach(function (id) {
+          assert.isOk(customElements.get(id), 'custom element with name ' + id + ' is defined');
+        });
+        done();
+      });
+      test('Define non-I18N dom-modules', function (done) {
+        var domModule = document.createElement('dom-module').constructor;
+        ['is-less-class', 'is-class', 'inner-template', 'empty-template', 'inner-is'].forEach(function (id) {
+          assert.isOk(domModule.import(id), 'dom-module for ' + id + ' is defined');
+        });
+        done();
+      });
+    });
+  }
+
 });

@@ -12,6 +12,64 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <!-- <script src="../../../custom-elements/src/native-shim.js"></script> -->
     <script src="../../../wct-browser-legacy/browser.js"></script>
     <script type="module" src="./preference-test-imports.js"></script>
+    <template id="is-less-class"><span>abc</span></template>
+    <template id="is-class"><span>abc</span></template>
+    <script type="module">
+      import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+      import '../../define-element.js';
+      Define = class IsLessClass extends HTMLElement {
+        static get importMeta() {
+          return import.meta;
+        }
+      };
+      Define = class IsLessClass extends HTMLElement { // duplicate
+        static get importMeta() {
+          return import.meta;
+        }
+      };
+      Define = class extends HTMLElement {
+        static get importMeta() {
+          return import.meta;
+        }
+        static get is() {
+          return 'is-class';
+        }
+      };
+      Define = class InnerTemplate extends HTMLElement {
+        static get importMeta() {
+          return import.meta;
+        }
+        static get template() {
+          return html`<span>inner text</span>`;
+        }
+      };
+      Define = class EmptyTemplate extends HTMLElement {
+        static get importMeta() {
+          return import.meta;
+        }
+      };
+      Define = class extends HTMLElement {
+        static get importMeta() {
+          return import.meta;
+        }
+        static get is() {
+          return 'inner-is';
+        }
+        static get template() {
+          return html`<span>inner text</span>`;
+        }
+      };
+      try {
+        Define = class extends HTMLElement {
+          static get importMeta() {
+            return import.meta;
+          }
+        };
+      }
+      catch (e) {
+        console.log(e);
+      }
+    </script>
     <style>
     .test-container.running-test {
       display: block;
