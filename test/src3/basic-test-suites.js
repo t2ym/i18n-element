@@ -1314,4 +1314,12 @@ suite('I18nElement with ' +
     });
   });
 
+  if (location.href.indexOf('syntax=thin') >= 0) {
+    suite('thin syntax extra test', function () {
+      test('Define(id)', function (done) {
+        assert.isOk(Define('simple-text-element') === customElements.get('simple-text-element'), 'Define(id) is customElements.get(id)');
+        done();
+      });
+    });
+  }
 });
