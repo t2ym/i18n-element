@@ -51,7 +51,7 @@ Mixins.Localizable = function (base) {
                             //                : document._currentScript || document.currentScript;
         // let _tmpNode = current; // unused variable
         let ownerDocument = /* current ? current.ownerDocument : */ document; // document.currentScript is always null in ES modules
-        let baseURI = ownerDocument.baseURI;
+        let baseURI = this.importMeta ? this.importMeta.url : ownerDocument.baseURI;
         /* document.currentScript is always null in ES modules
         if (current && current.ownerDocument && current.ownerDocument.nodeType === current.ownerDocument.DOCUMENT_NODE) {
           while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
