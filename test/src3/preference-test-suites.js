@@ -43,4 +43,54 @@ suite('I18nElement with ' +
 
   suitesRunner(suites);
 
+  if (location.href.indexOf('syntax=thin') >= 0) {
+    suite('thin syntax extra test', function () {
+      test('Define non-I18N custom elements', function (done) {
+        var domModule = document.createElement('dom-module').constructor;
+        ['is-less-class', 'is-class', 'inner-template', 'empty-template', 'inner-is', 'vanilla-element'].forEach(function (id) {
+          assert.isOk(customElements.get(id), 'custom element with name ' + id + ' is defined');
+        });
+        done();
+      });
+      test('Define non-I18N dom-modules', function (done) {
+        var domModule = document.createElement('dom-module').constructor;
+        ['is-less-class', 'is-class', 'inner-template', 'empty-template', 'inner-is', '!vanilla-element'].forEach(function (id) {
+          if (id[0] === '!') {
+            assert.isNotOk(domModule.import(id.substring(1)), 'dom-module for ' + id.substring(1) + ' is not defined');
+          }
+          else {
+            assert.isOk(domModule.import(id), 'dom-module for ' + id + ' is defined');
+          }
+        });
+        done();
+      });
+      test('Elements have text contents in Shadow DOM', function (done) {
+        var fixture = document.querySelector('div#thin-element-fixture');
+        fixture.classList.add('running-test');
+        [
+          ['is-less-class', 'abc'],
+          ['is-class', 'abc'],
+          ['inner-template', 'inner text'],
+          ['empty-template', ''],
+          ['inner-is', 'inner text'],
+          ['vanilla-element', 'vanilla element'],
+          ['span#error-message', 'Custom element name is not defined']
+        ].forEach(function ([id, innerText]) {
+            var el = fixture.querySelector(id);
+            if (id.indexOf('span#') === 0) {
+              assert.isOk(el.textContent === innerText, id + ' has textContent ' + innerText);
+            }
+            else {
+              assert.isOk(el, 'element ' + id + ' exists');
+              assert.isOk(el instanceof customElements.get(id), 'element ' + id + ' is instanciated');
+              assert.isOk(el.shadowRoot && el.shadowRoot.textContent === innerText, 'element ' + id + ' has textContent ' + innerText);
+            }
+          }
+        );
+        fixture.classList.remove('running-test');
+        done();
+      });
+    });
+  }
+
 });

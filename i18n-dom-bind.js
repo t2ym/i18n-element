@@ -71,17 +71,8 @@ class I18nDomBind extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
       for (var n=this.root.firstChild; n; n=n.nextSibling) {
         this._children[this._children.length] = n;
       }
-      /* Issue #4 is no longer reproducible
-      for (var prop in this.__dataProto) {
-        this[prop] = this.__dataProto[prop];
-      }
-      */
       if (typeof this._enableProperties === 'function') {
         this._enableProperties(this);
-      }
-      else if (typeof this._flushProperties === 'function') {
-        /* For backward compatibility with Polymer 2.0.0-rc.8 and earlier */
-        this._flushProperties(this);
       }
     }
     this._insertChildren();

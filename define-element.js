@@ -1,203 +1,74 @@
 /**
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
-Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+Copyright (c) 2019, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-/* define-element.js: Shortcut syntax for customElements.define */
-import '@polymer/polymer/polymer-element.js';
+/* define-element.js: Shortcut syntax for customElements.define for Polymer and vanilla custom elements */
+import { PolymerElement } from '@polymer/polymer/polymer-element.js';
+import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
+import { defineDefineProperty } from './define-element-base.js';
 
-function UncamelCase (name) {
-  return name
-    // insert a hyphen between lower & upper
-    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-    // space before last upper in a sequence followed by lower
-    .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/, '$1 $2$3')
-    // replace spaces with hyphens
-    .replace(/ /g, '-')
-    // lowercase
-    .toLowerCase();
+const _parseTemplateToString = PolymerElement._parseTemplate.toString();
+function isPolymerClass (proto) {
+  // Notes:
+  //  - PolymerElement.isPrototypeOf(proto) is insufficient since
+  //    any legitimate combinations of Polymer mixins are possible and
+  //    class mixins generate different object identities of their classes and methods on class generations.
+  //  - TemplateStamp class mixin is a mandatory mixin for Polymer templating and thus
+  //    its method _parseTemplate must be the same for any Polymer classes
+  //    while object identities of the method functions are different.
+  //  - For non-Polymer classes, there should be no chances of having a static method _parseTemplate
+  //    with the exactly matching string representation of the function PolymerElement._parseTemplate
+  return typeof proto === 'function' && typeof proto._parseTemplate === 'function' && proto._parseTemplate.toString() === _parseTemplateToString;
 }
-function functionName (func) {
-  return typeof func === 'function' ? 
-          func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "") :
-          undefined;
-}
-var _Define = function (id) {
-  return customElements.get(id);
-};
-if (!window.Define) {
-  Object.defineProperty(window, 'Define', {
-    get: function () {
-      return _Define;
-    },
-    set: function (proto) {
-      /*
-      Patterns:
-        a) template id {}
-        b) template id {is}
-        c) document.template id {is}
-        d) template {is}
-        e) {is}
-        f) class Is {template}
-        g) {is,template}
-      */
-      var id;
-      var classId;
-      var obj;
-      var name = proto.hasOwnProperty('name') ? proto.name : functionName(proto);
-      var current; // currentScript
-      var template = null;
-      var previous; // previousSibling template
-      var cousin; // dom5.serialize output support
 
-      current = null; // (!window.HTMLImports || HTMLImports.useNative) ? document.currentScript // document.currentScript is always null in ES modules
-                     //                 : (document._currentScript || document.currentScript);
-      // if (!current) { // document.currentScript is always null in ES modules
-        // let url = '';//import.meta.url;
-        let scripts = document.querySelectorAll('script[type=module]');
-        /*
-        scripts.forEach(script => {
-          let src = new URL(script.src, location.href);
-          if (url === src) {
-            current = script;
-          }
-        });
-        */
-        // if (!current) {
-          current = scripts[0];
-        //}
-      // } // document.currentScript is always null in ES modules
-      var _tmpNode = current;
-      var ownerDocument = current ? current.ownerDocument : document;
-      var baseURI = ownerDocument.baseURI;
-      if (current && current.ownerDocument && current.ownerDocument.nodeType === current.ownerDocument.DOCUMENT_NODE) {
-        while (_tmpNode && _tmpNode.tagName !== 'LINK' &&
-          _tmpNode.nodeType !== _tmpNode.DOCUMENT_FRAGMENT_NODE &&
-          _tmpNode.nodeType !== _tmpNode.DOCUMENT_NODE) {
-          _tmpNode = _tmpNode.parentNode;
-        }
-        if (_tmpNode &&
-          (_tmpNode.nodeType === _tmpNode.DOCUMENT_FRAGMENT_NODE ||
-           _tmpNode.nodeType === _tmpNode.DOCUMENT_NODE)) {
-          ownerDocument = _tmpNode;
-          baseURI = ownerDocument.baseURI;
-        }
-        else if (_tmpNode && _tmpNode.import === _tmpNode) {
-          ownerDocument = _tmpNode;
-          baseURI = ownerDocument.href; // link node
-        }
-      }
+/* Plugin to register Polymer template */
+function registerPolymerTemplate (proto, id) {
+  if (isPolymerClass(proto)) {
+    let template = proto.template; // class { template }
+    let baseURI = proto.importMeta ? proto.importMeta.url : document.baseURI;
+    let _template = DomModule.import(id, 'template'); // <dom-module id> template
+    let __template; // <template id> template
+    // A guard for HTML Modules proposal with import.meta.document
+    let ownerDocument = proto.importMeta && proto.importMeta.document ? proto.importMeta.document : document;
 
-      previous = current && current.previousSibling;
-      while (previous && !previous.tagName) {
-        previous = previous.previousSibling;
+    template = template || _template;
+    if (!template) {
+      let current = null;
+      __template = ownerDocument.querySelector('template[id=' + id + ']');
+      if (!__template) {
+        __template = ownerDocument.createElement('template');
+        __template.setAttribute('id', id);
+        console.warn('define-element.js: ' + id + ' has no template. Supplying an empty template');
       }
-      if (previous && previous.tagName !== 'template'.toUpperCase()) {
-        previous = null;
-      }
-      if (!previous) {
-        // search for cousin template
-        if (current && current.parentNode.tagName === 'body'.toUpperCase()) {
-          previous = current.parentNode.previousSibling;
-          while (previous && !previous.tagName) {
-            previous = previous.previousSibling;
-          }
-          if (previous && previous.tagName.toLowerCase() === 'head') {
-            for (var i = 0; i < previous.childNodes.length; i++) {
-              if (previous.childNodes[i].tagName === 'template'.toUpperCase()) {
-                cousin = previous.childNodes[i];
-                break;
-              }
-            }
-          }
-        }
-        if (cousin) {
-          previous = cousin;
-        }
-        else {
-          previous = null;
-        }
-      }
-
-      if (!proto.is && (!name || name === 'class' || name === 'Define')) {
-        if (previous) {
-          id = previous.id;
-          if (id) {
-            // Pattern a)
-            template = previous;
-            proto.is = id;
-          }
-        }
-      }
-      else {
-        if (proto.is) {
-          id = proto.is;
-        }
-        else if (typeof proto === 'function' && name) {
-          // ES6 class
-          id = UncamelCase(name);
-          classId = name;
-        }
-        var isNoIdPrevious = previous && !previous.id && id;
-        if (isNoIdPrevious) {
-          previous.id = id; // temporarily supply id
-        }
-        var rawTemplate = proto._rawTemplate || proto.template;
-        if (isNoIdPrevious) {
-          previous.removeAttribute('id');
-        }
-        if (!template && rawTemplate && !name) {
-          // Pattern g)
-          template = rawTemplate;
-        }
-        if (!rawTemplate && !template) {
-          // Pattern b), c)
-          template = ownerDocument.querySelector('template[id=' + id + ']') ||
-                     document.querySelector('template[id=' + id + ']');
-        }
-        if (!rawTemplate && !template && previous && !previous.id) {
-          // Pattern d)
-          template = previous;
-          template.id = id;
-        }
-        else {
-          // Pattern e)
-        }
-      }
-
-      if (!id) {
-        throw 'Custom element name is not defined';
-      }
-
-      // register dom-module
-      if (template) {
-        var domModule = document.createElement('dom-module');
-        var assetpath = typeof URL === 'function' && URL.name === 'URL'
-          ? new URL(baseURI || document.baseURI).pathname
-          : (uri => { let a = document.createElement('a'); a.href = uri; return ('/' + a.pathname).replace(/^\/\//, '/'); })(baseURI);
-        domModule.appendChild(template);
-        domModule.setAttribute('assetpath', 
-                                template.hasAttribute('basepath') ?
-                                  template.getAttribute('basepath') :
-                                  template.hasAttribute('assetpath') ? 
-                                    template.getAttribute('assetpath') : 
-                                    assetpath);
-        domModule.register(id);
-        proto._template = template;
-        proto.finalize();
-      }
-
-      // register Custom Element
-      classId = classId || id.split('-').map(function (word) {
-        return word[0].toUpperCase() + word.substr(1);
-      }).join('');
-      if (customElements.get(id)) {
-        console.warn('Discarding duplicate definition of custom element ' + id);
-      }
-      else {
-        customElements.define(id, proto);
-        _Define[classId] = customElements.get(id);
-      }
-      return customElements.get(id);
+      template = __template;
     }
-  });
+
+    // register dom-module from class { template } or <template id>
+    // Notes:
+    //  - If <template id> is found, it must be registered to the dom-module repository
+    //  - If class { template } is defined, it seems Polymer itself does not register the template to the dom-module repository
+    if (!_template) {
+      let domModule = document.createElement('dom-module');
+      let assetpath = typeof URL === 'function' && URL.name === 'URL'
+        ? new URL(baseURI).pathname
+        : (uri => { let a = document.createElement('a'); a.href = uri; return ('/' + a.pathname).replace(/^\/\//, '/'); })(baseURI);
+      domModule.appendChild(template);
+      domModule.setAttribute('assetpath', 
+                              template.hasAttribute('basepath') ?
+                                template.getAttribute('basepath') :
+                                template.hasAttribute('assetpath') ? 
+                                  template.getAttribute('assetpath') : 
+                                  assetpath);
+      domModule.register(id);
+      proto._template = template;
+    }
+  }
 }
+
+/*
+  document.template id; Define = class Is {}
+  document.template id; Define = class { is }
+  Define Is { template }
+  Define { is, template }
+*/
+defineDefineProperty([registerPolymerTemplate]);
