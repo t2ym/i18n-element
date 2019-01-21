@@ -15,19 +15,21 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <template id="is-less-class"><span>abc</span></template>
     <template id="is-class"><span>abc</span></template>
     <script type="module">
+      import { PolymerElement } from '@polymer/polymer/polymer-element.js';
+      import { ElementMixin } from '@polymer/polymer/lib/mixins/element-mixin.js';
       import { html } from '@polymer/polymer/lib/utils/html-tag.js';
       import '../../define-element.js';
-      Define = class IsLessClass extends HTMLElement {
+      Define = class IsLessClass extends PolymerElement {
         static get importMeta() {
           return import.meta;
         }
       };
-      Define = class IsLessClass extends HTMLElement { // duplicate
+      Define = class IsLessClass extends PolymerElement { // duplicate
         static get importMeta() {
           return import.meta;
         }
       };
-      Define = class extends HTMLElement {
+      Define = class extends PolymerElement {
         static get importMeta() {
           return import.meta;
         }
@@ -35,7 +37,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           return 'is-class';
         }
       };
-      Define = class InnerTemplate extends HTMLElement {
+      Define = class InnerTemplate extends ElementMixin(HTMLElement) {
         static get importMeta() {
           return import.meta;
         }
@@ -43,12 +45,12 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           return html`<span>inner text</span>`;
         }
       };
-      Define = class EmptyTemplate extends HTMLElement {
+      Define = class EmptyTemplate extends PolymerElement {
         static get importMeta() {
           return import.meta;
         }
       };
-      Define = class extends HTMLElement {
+      Define = class extends PolymerElement {
         static get importMeta() {
           return import.meta;
         }
@@ -59,8 +61,20 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           return html`<span>inner text</span>`;
         }
       };
+      Define = class VanillaElement extends HTMLElement {
+        static get importMeta() {
+          return import.meta;
+        }
+        constructor() {
+          super();
+          this.attachShadow({mode: 'open'});
+        }
+        connectedCallback() {
+          this.shadowRoot.innerHTML = `<span>vanilla element</span>`;
+        }
+      };
       try {
-        Define = class extends HTMLElement {
+        Define = class extends PolymerElement {
           static get importMeta() {
             return import.meta;
           }
@@ -68,6 +82,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       }
       catch (e) {
         console.log(e);
+        document.querySelector('span#error-message').innerHTML = e.message;
       }
     </script>
     <style>
@@ -87,6 +102,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         <preference-element></preference-element>
       </template>
     </test-fixture>
+
+    <div class="test-container" id="thin-element-fixture">
+      <is-less-class></is-less-class>
+      <is-class></is-class>
+      <inner-template></inner-template>
+      <empty-template></empty-template>
+      <inner-is></inner-is>
+      <vanilla-element></vanilla-element>
+      <span id="error-message"></span>
+    </div>
 
     <i18n-preference persist></i18n-preference>
   </body>
