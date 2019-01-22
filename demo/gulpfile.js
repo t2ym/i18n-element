@@ -273,28 +273,58 @@ function traverseAst(ast, templates) {
               }
               else {
                 let isJSON = false;
+                let isI18nFormat = false;
                 part = part.substring(2, part.length - 2);
                 if (part.indexOf('serialize(') === 0) {
                   isJSON = true;
                   part = part.substring(10, part.length - 1); // serialize(text...)
                 }
-                let partPath = part.split(/[.]/);
-                let valueExpression = 'text';
-                let tmpPart = partPath.shift();
-                if (tmpPart === 'model') {
-                  valueExpression = 'model';
+                else if (part.indexOf('i18nFormat(') === 0) {
+                  isI18nFormat = true;
+                  part = part.substring(11, part.length - 1); // i18nFormat(param.0,parts.X,parts.Y,...)
                 }
-                else if (tmpPart === 'effectiveLang') {
-                  valueExpression = 'effectiveLang';
+                let params = isI18nFormat ? part.split(/,/) : [part];
+                let valueExpression;
+                let valueExpressions = [];
+                while (part = params.shift()) {
+                  let partPath = part.split(/[.]/);
+                  valueExpression = 'text';
+                  let tmpPart = partPath.shift();
+                  if (tmpPart === 'parts') {
+                    valueExpression = `parts[${partPath[0]}]`;
+                  }
+                  else {
+                    if (tmpPart === 'model') {
+                      valueExpression = 'model';
+                    }
+                    else if (tmpPart === 'effectiveLang') {
+                      valueExpression = 'effectiveLang';
+                    }
+                    while (tmpPart = partPath.shift()) {
+                      valueExpression += `["${tmpPart}"]`;
+                    }
+                    if (isJSON) {
+                      valueExpression = `JSON.stringify(${valueExpression})`;
+                    }
+                  }
+                  valueExpressions.push(valueExpression);
                 }
-                while (tmpPart = partPath.shift()) {
-                  valueExpression += `["${tmpPart}"]`;
+                let valueExpressionAst;
+                if (isI18nFormat) {
+                  valueExpression = valueExpressions.join(',');
+                  valueExpression = `_bind.element.i18nFormat(${valueExpression})`;
+                  valueExpressionAst = espree.parse(valueExpression, espreeModuleOptions).body[0].expression;
+                  valueExpressions.forEach((param, index) => {
+                    let tmpMatch = param.match(/^parts\[([0-9]*)\]$/);
+                    if (tmpMatch) {
+                      valueExpressionAst.arguments[index] = ast.quasi.expressions[parseInt(tmpMatch[1]) + offset]
+                    }
+                  });
                 }
-                if (isJSON) {
-                  valueExpression = `JSON.stringify(${valueExpression})`;
+                else {
+                  //console.log('html: part ' + part + ' = ' + valueExpression);
+                  valueExpressionAst = espree.parse(valueExpression, espreeModuleOptions).body[0].expression;
                 }
-                //console.log('html: part ' + part + ' = ' + valueExpression);
-                let valueExpressionAst = espree.parse(valueExpression, espreeModuleOptions).body[0].expression;
                 parts.push(valueExpressionAst);
               }
             }

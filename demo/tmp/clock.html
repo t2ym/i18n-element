@@ -1,7 +1,8 @@
 <!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"><!-- start of innerHTML --></head><body><i18n-attr-repo>
   <template id="custom">
     <div i18n-target-attr="$">
-  </div></template>
+    <div i18n-target-attr2="$">
+  </div></div></template>
 </i18n-attr-repo><!-- end of innerHTML --><dom-module id="lit-clock"><template localizable-text="embedded">
       <style>
         :host {
@@ -51,8 +52,8 @@
           stroke-width: 3;
         }
       </style>
-      <div id="target" @click="{{parts.0}}" .property="{{parts.1}}" attr="{{parts.2}}" ?enabled-boolean-attr="{{parts.3}}" ?disabled-boolean-attr="{{parts.4}}" i18n-target-attr$="{{model.target.i18n-target-attr}}"><i18n-format lang="{{effectiveLang}}"><span>{{text.target.0}}</span><span slot="1">{{parts.5}}</span><span slot="2">{{parts.6}}</span></i18n-format></div>
-      <div>{{parts.7}}</div>
+      <div id="target" @click="{{parts.0}}" .property="{{parts.1}}" attr="{{parts.2}}" ?enabled-boolean-attr="{{parts.3}}" ?disabled-boolean-attr="{{parts.4}}" i18n-target-attr$="{{model.target.i18n-target-attr}}" i18n-target-attr2$="{{i18nFormat(model.target.i18n-target-attr2.0,parts.5,parts.6)}}"><i18n-format lang="{{effectiveLang}}"><span>{{text.target.0}}</span><span slot="1">{{parts.7}}</span><span slot="2">{{parts.8}}</span></i18n-format></div>
+      <div>{{parts.9}}</div>
       <div class="square"> <!-- so the SVG keeps its aspect ratio -->
         
         <svg viewBox="0 0 100 100">
@@ -61,17 +62,17 @@
               all co-ords are relative to the center -->
           <g transform="translate(50,50)">
             <circle class="clock-face" r="48"></circle>
-            <g>{{parts.8}}</g><!-- g tag to avoid i18n-format conversion -->
-            <g>{{parts.9}}</g><!-- g tag to avoid i18n-format conversion -->
+            <g>{{parts.10}}</g><!-- g tag to avoid i18n-format conversion -->
+            <g>{{parts.11}}</g><!-- g tag to avoid i18n-format conversion -->
 
             <!-- hour hand -->
-            <line class="hour" y1="2" y2="-20" transform="rotate({{parts.10}})"></line>
+            <line class="hour" y1="2" y2="-20" transform="rotate({{parts.12}})"></line>
     
             <!-- minute hand -->
-            <line class="minute" y1="4" y2="-30" transform="rotate({{parts.11}})"></line>
+            <line class="minute" y1="4" y2="-30" transform="rotate({{parts.13}})"></line>
     
             <!-- second hand -->
-            <g transform="rotate({{parts.12}})">
+            <g transform="rotate({{parts.14}})">
               <line class="second" y1="10" y2="-38"></line>
               <line class="second-counterweight" y1="10" y2="2"></line>
             </g>
@@ -84,13 +85,18 @@
   "meta": {},
   "model": {
     "target": {
-      "i18n-target-attr": "I18N target attribute value"
+      "i18n-target-attr": "I18N target attribute value",
+      "i18n-target-attr2": [
+        "I18N target with {1} and {2}",
+        "{{parts.5}}",
+        "{{parts.6}}"
+      ]
     }
   },
   "target": [
     "Time: {1}:{2}",
-    "{{parts.5}}",
-    "{{parts.6}}"
+    "{{parts.7}}",
+    "{{parts.8}}"
   ]
 }
 </json-data>

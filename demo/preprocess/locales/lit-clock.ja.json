@@ -4,12 +4,17 @@
   },
   "model": {
     "target": {
-      "i18n-target-attr": "ja I18N target attribute value"
+      "i18n-target-attr": "ja I18N target attribute value",
+      "i18n-target-attr2": [
+        "ja I18N target with {1} and {2}",
+        "{{parts.5}}",
+        "{{parts.6}}"
+      ]
     }
   },
   "target": [
     "ja 時刻: {1}:{2}",
-    "{{parts.5}}",
-    "{{parts.6}}"
+    "{{parts.7}}",
+    "{{parts.8}}"
   ]
 }

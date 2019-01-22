@@ -16,13 +16,18 @@
     },
     "model": {
       "target": {
-        "i18n-target-attr": "I18N target attribute value"
+        "i18n-target-attr": "I18N target attribute value",
+        "i18n-target-attr2": [
+          "I18N target with {1} and {2}",
+          "{{parts.5}}",
+          "{{parts.6}}"
+        ]
       }
     },
     "target": [
       "Time: {1}:{2}",
-      "{{parts.5}}",
-      "{{parts.6}}"
+      "{{parts.7}}",
+      "{{parts.8}}"
     ]
   },
   "world-clock-container": {

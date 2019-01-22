@@ -12,39 +12,23 @@
     },
     "model": {
       "target": {
-        "i18n-target-attr": "ja I18N target attribute value"
+        "i18n-target-attr": "ja I18N target attribute value",
+        "i18n-target-attr2": [
+          "ja I18N target with {1} and {2}",
+          "{{parts.5}}",
+          "{{parts.6}}"
+        ]
       }
     },
     "target": [
       "ja 時刻: {1}:{2}",
-      "{{parts.5}}",
-      "{{parts.6}}"
+      "{{parts.7}}",
+      "{{parts.8}}"
     ]
   },
   "world-clock-container": {
     "meta": {
-      "todo": [
-        {
-          "op": "replace",
-          "path": "/compound-format-text/0/0",
-          "value": "No timezones"
-        },
-        {
-          "op": "replace",
-          "path": "/compound-format-text/0/one",
-          "value": "{1} timezone other than {2} is shown."
-        },
-        {
-          "op": "replace",
-          "path": "/compound-format-text/0/other",
-          "value": "{1} timezones other than {2} are shown."
-        },
-        {
-          "op": "replace",
-          "path": "/compound-format-text/0/1",
-          "value": "Only 1 timezone for {2} is shown."
-        }
-      ]
+      "todo": []
     },
     "model": {},
     "div_1": "ja 世界時計",

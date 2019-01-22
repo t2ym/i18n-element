@@ -22,6 +22,7 @@ const i18nAttrRepoContainer = document.createElement('template');
 i18nAttrRepoContainer.innerHTML = `<i18n-attr-repo>
   <template id="custom">
     <div i18n-target-attr="$">
+    <div i18n-target-attr2="$">
   </template>
 </i18n-attr-repo>`;
 document.head.appendChild(i18nAttrRepoContainer.content);
@@ -123,7 +124,8 @@ export class LitClock extends i18n(HTMLElement) {
         attr=${'attr value'}
         ?enabled-boolean-attr=${true}
         ?disabled-boolean-attr=${false}
-        i18n-target-attr="I18N target attribute value">Time: ${this.date.getHours()}:${this.date.getMinutes()}</div>
+        i18n-target-attr="I18N target attribute value"
+        i18n-target-attr2="I18N target with ${'param1'} and ${'param2'}">Time: ${this.date.getHours()}:${this.date.getMinutes()}</div>
       <div>${getMessage()}</div>
       <div class='square'> <!-- so the SVG keeps its aspect ratio -->
         

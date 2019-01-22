@@ -423,28 +423,46 @@ export const html = (strings, ...parts) => {
     }
     else {
       let isJSON = false;
+      let isI18nFormat = false;
       part = part.substring(2, part.length - 2);
       if (part.indexOf('serialize(') === 0) {
         isJSON = true;
         part = part.substring(10, part.length - 1); // serialize(text...)
       }
-      let partPath = part.split(/[.]/);
-      let value = text;
-      let tmpPart = partPath.shift();
-      if (tmpPart === 'model') {
-        value = text.model;
+      else if (part.indexOf('i18nFormat(') === 0) {
+        isI18nFormat = true;
+        part = part.substring(11, part.length - 1); // i18nFormat(param.0,parts.X,parts.Y,...)
       }
-      else if (tmpPart === 'effectiveLang') {
-        value = element.effectiveLang || element.lang;
+      let params = isI18nFormat ? part.split(/,/) : [part];
+      let value;
+      let values = [];
+      while (part = params.shift()) {
+        let partPath = part.split(/[.]/);
+        value = text;
+        let tmpPart = partPath.shift();
+        if (tmpPart === 'parts') {
+          value = parts[parseInt(partPath[0]) + offset];
+        }
+        else {
+          if (tmpPart === 'model') {
+            value = text.model;
+          }
+          else if (tmpPart === 'effectiveLang') {
+            value = element.effectiveLang || element.lang;
+          }
+          while (tmpPart = partPath.shift()) {
+            value = value[tmpPart];
+          }
+          if (isJSON) {
+            value = JSON.stringify(value, null, 2);
+          }
+        }
+        values.push(value);
       }
-      while (tmpPart = partPath.shift()) {
-        value = value[tmpPart];
-      }
-      if (isJSON) {
-        value = JSON.stringify(value, null, 2);
+      if (isI18nFormat) {
+        value = element.i18nFormat(...values);
       }
       //console.log('html: part ' + part + ' = ' + value);
-
       preprocessedParts.push(value);
     }
   }

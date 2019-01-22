@@ -29,6 +29,7 @@ const i18nAttrRepoContainer = document.createElement('template');
 i18nAttrRepoContainer.innerHTML = `<i18n-attr-repo>
   <template id="custom">
     <div i18n-target-attr="$">
+    <div i18n-target-attr2="$">
   </template>
 </i18n-attr-repo>`;
 document.head.appendChild(i18nAttrRepoContainer.content);
@@ -71,6 +72,7 @@ export class LitClock extends i18n(HTMLElement) {
       '" ?enabled-boolean-attr="',
       '" ?disabled-boolean-attr="',
       '" i18n-target-attr="',
+      '" i18n-target-attr2="',
       '"><i18n-format lang="',
       '"><span>',
       '</span><span slot="1">',
@@ -93,6 +95,7 @@ export class LitClock extends i18n(HTMLElement) {
       true,
       false,
       model['target']['i18n-target-attr'],
+      _bind.element.i18nFormat(model['target']['i18n-target-attr2']['0'], 'param1', 'param2'),
       effectiveLang,
       text['target']['0'],
       this.date.getHours(),
@@ -105,11 +108,20 @@ export class LitClock extends i18n(HTMLElement) {
       6 * this.date.getSeconds()
     ], {
       'meta': {},
-      'model': { 'target': { 'i18n-target-attr': 'I18N target attribute value' } },
+      'model': {
+        'target': {
+          'i18n-target-attr': 'I18N target attribute value',
+          'i18n-target-attr2': [
+            'I18N target with {1} and {2}',
+            '{{parts.5}}',
+            '{{parts.6}}'
+          ]
+        }
+      },
       'target': [
         'Time: {1}:{2}',
-        '{{parts.5}}',
-        '{{parts.6}}'
+        '{{parts.7}}',
+        '{{parts.8}}'
       ]
     }));
   }
