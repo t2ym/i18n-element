@@ -21,8 +21,8 @@ import {getMessage, binding as messageBinding} from './message.js';
 const i18nAttrRepoContainer = document.createElement('template');
 i18nAttrRepoContainer.innerHTML = `<i18n-attr-repo>
   <template id="custom">
-    <div i18n-target-attr="$">
-    <div i18n-target-attr2="$">
+    <div i18n-target-attr="$"></div>
+    <div i18n-target-attr2="$"></div>
   </template>
 </i18n-attr-repo>`;
 document.head.appendChild(i18nAttrRepoContainer.content);
