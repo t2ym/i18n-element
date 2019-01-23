@@ -33,16 +33,22 @@ if (!Object.getOwnPropertyDescriptor(SVGElement.prototype, 'children')) {
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
 const isIE11 = !(function F(){}).name;
 
+const nameCache = new Map(); // for UncamelCase()
 const UncamelCase = function UncamelCase (name) {
-  return name
-    // insert a hyphen between lower & upper
-    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-    // space before last upper in a sequence followed by lower
-    .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/, '$1 $2$3')
-    // replace spaces with hyphens
-    .replace(/ /g, '-')
-    // lowercase
-    .toLowerCase();
+  let tagName = nameCache.get(name);
+  if (!tagName) {
+    tagName = name
+      // insert a hyphen between lower & upper
+      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+      // space before last upper in a sequence followed by lower
+      .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/, '$1 $2$3')
+      // replace spaces with hyphens
+      .replace(/ /g, '-')
+      // lowercase
+      .toLowerCase();
+    nameCache.set(name, tagName);
+  }
+  return tagName;
 }
 
 const mixinMethods = (mixin, methods, base) => {
@@ -80,6 +86,7 @@ const Mixin = Object.assign({}, MinimalLegacyElementMixin, BehaviorsStore._I18nB
 
 const methods = legacyMethods.concat(i18nMethods);
 
+// Note: The bound (pseudo-)element-name in ${bind()} is used as the key to the cached strings and parts
 const templateCache = new Map();
 
 const boundElements = new Map();
@@ -150,7 +157,9 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(Mixin, 
     else {
       // bound element
       let boundElement = this.getBoundElement(name, meta);
-      boundElement.lang = this.lang;
+      if (boundElement.lang !== this.lang) {
+        boundElement.lang = this.lang;
+      }
       return boundElement._getBundle(this.lang);
     }
   }
@@ -299,7 +308,7 @@ export const html = (strings, ...parts) => {
   let name, meta, element;
   let preprocessedStrings = [];
   let preprocessedParts = [];
-  let originalHtml = '';
+  let preprocessedPartsGenerator;
   if (strings.length !== parts.length + 1) {
     throw new Error(`html: strings.length (= ${strings.length}) !== parts.length (= ${parts.length}) + 1`);
   }
@@ -311,51 +320,57 @@ export const html = (strings, ...parts) => {
     offset++;
   }
   else if (strings.length > 0 && strings[0] === '<!-- localizable -->' && parts[0] instanceof BindingBase) {
-    name = parts[0].name;
-    meta = parts[0].meta;
-    element = parts[0].element;
-    offset++;
+    //name = parts[0].name;
+    //meta = parts[0].meta;
+    //element = parts[0].element;
+    //console.log('html: rendering preprocessed HTML template for ' + parts[0].name);
     strings.shift();
     parts.shift();
-    //console.log('html: rendering preprocessed HTML template for ' + name);
     return litHtml(strings, ...parts); // preprocessed HTML template
   }
   else {
     return litHtml(strings, ...parts); // no I18N
   }
-  let i;
-  for (i = 0; i + offset < parts.length; i++) {
-    let string = strings[i + offset];
-    let match = string.match(/([.?@])[^ =]*=$/);
-    if (match) {
-      switch (match[1]) {
-      case '.':
-        originalHtml += string.replace(/[.]([^ =]*)=$/, '$1=');
-        originalHtml += `{{parts.${i}:property}}`;
-        break;
-      case '?':
-        originalHtml += string.replace(/[?]([^ =]*)=$/, '$1=');
-        originalHtml += `{{parts.${i}:boolean}}`;
-        break;
-      case '@':
-        originalHtml += string.replace(/[@]([^ =]*)=$/, '$1=');
-        originalHtml += `{{parts.${i}:event}}`;
-        break;
-      default:
-        // Unreacheable code
+  let cachedTemplate = templateCache.get(name);
+  if (cachedTemplate) {
+    preprocessedStrings = cachedTemplate.preprocessedStrings;
+    preprocessedPartsGenerator = cachedTemplate.preprocessedPartsGenerator;
+  }
+  else {
+    let originalHtml = '';
+    let preprocessedHtml;
+    let preprocessedPartsExpressions = [];
+    let i;
+    for (i = 0; i + offset < parts.length; i++) {
+      let string = strings[i + offset];
+      let match = string.match(/([.?@])[^ =]*=$/);
+      if (match) {
+        switch (match[1]) {
+        case '.':
+          originalHtml += string.replace(/[.]([^ =]*)=$/, '$1=');
+          originalHtml += `{{parts.${i}:property}}`;
+          break;
+        case '?':
+          originalHtml += string.replace(/[?]([^ =]*)=$/, '$1=');
+          originalHtml += `{{parts.${i}:boolean}}`;
+          break;
+        case '@':
+          originalHtml += string.replace(/[@]([^ =]*)=$/, '$1=');
+          originalHtml += `{{parts.${i}:event}}`;
+          break;
+        default:
+          // Unreachable code
+          originalHtml += string;
+          originalHtml += `{{parts.${i}}}`;
+          break;
+        }
+      }
+      else {
         originalHtml += string;
         originalHtml += `{{parts.${i}}}`;
-        break;
       }
     }
-    else {
-      originalHtml += string;
-      originalHtml += `{{parts.${i}}}`;
-    }
-  }
-  originalHtml += strings[i + offset];
-  let preprocessedHtml = templateCache.get(name + originalHtml);
-  if (!preprocessedHtml) {
+    originalHtml += strings[i + offset];
     //console.log('original html: ', originalHtml);
     let template = document.createElement('template');
     let _originalHtml = originalHtml;
@@ -374,100 +389,105 @@ export const html = (strings, ...parts) => {
         preprocessedHtml = preprocessedHtml.replace('x-transform-x=', 'transform=');
       }
     }
-    templateCache.set(name + _originalHtml, preprocessedHtml);
     //console.log('preprocessed html: ', preprocessedHtml);
     element._processTasks();
+    let index;
+    let partIndex = 0;
+    while ((index = preprocessedHtml.indexOf('{{')) >= 0) {
+      let preprocessedString;
+      if (index > 3 && preprocessedHtml.substring(index - 3, index) === '$="') {
+        // convert Polymer template syntax
+        preprocessedString = preprocessedHtml.substring(0, index - 3) + '="';
+      }
+      else {
+        preprocessedString = preprocessedHtml.substring(0, index);
+      }
+      preprocessedHtml = preprocessedHtml.substring(index);
+      index = preprocessedHtml.indexOf('}}');
+      if (index < 0) {
+        throw new Error('html: no matching }} for {{');
+      }
+      let part = preprocessedHtml.substring(0, index + 2);
+      preprocessedHtml = preprocessedHtml.substring(index + 2);
+      let partMatch = part.match(/^{{parts[.]([0-9]*)(:[a-z]*)?}}$/);
+      if (partMatch && partMatch[2]) {
+        switch (partMatch[2]) {
+        case ':property':
+          preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '.$1=$2');
+          break;
+        case ':boolean':
+          preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '?$1=$2');
+          break;
+        case ':event':
+          preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '@$1=$2');
+          break;
+        default:
+          // Unreacheable code
+          break;
+        }
+      }
+      preprocessedStrings.push(preprocessedString);
+      if (partMatch) {
+        // Note: IE 11 does not keep the order of attributes
+        preprocessedPartsExpressions.push(`parts[${parseInt(partMatch[1]) + offset}]`);
+        partIndex++;
+      }
+      else {
+        let isJSON = false;
+        let isI18nFormat = false;
+        part = part.substring(2, part.length - 2);
+        if (part.indexOf('serialize(') === 0) {
+          isJSON = true;
+          part = part.substring(10, part.length - 1); // serialize(text...)
+        }
+        else if (part.indexOf('i18nFormat(') === 0) {
+          isI18nFormat = true;
+          part = part.substring(11, part.length - 1); // i18nFormat(param.0,parts.X,parts.Y,...)
+        }
+        let params = isI18nFormat ? part.split(/,/) : [part];
+        let valueExpression;
+        let valueExpressions = [];
+        while (part = params.shift()) {
+          let partPath = part.split(/[.]/);
+          valueExpression = 'text';
+          let tmpPart = partPath.shift();
+          if (tmpPart === 'parts') {
+            valueExpression = `parts[${parseInt(partPath[0]) + offset}]`;
+          }
+          else {
+            if (tmpPart === 'model') {
+              valueExpression = 'model';
+            }
+            else if (tmpPart === 'effectiveLang') {
+              valueExpression = 'effectiveLang';
+            }
+            while (partPath.length) {
+              tmpPart = partPath.shift();
+              valueExpression += `['${tmpPart}']`;
+            }
+            if (isJSON) {
+              valueExpression = `JSON.stringify(${valueExpression}, null, 2)`;
+            }
+          }
+          valueExpressions.push(valueExpression);
+        }
+        if (isI18nFormat) {
+          valueExpression = `element.i18nFormat(${valueExpressions.join(',')})`;
+        }
+        preprocessedPartsExpressions.push(valueExpression);
+      }
+    }
+    preprocessedStrings.push(preprocessedHtml);
+    preprocessedPartsGenerator = new Function('element', 'parts', 'text', 'model', 'effectiveLang', `return [${preprocessedPartsExpressions.join(',')}]`);
+    //console.log('preprocessedPartsGenerator', preprocessedPartsGenerator.toString());
+    templateCache.set(name, {
+      preprocessedStrings: preprocessedStrings,
+      preprocessedPartsGenerator: preprocessedPartsGenerator
+    });
   }
-  // TODO: cache preprocessedStrings and preprocessedParts as well
-  let index;
-  let partIndex = 0;
   let text = element.getText(name, meta);
-  while ((index = preprocessedHtml.indexOf('{{')) >= 0) {
-    let preprocessedString;
-    if (index > 3 && preprocessedHtml.substring(index - 3, index) === '$="') {
-      // convert Polymer template syntax
-      preprocessedString = preprocessedHtml.substring(0, index - 3) + '="';
-    }
-    else {
-      preprocessedString = preprocessedHtml.substring(0, index);
-    }
-    preprocessedHtml = preprocessedHtml.substring(index);
-    index = preprocessedHtml.indexOf('}}');
-    if (index < 0) {
-      throw new Error('html: no matching }} for {{');
-    }
-    let part = preprocessedHtml.substring(0, index + 2);
-    preprocessedHtml = preprocessedHtml.substring(index + 2);
-    let partMatch = part.match(/^{{parts[.]([0-9]*)(:[a-z]*)?}}$/);
-    if (partMatch && partMatch[2]) {
-      switch (partMatch[2]) {
-      case ':property':
-        preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '.$1=$2');
-        break;
-      case ':boolean':
-        preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '?$1=$2');
-        break;
-      case ':event':
-        preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '@$1=$2');
-        break;
-      default:
-        // Unreacheable code
-        break;
-      }
-    }
-    preprocessedStrings.push(preprocessedString);
-    if (partMatch) {
-      // Note: IE 11 does not keep the order of attributes
-      preprocessedParts.push(parts[parseInt(partMatch[1]) + offset]);
-      partIndex++;
-    }
-    else {
-      let isJSON = false;
-      let isI18nFormat = false;
-      part = part.substring(2, part.length - 2);
-      if (part.indexOf('serialize(') === 0) {
-        isJSON = true;
-        part = part.substring(10, part.length - 1); // serialize(text...)
-      }
-      else if (part.indexOf('i18nFormat(') === 0) {
-        isI18nFormat = true;
-        part = part.substring(11, part.length - 1); // i18nFormat(param.0,parts.X,parts.Y,...)
-      }
-      let params = isI18nFormat ? part.split(/,/) : [part];
-      let value;
-      let values = [];
-      while (part = params.shift()) {
-        let partPath = part.split(/[.]/);
-        value = text;
-        let tmpPart = partPath.shift();
-        if (tmpPart === 'parts') {
-          value = parts[parseInt(partPath[0]) + offset];
-        }
-        else {
-          if (tmpPart === 'model') {
-            value = text.model;
-          }
-          else if (tmpPart === 'effectiveLang') {
-            value = element.effectiveLang || element.lang;
-          }
-          while (tmpPart = partPath.shift()) {
-            value = value[tmpPart];
-          }
-          if (isJSON) {
-            value = JSON.stringify(value, null, 2);
-          }
-        }
-        values.push(value);
-      }
-      if (isI18nFormat) {
-        value = element.i18nFormat(...values);
-      }
-      //console.log('html: part ' + part + ' = ' + value);
-      preprocessedParts.push(value);
-    }
-  }
-  preprocessedStrings.push(preprocessedHtml);
-  //console.log('preprocessed: strings ', preprocessedStrings, 'parts ', preprocessedParts);
+  preprocessedParts = preprocessedPartsGenerator(element, parts, text, text.model, element.effectiveLang || element.lang);
+  //console.log('preprocessed: strings ', preprocessedStrings, 'parts ', JSON.stringify(preprocessedParts, null, 2));
   return litHtml(preprocessedStrings, ...preprocessedParts);
 }
 
