@@ -11,14 +11,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import './i18n-element.js';
+import { I18nControllerBehavior } from 'i18n-behavior/i18n-behavior.js';
+import { Localizable } from './i18n-element.js';
 import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
 
 // i18n-dom-bind based on Polymer/polymer#2.0-preview src/templatizer/dom-bind.html
-class I18nDomBind extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+class I18nDomBind extends Localizable(LegacyElementMixin(HTMLElement)) {
   static get importMeta() {
-    return { url: new URL(BehaviorsStore.I18nControllerBehavior.properties.startUrl.value, location.href).href };
+    return { url: new URL(I18nControllerBehavior.properties.startUrl.value, location.href).href };
   }
 
   static get is() { return 'i18n-dom-bind'; }

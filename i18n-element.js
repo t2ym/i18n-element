@@ -4,7 +4,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import '@polymer/polymer/polymer-legacy.js';
 
-import 'i18n-behavior/i18n-behavior.js';
+import { _I18nBehavior } from 'i18n-behavior/i18n-behavior.js';
 import { DomModule } from '@polymer/polymer/lib/elements/dom-module.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -12,10 +12,26 @@ import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-m
 window.BaseElements = window.BaseElements || {};
 window.Mixins = window.Mixins || {};
 
-// Localizable mixin
-Mixins.Localizable = function (base) {
+/**
+ * @namespace BaseElements
+ */
+export const BaseElements = window.BaseElements;
 
-  return class Localizable extends mixinBehaviors([BehaviorsStore._I18nBehavior], base) {
+/**
+ * @namespace Mixins
+ */
+export const Mixins = window.Mixins;
+
+/**
+ * Localizable mixin
+ * @summary Localizable mixin
+ * @polymer
+ * @mixinFunction
+ * @memberof Mixins
+ */
+export const Localizable = function (base) {
+
+  return class Localizable extends mixinBehaviors([_I18nBehavior], base) {
     constructor () {
       super();
     }
@@ -136,10 +152,17 @@ Mixins.Localizable = function (base) {
       super.connectedCallback();
     }
   };
-}
+};
+Mixins.Localizable = Localizable;
 
-// Logger mixin
-Mixins.Logger = (base) => class extends base {
+/**
+ * Logger mixin
+ * @summary Logger mixin
+ * @polymer
+ * @mixinFunction
+ * @memberof Mixins
+ */
+export const Logger = (base) => class extends base {
   connectedCallback() {
     super.connectedCallback();
     console.log('<' + Object.getPrototypeOf(this).constructor.is + '>: ' +
@@ -148,10 +171,15 @@ Mixins.Logger = (base) => class extends base {
     console.log('Preprocessed template = \n', Object.getPrototypeOf(this).constructor.template);
   }
 };
+Mixins.Logger = Logger;
 
 // I18N Base Element
-Object.defineProperty(BaseElements, 'I18nElement', {
-  get: function () {
-    return Mixins.Localizable(LegacyElementMixin(HTMLElement));
-  }
-});
+/**
+ * @customElement
+ * @polymer
+ * @extends HTMLElement
+ * @appliesMixin Localizable
+ * @memberof BaseElements
+ */
+export const I18nElement = Mixins.Localizable(LegacyElementMixin(HTMLElement));
+BaseElements.I18nElement = I18nElement;
