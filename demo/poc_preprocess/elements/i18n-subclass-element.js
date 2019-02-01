@@ -2,9 +2,7 @@
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import '@polymer/polymer/polymer-element.js';
-
-import '../../../i18n-element.js';
+import { Logger, I18nElement } from '../../../i18n-element.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
 
@@ -17,7 +15,7 @@ $_documentContainer.innerHTML = `<i18n-attr-repo>
 </i18n-attr-repo>`;
 
 document.head.appendChild($_documentContainer.content);
-class I18nSubclassElement extends Mixins.Logger(BaseElements.I18nElement) {
+class I18nSubclassElement extends Logger(I18nElement) {
   static get importMeta() {
     return import.meta;
   }

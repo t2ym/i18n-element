@@ -11,13 +11,13 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 <link rel="import" href="../../paper-item/paper-item.html">
 <link rel="import" href="../../paper-styles/demo-pages.html">
 */
-import '../../../i18n-element.js';
+import { Localizable } from '../../../i18n-element.js';
 
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
 
-class I18nBehaviorDemo extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+class I18nBehaviorDemo extends Localizable(LegacyElementMixin(HTMLElement)) {
   static get importMeta() {
     return import.meta;
   }

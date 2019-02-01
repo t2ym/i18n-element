@@ -1,8 +1,8 @@
 {
-  "description": "I18N Base Element for Polymer 2.x",
+  "description": "I18N Base Element for Polymer 3.x",
   "keywords": [
     "polymer",
-    "polymer2",
+    "polymer3",
     "web-components",
     "web-component",
     "i18n",
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "3.0.0-pre.24-lit-html.12",
+  "version": "3.0.0-pre.25-lit-html.12",
   "main": "i18n-element.js",
   "directories": {
     "test": "test"
@@ -93,7 +93,7 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "i18n-behavior": "^3.0.0-pre.22",
+    "i18n-behavior": "^3.0.0-pre.23",
     "lit-html": "^1.0.0-rc.2"
   }
 }
