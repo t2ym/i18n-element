@@ -4,7 +4,7 @@ Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 
 import {html as litHtml, render, svg} from 'lit-html/lit-html.js';
-import 'i18n-behavior/i18n-behavior.js';
+import { _I18nBehavior, I18nControllerBehavior } from 'i18n-behavior/i18n-behavior.js';
 
 // Polyfill IE 11
 if (!Object.getOwnPropertyDescriptor(DocumentFragment.prototype, 'children')) {
@@ -71,7 +71,7 @@ const i18nMethods = ((mixin, excludes) => {
     }
   }
   return result;
-})(BehaviorsStore._I18nBehavior, [
+})(_I18nBehavior, [
   // TODO: There should be more unnecessary methods to exclude
   'properties', 'listeners', 'bedoreRegister', 'registered', 'created', 'ready', 'attached', 'detached', '_onDomChange', '_updateEffectiveLang'
 ]);
@@ -82,7 +82,7 @@ const MinimalLegacyElementMixin = {
 };
 const legacyMethods = Object.keys(MinimalLegacyElementMixin);
 
-const Mixin = Object.assign({}, MinimalLegacyElementMixin, BehaviorsStore._I18nBehavior);
+const Mixin = Object.assign({}, MinimalLegacyElementMixin, _I18nBehavior);
 
 const methods = legacyMethods.concat(i18nMethods);
 
@@ -142,7 +142,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(Mixin, 
   }
 
   _updateEffectiveLang(event) {
-    this.effectiveLang = this.lang = this.lang || this.templateDefaultLang || BehaviorsStore.I18nControllerBehavior.properties.defaultLang.value || 'en';
+    this.effectiveLang = this.lang = this.lang || this.templateDefaultLang || I18nControllerBehavior.properties.defaultLang.value || 'en';
   }
 
   get text() {
@@ -165,11 +165,11 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(Mixin, 
   }
 
   _setText(name, bundle, templateLang) {
-    BehaviorsStore.I18nControllerBehavior.properties.masterBundles.value[''][name] = bundle;
+    I18nControllerBehavior.properties.masterBundles.value[''][name] = bundle;
     if (templateLang) {
-      BehaviorsStore.I18nControllerBehavior.properties.masterBundles.value[templateLang] =
-        BehaviorsStore.I18nControllerBehavior.properties.masterBundles.value[templateLang] || {};
-      BehaviorsStore.I18nControllerBehavior.properties.masterBundles.value[templateLang][name] = bundle;
+      I18nControllerBehavior.properties.masterBundles.value[templateLang] =
+        I18nControllerBehavior.properties.masterBundles.value[templateLang] || {};
+      I18nControllerBehavior.properties.masterBundles.value[templateLang][name] = bundle;
     }
   }
 
@@ -213,7 +213,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(Mixin, 
   _startMutationObserver() {
     this._htmlLangObserver = this._htmlLangObserver || 
       new MutationObserver(this._handleHtmlLangChange.bind(this));
-    this._htmlLangObserver.observe(this._html = BehaviorsStore.I18nControllerBehavior.properties.html.value, { attributes: true });
+    this._htmlLangObserver.observe(this._html = I18nControllerBehavior.properties.html.value, { attributes: true });
     if (this.lang !== this._html.lang && this._html.lang) {
       setTimeout(() => this.lang = this._html.lang, 0);
     }
@@ -255,7 +255,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(Mixin, 
     if (name === 'lang') {
       // super.attributeChangedCallbck() is not called
       if (this.is !== 'observer-element' && oldValue !== newValue) {
-        if (BehaviorsStore.I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
+        if (I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
           this._langChanged(newValue, oldValue);
         }
         else {
@@ -381,7 +381,7 @@ export const html = (strings, ...parts) => {
       }
     }
     template.innerHTML = originalHtml;
-    BehaviorsStore._I18nBehavior._constructDefaultBundle(template, name);
+    _I18nBehavior._constructDefaultBundle(template, name);
     preprocessedHtml = template.innerHTML;
     if (isEdge) {
       // Note for Edge: Substituted transform attributes are reverted to original transform attributes since Edge unexpectedly modifies transform attributes in SVG
@@ -615,8 +615,8 @@ export const bind = function (target, meta) {
   }
   if (binding) {
     // Preprocessed
-    if (!BehaviorsStore.I18nControllerBehavior.properties.masterBundles.value[''][binding.name]) {
-      let templateLang = binding.element.templateDefaultLang || BehaviorsStore.I18nControllerBehavior.properties.defaultLang.value || 'en';
+    if (!I18nControllerBehavior.properties.masterBundles.value[''][binding.name]) {
+      let templateLang = binding.element.templateDefaultLang || I18nControllerBehavior.properties.defaultLang.value || 'en';
       binding.element._setText(binding.name, localizableText, templateLang);
     }
     let text = binding.element.getText(binding.name, binding.meta);
