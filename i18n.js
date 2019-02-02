@@ -77,22 +77,13 @@ const i18nMethods = ((mixin, excludes) => {
 ]);
 //console.log('methods', JSON.stringify(methods, null, 2));
 
-const MinimalLegacyElementMixin = {
-  fire: customElements.get('i18n-format').prototype.fire // from Polymer legacy element
-};
-const legacyMethods = Object.keys(MinimalLegacyElementMixin);
-
-const Mixin = Object.assign({}, MinimalLegacyElementMixin, _I18nBehavior);
-
-const methods = legacyMethods.concat(i18nMethods);
-
 // Note: The bound (pseudo-)element-name in ${bind()} is used as the key to the cached strings and parts
 const templateCache = new Map();
 
 const boundElements = new Map();
 
 // Minimal PoC I18N mixin for lit-html
-export const i18n = (base) => class I18nBaseElement extends mixinMethods(Mixin, methods, base) {
+export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, base) {
 
   static get is() {
     return UncamelCase(this.name || /* name is undefined in IE11 */ this.toString().replace(/^function ([^ \(]*)((.*|[\n]*)*)$/, '$1'));
@@ -139,6 +130,12 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(Mixin, 
   notifyPath() {
     // TODO: Any actions required?
     // this.invalidate(); // ??
+  }
+
+  fire(type, detail = null, options) {
+    const event = new CustomEvent(type, { detail: detail, ...options });
+    this.dispatchEvent(event);
+    return event;
   }
 
   _updateEffectiveLang(event) {
