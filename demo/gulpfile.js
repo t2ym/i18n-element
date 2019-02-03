@@ -272,20 +272,59 @@ function traverseAst(ast, templates) {
                 parts.push(ast.quasi.expressions[parseInt(partMatch[1]) + offset]);
               }
               else {
-                let partPath = part.substring(2, part.length - 2).split(/[.]/);
-                let valueExpression = 'text';
-                let tmpPart = partPath.shift();
-                if (tmpPart === 'model') {
-                  valueExpression = 'model';
+                let isJSON = false;
+                let isI18nFormat = false;
+                part = part.substring(2, part.length - 2);
+                if (part.indexOf('serialize(') === 0) {
+                  isJSON = true;
+                  part = part.substring(10, part.length - 1); // serialize(text...)
                 }
-                else if (tmpPart === 'effectiveLang') {
-                  valueExpression = 'effectiveLang';
+                else if (part.indexOf('i18nFormat(') === 0) {
+                  isI18nFormat = true;
+                  part = part.substring(11, part.length - 1); // i18nFormat(param.0,parts.X,parts.Y,...)
                 }
-                while (tmpPart = partPath.shift()) {
-                  valueExpression += `["${tmpPart}"]`;
+                let params = isI18nFormat ? part.split(/,/) : [part];
+                let valueExpression;
+                let valueExpressions = [];
+                while (part = params.shift()) {
+                  let partPath = part.split(/[.]/);
+                  valueExpression = 'text';
+                  let tmpPart = partPath.shift();
+                  if (tmpPart === 'parts') {
+                    valueExpression = `parts[${partPath[0]}]`;
+                  }
+                  else {
+                    if (tmpPart === 'model') {
+                      valueExpression = 'model';
+                    }
+                    else if (tmpPart === 'effectiveLang') {
+                      valueExpression = 'effectiveLang';
+                    }
+                    while (tmpPart = partPath.shift()) {
+                      valueExpression += `["${tmpPart}"]`;
+                    }
+                    if (isJSON) {
+                      valueExpression = `JSON.stringify(${valueExpression})`;
+                    }
+                  }
+                  valueExpressions.push(valueExpression);
                 }
-                //console.log('html: part ' + part + ' = ' + valueExpression);
-                let valueExpressionAst = espree.parse(valueExpression, espreeModuleOptions).body[0].expression;
+                let valueExpressionAst;
+                if (isI18nFormat) {
+                  valueExpression = valueExpressions.join(',');
+                  valueExpression = `_bind.element.i18nFormat(${valueExpression})`;
+                  valueExpressionAst = espree.parse(valueExpression, espreeModuleOptions).body[0].expression;
+                  valueExpressions.forEach((param, index) => {
+                    let tmpMatch = param.match(/^parts\[([0-9]*)\]$/);
+                    if (tmpMatch) {
+                      valueExpressionAst.arguments[index] = ast.quasi.expressions[parseInt(tmpMatch[1]) + offset]
+                    }
+                  });
+                }
+                else {
+                  //console.log('html: part ' + part + ' = ' + valueExpression);
+                  valueExpressionAst = espree.parse(valueExpression, espreeModuleOptions).body[0].expression;
+                }
                 parts.push(valueExpressionAst);
               }
             }
@@ -456,7 +495,7 @@ var unmodulize = gulpif(['**/*.js'], through.obj(function (file, enc, callback) 
           if (atob(original) !== template) {
             console.error('atob(btoa(template)) !== template');
           }
-          html += `<dom-module id="${nameFromPath}"><template>${template.replace(/\\[$]/g, '$')}</template></dom-module><!-- end of dom-module id="${nameFromPath}" -->\n`;
+          html += `<dom-module id="${nameFromPath}"><template>${template.replace(/\\[$]/g, '$')}</template></dom-module><!-- end of polymer3 dom-module id="${nameFromPath}" -->\n`;
           names.push(nameFromPath);
         }
       }
@@ -557,12 +596,17 @@ var dropDummyHTML = gulpif('**/*.html', through.obj(function (file, enc, callbac
   let code = stripBom(String(file.contents));
   if (code.indexOf(temporaryHTML) >= 0 || file.path.match(/\/index[.]html$/)) {
     let match1 = code.match(/<encoded-original>(.*)<[/]encoded-original>/);
-    let match2 = code.match(/<dom-module id="(.*)"><template localizable-text="embedded">([^`]*)<[/]template><[/]dom-module><!-- end of dom-module id="(.*)" -->/);
-    if (match1 && match2) {
+    let _match2 = code.match(/<dom-module id="(.*)"><template localizable-text="embedded">/);
+    let match2;
+    if (_match2) {
+      match2 = code.match(new RegExp(
+        '<dom-module id="(' + _match2[1] + ')"><template localizable-text="embedded">([^`]*)<[/]template><[/]dom-module><!-- end of polymer3 dom-module id="(' + _match2[1] + ')" -->'));
+    }
+    if (match1 && match2 && match2[1] === match2[3]) {
       let name = match2[1];
       let original = atob(match1[1]);
       let preprocessed = match2[2];
-      console.log('setting preprocessedTemplates name = ' + name);
+      console.log('setting preprocessedTemplates name = ' + name + ' (Polymer 3.x)');
       preprocessedTemplates[name] = {
         original: original,
         preprocessed: preprocessed,
@@ -588,7 +632,12 @@ var dropDummyHTML = gulpif('**/*.html', through.obj(function (file, enc, callbac
             };
             console.log('setting preprocessedTemplates name = ' + name/* + ' preprocessed = ' + preprocessed*/);
           }
-          _code = _code.substring(_code.indexOf('<!-- end of dom-module id='));
+          if ((index = _code.indexOf('<!-- end of dom-module id=')) >= 0) {
+            _code = _code.substring(index);
+          }
+          else {
+            break;
+          }
         }
       }
       if ((index = code.indexOf('<!-- start of innerHTML -->')) >= 0) {
@@ -647,7 +696,7 @@ var preprocessJs = gulpif(['**/*.js'], through.obj(function (file, enc, callback
     else {
       console.error('preprocessJs name = ' + nameFromPath + ' template not found');
     }
-    console.log('preprocessJs name = ' + nameFromPath);
+    console.log('preprocessJs: preprocessing HTML template for ' + nameFromPath + ' (Polymer 3.x)');
   }
   callback(null, file);
 }));
