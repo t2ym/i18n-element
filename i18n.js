@@ -132,9 +132,14 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     // this.invalidate(); // ??
   }
 
-  fire(type, detail = null, options) {
-    const event = new CustomEvent(type, { detail: detail, ...options });
-    this.dispatchEvent(event);
+  /**
+   * Emulates fire() of Polymer library
+   */
+  fire(type, detail = {}, options = {}) {
+    const { bubbles = true, cancelable = false, composed = true, node = this } = options;
+    const event = new Event(type, { bubbles, cancelable, composed });
+    event.detail = detail === null ? {} : detail;
+    node.dispatchEvent(event);
     return event;
   }
 
