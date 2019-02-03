@@ -93,6 +93,6 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "i18n-behavior": "^3.0.0-pre.23"
+    "i18n-behavior": "^3.0.0-pre.24"
   }
 }
