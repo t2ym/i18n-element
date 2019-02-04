@@ -78,6 +78,74 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           })
         });
       });
+      (nativeES6 ?
+        [
+          //'src2',
+          //'src3',
+          'src4',
+          //'preprocess2',
+          //'preprocess3',
+          'preprocess4',
+          //'bundled',
+          //'minify2-min'
+        ] :
+        [
+          //'src2',
+          //'src3',
+          'src4',
+          //'preprocess2',
+          //'preprocess3',
+          'preprocess4',
+          //'bundled',
+          //'minify2-min'
+        ]
+      ).forEach(function (phase) {
+        (nativeShadow ? [ '', /*'?xhr=fake&suppress=true', '?dom=shadow&xhr=fake&suppress=true' */ ] : [ '?xhr=fake&suppress=true' ]).forEach(function (dom) {
+          (nativeES6 ? 
+            [
+              'element-binding',
+              'name-binding',
+              'element-name-binding',
+              //'mixin',
+              //'base-element',
+              //'thin',
+              //'legacy'
+            ] :
+            [
+              'element-binding',
+              'name-binding',
+              'element-name-binding',
+              //'mixin',
+              //'base-element',
+              //'thin',
+              //'legacy'
+            ]
+          ).forEach(function (syntax) {
+            (nativeCustomElementsV1 ?
+              [
+                'minimal',
+                'basic',
+                //'edge-case',
+                //'multiple-case',
+                //'template-default-lang',
+                //'preference',
+                //'no-persist'
+              ] :
+              [
+                'minimal',
+                'basic',
+                //'edge-case',
+                //'multiple-case',
+                //'template-default-lang',
+                //'preference',
+                //'no-persist'
+              ]
+            ).forEach(function (type) {
+              suites.push(phase + '/' + type + '-test.html' + (dom ? dom + '&syntax=' + syntax : '?syntax=' + syntax));
+            });            
+          })
+        });
+      });
       // Load and run all tests (.html, .js):
       WCT.loadSuites(suites);
     </script>

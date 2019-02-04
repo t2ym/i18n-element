@@ -1,0 +1,67 @@
+{
+  "get-message": {
+    "meta": {
+      "locales": [
+        "ja"
+      ]
+    },
+    "model": {},
+    "div": "message"
+  },
+  "lit-clock": {
+    "meta": {
+      "locales": [
+        "ja"
+      ]
+    },
+    "model": {
+      "target": {
+        "i18n-target-attr": "I18N target attribute value",
+        "i18n-target-attr2": [
+          "I18N target with {1} and {2}",
+          "{{parts.5}}",
+          "{{parts.6}}"
+        ]
+      }
+    },
+    "target": [
+      "Time: {1}:{2}",
+      "{{parts.7}}",
+      "{{parts.8}}"
+    ]
+  },
+  "world-clock-container": {
+    "meta": {
+      "locales": [
+        "ja"
+      ]
+    },
+    "model": {},
+    "div_1": "World Clocks",
+    "compound-format-text": [
+      {
+        "0": "No timezones",
+        "1": "Only 1 timezone for {2} is shown.",
+        "one": "{1} timezone other than {2} is shown.",
+        "other": "{1} timezones other than {2} are shown."
+      },
+      "{{parts.1 - 1}}",
+      "{{parts.2}}"
+    ]
+  },
+  "world-clock": {
+    "meta": {
+      "locales": [
+        "ja"
+      ]
+    },
+    "model": {},
+    "div_1": [
+      " Timezone: GMT{1}\n        {2}\n        {3} ",
+      "{{parts.0}}",
+      "-1h",
+      "+1h"
+    ]
+  },
+  "bundle": true
+}

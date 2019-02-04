@@ -797,3 +797,8 @@ gulp.task('patch-wct-browser-legacy', () => {
   return gulp.src([ 'test/browser.js' ], { base: 'test' })
     .pipe(gulp.dest('node_modules/wct-browser-legacy'));
 });
+
+gulp.task('patch-browser-capabilities', () => {
+  return gulp.src([ 'test/browser-capabilities.js' ], { base: 'test' })
+    .pipe(gulp.dest('node_modules/browser-capabilities/lib'));
+});

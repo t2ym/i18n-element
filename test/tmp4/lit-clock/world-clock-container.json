@@ -1,0 +1,15 @@
+{
+  "meta": {},
+  "model": {},
+  "div_1": "World Clocks",
+  "compound-format-text": [
+    {
+      "0": "No timezones",
+      "1": "Only 1 timezone for {2} is shown.",
+      "one": "{1} timezone other than {2} is shown.",
+      "other": "{1} timezones other than {2} are shown."
+    },
+    "{{parts.1 - 1}}",
+    "{{parts.2}}"
+  ]
+}

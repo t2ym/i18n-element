@@ -1,0 +1,82 @@
+<!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"><!-- start of innerHTML --><template id="plural-gender-element" basepath="plural-gender-element/" localizable-text="embedded">
+    <p>
+      <i18n-format id="compound-format-text" on-rendered="_rendered" lang="{{effectiveLang}}">
+        <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
+        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{recipients.length}}</i18n-number>
+        <span slot="2">{{recipients.0.gender}}</span>
+        <span slot="3">{{sender.name}}</span>
+        <span slot="4">{{recipients.0.name}}</span>
+        <span slot="5">{{text.compound-format-text.5}}</span>
+      </i18n-format>
+    </p>
+  <template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "compound-format-text": [
+    {
+      "0": "You ({3}) gave no gifts.",
+      "1": {
+        "male": "You ({3}) gave him ({4}) {5}.",
+        "female": "You ({3}) gave her ({4}) {5}.",
+        "other": "You ({3}) gave them ({4}) {5}."
+      },
+      "one": {
+        "male": "You ({3}) gave him ({4}) and one other person {5}.",
+        "female": "You ({3}) gave her ({4}) and one other person {5}.",
+        "other": "You ({3}) gave them ({4}) and one other person {5}."
+      },
+      "other": "You ({3}) gave them ({4}) and {1} other people gifts."
+    },
+    "{{recipients.length - 1}}",
+    "{{recipients.0.gender}}",
+    "{{sender.name}}",
+    "{{recipients.0.name}}",
+    "a gift"
+  ]
+}
+</json-data>
+</template>
+</template><!-- end of innerHTML --></head><body><dom-module id="plural-gender-element"><template localizable-text="embedded">
+    <p>
+      <i18n-format id="compound-format-text" @rendered="{{parts.0}}" lang="{{effectiveLang}}">
+        <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
+        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{parts.1}}</i18n-number>
+        <span slot="2">{{parts.2}}</span>
+        <span slot="3">{{parts.3}}</span>
+        <span slot="4">{{parts.4}}</span>
+        <span slot="5">{{text.compound-format-text.5}}</span>
+      </i18n-format>
+    </p>
+<template id="localizable-text">
+<json-data>
+{
+  "meta": {},
+  "model": {},
+  "compound-format-text": [
+    {
+      "0": "You ({3}) gave no gifts.",
+      "1": {
+        "male": "You ({3}) gave him ({4}) {5}.",
+        "female": "You ({3}) gave her ({4}) {5}.",
+        "other": "You ({3}) gave them ({4}) {5}."
+      },
+      "one": {
+        "male": "You ({3}) gave him ({4}) and one other person {5}.",
+        "female": "You ({3}) gave her ({4}) and one other person {5}.",
+        "other": "You ({3}) gave them ({4}) and one other person {5}."
+      },
+      "other": "You ({3}) gave them ({4}) and {1} other people gifts."
+    },
+    "{{parts.1 - 1}}",
+    "{{parts.2}}",
+    "{{parts.3}}",
+    "{{parts.4}}",
+    "a gift"
+  ]
+}
+</json-data>
+</template>
+</template></dom-module><!-- end of dom-module id="plural-gender-element" -->
+</body></html>

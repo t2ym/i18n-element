@@ -40,6 +40,7 @@
     "url": "https://github.com/t2ym/i18n-element/issues"
   },
   "devDependencies": {
+    "@google-web-components/google-chart": "^3.0.1",
     "@polymer/iron-component-page": "^4.0.0",
     "@polymer/iron-demo-helpers": "^3.0.0",
     "@polymer/iron-flex-layout": "^3.0.0",

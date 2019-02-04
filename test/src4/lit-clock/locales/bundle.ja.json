@@ -1,0 +1,59 @@
+{
+  "get-message": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "div": "ja メッセージ"
+  },
+  "lit-clock": {
+    "meta": {
+      "todo": []
+    },
+    "model": {
+      "target": {
+        "i18n-target-attr": "ja I18N target attribute value",
+        "i18n-target-attr2": [
+          "ja I18N target with {1} and {2}",
+          "{{parts.5}}",
+          "{{parts.6}}"
+        ]
+      }
+    },
+    "target": [
+      "ja 時刻: {1}:{2}",
+      "{{parts.7}}",
+      "{{parts.8}}"
+    ]
+  },
+  "world-clock-container": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "div_1": "ja 世界時計",
+    "compound-format-text": [
+      {
+        "0": "どのタイムゾーンも表示されていません。",
+        "1": "タイムゾーン{2}が1つだけ表示されています。",
+        "one": "{2}以外に、{1}つのタイムゾーンが表示されています。",
+        "other": "{2}以外に、{1}つのタイムゾーンが表示されています。"
+      },
+      "{{parts.1 - 1}}",
+      "{{parts.2}}"
+    ]
+  },
+  "world-clock": {
+    "meta": {
+      "todo": []
+    },
+    "model": {},
+    "div_1": [
+      "ja タイムゾーン: GMT{1}\n        {2}\n        {3} ",
+      "{{parts.0}}",
+      "-1時間",
+      "+1時間"
+    ]
+  },
+  "bundle": true
+}
