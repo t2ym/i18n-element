@@ -104,6 +104,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     this.is = this.constructor.is;
     this.importMeta = this.constructor.importMeta;
     this.templateDefaultLang = 'en';
+    this.observeHtmlLang = true;
     if (!this.__proto__._fetchStatus) {
       this.__proto__._fetchStatus = { // per custom element
         fetchingInstance: null,
@@ -216,8 +217,15 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     this._htmlLangObserver = this._htmlLangObserver || 
       new MutationObserver(this._handleHtmlLangChange.bind(this));
     this._htmlLangObserver.observe(this._html = I18nControllerBehavior.properties.html.value, { attributes: true });
-    if (this.lang !== this._html.lang && this._html.lang) {
-      setTimeout(() => this.lang = this._html.lang, 0);
+    if (this.observeHtmlLang && this.lang !== this._html.lang && this._html.lang) {
+      let htmlLang = this._html.lang;
+      let originalLang = this.lang;
+      setTimeout(() => {
+        this._updateEffectiveLang();
+        if (this.observeHtmlLang && this.lang === originalLang) {
+          this.lang = htmlLang;
+        }
+      }, 0);
     }
   }
 
@@ -225,7 +233,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     mutations.forEach(function(mutation) {
       switch (mutation.type) {
       case 'attributes':
-        if (mutation.attributeName === 'lang') {
+        if (this.observeHtmlLang && mutation.attributeName === 'lang') {
           this.lang = this._html.lang;
         }
         break;
@@ -493,13 +501,7 @@ export const html = (strings, ...parts) => {
   return litHtml(preprocessedStrings, ...preprocessedParts);
 }
 
-class ObserverElement extends i18n(HTMLElement) {
-  static get importMeta() {
-    return import.meta;
-  }
-}
-customElements.define(ObserverElement.is, ObserverElement);
-export const observer = document.createElement(ObserverElement.is);
+class ObserverElement extends i18n(HTMLElement) {}
 
 class BindingBase {
   toString() {
@@ -526,7 +528,7 @@ class NameBinding extends BindingBase {
     super();
     this.name = name || null;
     this.meta = meta || null;
-    this.element = observer.getBoundElement(name, meta);
+    this.element = ObserverElement.prototype.getBoundElement(name, meta);
   }
 }
 class ElementNameBinding extends BindingBase {
