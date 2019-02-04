@@ -222,7 +222,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       let originalLang = this.lang;
       setTimeout(() => {
         this._updateEffectiveLang();
-        if (this.observeHtmlLang && this.lang === originalLang) {
+        if (this.observeHtmlLang && (this.lang === originalLang || (this.lang === this.templateDefaultLang && originalLang === ''))) {
           this.lang = htmlLang;
         }
       }, 0);
