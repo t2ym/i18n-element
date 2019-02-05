@@ -32,6 +32,8 @@ if (!Object.getOwnPropertyDescriptor(SVGElement.prototype, 'children')) {
 
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
 const isIE11 = !(function F(){}).name;
+const isSafari9 = /constructor/i.test(window.HTMLElement) && parseInt(navigator.userAgent.match(/ Version[/]([0-9]*)[.]/)[1]) <= 9;
+const isAttributeChangedPolyfillRequired = isEdge || isIE11 || isSafari9;
 
 const nameCache = new Map(); // for UncamelCase()
 const UncamelCase = function UncamelCase (name) {
@@ -118,7 +120,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       };
     }
     this.addEventListener('lang-updated', this._updateEffectiveLang.bind(this));
-    if (isEdge || isIE11) {
+    if (isAttributeChangedPolyfillRequired) {
       this._polyfillAttributeChangedCallback();
     }
     this._startMutationObserver();
