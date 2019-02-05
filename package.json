@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "3.0.0-pre.26-lit-html.16",
+  "version": "3.0.0-pre.26-lit-html.17",
   "main": "i18n-element.js",
   "directories": {
     "test": "test"
