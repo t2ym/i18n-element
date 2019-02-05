@@ -17,5 +17,9 @@ const getMutatingMessage = () => {
 };
 
 export const getMessage = () => {
-  return html`${'get-message',binding}<div>message</div><div>${getMutatingMessage()}</div>`;
+  return html`${'get-message',binding}<div>message</div><div>${getMutatingMessage()}</div><div>${getMessage2()}</div>`;
+}
+
+export const getMessage2 = () => {
+  return html`${bind('get-message2', import.meta)}<div>message 2</div>`;
 }

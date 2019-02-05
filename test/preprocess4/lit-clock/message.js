@@ -20,14 +20,30 @@ export const getMessage = () => {
     '<!-- localizable -->',
     '<div>',
     '</div><div>',
+    '</div><div>',
     '</div>'
   ], ...bind(('get-message', binding), (_bind, text, model, effectiveLang) => [
     _bind,
     text['div'],
-    getMutatingMessage()
+    getMutatingMessage(),
+    getMessage2()
   ], {
     'meta': {},
     'model': {},
     'div': 'message'
+  }));
+};
+export const getMessage2 = () => {
+  return html([
+    '<!-- localizable -->',
+    '<div>',
+    '</div>'
+  ], ...bind('get-message2', import.meta, (_bind, text, model, effectiveLang) => [
+    _bind,
+    text['div']
+  ], {
+    'meta': {},
+    'model': {},
+    'div': 'message 2'
   }));
 };
