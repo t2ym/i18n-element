@@ -23,3 +23,13 @@ export const getMessage = () => {
 export const getMessage2 = () => {
   return html`${bind('get-message2', import.meta)}<div>message 2</div>`;
 }
+
+/* broken bindings */
+customElements.define('broken-element', class extends HTMLElement {
+  static get isI18n() {
+    return this._isI18n = !this._isI18n;
+  }
+});
+bind(document.createElement('broken-element'));
+bind(document.createElement('broken-element'), 'broken-element') + '';
+bind('invalid-binding', 1);
