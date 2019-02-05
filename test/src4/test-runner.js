@@ -493,7 +493,7 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
               console.log(params.suite, 'waiting for ' + event);
               if (params &&
                   (params.event ||
-                  params.assign && (params.assign.lang || params.assign['html.lang']) && params.assign.lang && params.assign.lang !== element.effectiveLang)) {
+                  params.assign && (params.assign.lang || params.assign['html.lang']) && (params.assign.lang && params.assign.lang !== element.effectiveLang || params.assign['html.lang'] && params.assign['html.lang'] !== element.effectiveLang))) {
                 el.addEventListener(event, function fixtureSetup (e) {
                   if (el === e.composedPath()[0] &&
                       el.lang === params.lang &&
