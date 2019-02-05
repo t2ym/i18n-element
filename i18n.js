@@ -32,7 +32,7 @@ if (!Object.getOwnPropertyDescriptor(SVGElement.prototype, 'children')) {
 
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
 const isIE11 = !(function F(){}).name;
-const isSafari9 = /constructor/i.test(window.HTMLElement) && parseInt(navigator.userAgent.match(/ Version[/]([0-9]*)[.]/)[1]) <= 9;
+const isSafari9 = navigator.userAgent.match(/ Version[/]9[.][0-9]*[.][0-9]* Safari[/]/);
 const isAttributeChangedPolyfillRequired = isEdge || isIE11 || isSafari9;
 
 const nameCache = new Map(); // for UncamelCase()
