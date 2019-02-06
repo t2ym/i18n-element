@@ -491,6 +491,7 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
             }
             return new Promise(function (resolve, reject) {
               console.log(params.suite, 'waiting for ' + event);
+              var resolved = false;
               if (params &&
                   (params.event ||
                   params.assign && (params.assign.lang || params.assign['html.lang']) && (params.assign.lang && params.assign.lang !== element.effectiveLang || params.assign['html.lang'] && params.assign['html.lang'] !== element.effectiveLang))) {
@@ -500,7 +501,10 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
                       el.effectiveLang === params.effectiveLang) {
                     el.removeEventListener(event, fixtureSetup);
                     console.log('setup: updateProperty resolving on ' + event);
-                    resolve(el);
+                    if (!resolved) {
+                      resolved = true;
+                      resolve(el);
+                    }
                   }
                   else {
                     console.log(params.suite + ' skipping uninteresting event ' + event +
@@ -509,6 +513,12 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
                 });
                 console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
                 updateProperty(el, params.assign);
+                setTimeout(() => {
+                  if (!resolved) {
+                    resolved = true;
+                    resolve(el);
+                  }
+                }, 10000);
               }
               else {
                 console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));

@@ -156,7 +156,7 @@ case 'element-binding':
           this.renderedEffectiveLang = this.effectiveLang;
           setTimeout(() => {
             this.fire('local-dom-ready');
-          }, 500);
+          }, 5000);
         }
       }
     }
@@ -281,7 +281,7 @@ case 'name-binding':
           this.renderedEffectiveLang = this.effectiveLang;
           setTimeout(() => {
             this.fire('local-dom-ready');
-          }, 500);
+          }, 5000);
         }
       }
     }
@@ -406,7 +406,7 @@ case 'element-name-binding':
           this.renderedEffectiveLang = this.effectiveLang;
           setTimeout(() => {
             this.fire('local-dom-ready');
-          }, 500);
+          }, 5000);
         }
       }
     }

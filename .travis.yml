@@ -5,7 +5,6 @@ branches:
 sudo: true
 dist: trusty
 before_script:
-  - npm install -g polymer-cli
   - 'export PATH=$PWD/node_modules/.bin:$PATH'
 env:
   global:
@@ -23,5 +22,7 @@ addons:
 script:
   - gulp patch-wct-browser-legacy # cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
   - gulp patch-browser-capabilities # treat Edge as ES5 browser
-  - for target in lit src3 preprocess3 bundled; do { export COVERAGE_DIR=test/coverage-report-${target} && wct --npm --module-resolution node test/${target}-index.html; } done
+  - for target in lit; do { export COVERAGE_DIR=test/coverage-report-${target}-safari9 && wct --npm --module-resolution node --root . --config-file test/safari9-wct.conf.js --skip-plugin istanbul test/${target}-index.html; } done
+  - for target in lit; do { export COVERAGE_DIR=test/coverage-report-${target}-non-safari9 && wct --npm --module-resolution node --root . --config-file test/non-safari9-wct.conf.js test/${target}-index.html; } done
+  - for target in lit src3 preprocess3 bundled; do { export COVERAGE_DIR=test/coverage-report-${target} && wct --npm --module-resolution node --root . --config-file wct.conf.js test/${target}-index.html; } done
   - 'if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger ''test/coverage-report*/lcov.info'' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi'
