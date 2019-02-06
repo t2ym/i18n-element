@@ -23,5 +23,5 @@ addons:
 script:
   - gulp patch-wct-browser-legacy # cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
   - gulp patch-browser-capabilities # treat Edge as ES5 browser
-  - wct --npm --module-resolution=node test/lit-index.html
+  - for target in lit src3 preprocess3 bundled; do { export COVERAGE_DIR=test/coverage-report-${target} && wct --npm --module-resolution node test/${target}-index.html; } done
   - 'if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger ''test/coverage-report*/lcov.info'' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi'

@@ -1,4 +1,4 @@
-{
+module.exports = {
   "plugins": {
     "local": {
       "browsers": [
@@ -41,7 +41,7 @@
       ]
     },
     "istanbul": {
-      "dir": "test/coverage-report",
+      "dir": process.env.COVERAGE_DIR || "test/coverage-report",
       "reporters": ["text-summary", "lcov"],
       "include": [
         "**/i18n-element.js",
@@ -58,4 +58,4 @@
       ]
     }
   }
-}
+};
