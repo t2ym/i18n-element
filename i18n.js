@@ -266,7 +266,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'lang') {
       // super.attributeChangedCallbck() is not called
-      if (this.is !== 'observer-element' && oldValue !== newValue) {
+      if (oldValue !== newValue) {
         if (I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
           this._langChanged(newValue, oldValue);
         }
