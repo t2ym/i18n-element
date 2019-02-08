@@ -106,7 +106,7 @@ class AwesomeElement extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({mode: 'open'});
-    this.addEventListener('lang-updated', _langUpdated.bind(this));
+    this.addEventListener('lang-updated', this._langUpdated.bind(this));
   }
   connectedCallback() { this.invalidate(); }
   _langUpdated(event) { this.invalidate(); }
