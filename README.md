@@ -89,7 +89,7 @@ import { Localizable } from 'i18n-element/i18n-element.js';
     polymer build
     # Static build on http://localhost:8080
     cd build/{esm-unbundled|esm-bundled|es6-bundled|es5-bundled}
-    python -m SimpleHTTPServer -p 8080
+    python -m SimpleHTTPServer 8080
 ```
 
 ## Syntax
