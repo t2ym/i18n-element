@@ -1,0 +1,1883 @@
+{
+  "schema_version": "1.0.0",
+  "elements": [
+    {
+      "description": "A dummy `<observer-element>` class to call a method getBoundElement without instantiating any elements",
+      "summary": "",
+      "path": "i18n.js",
+      "properties": [
+        {
+          "name": "text",
+          "type": "?",
+          "description": "Read-only locale resources object of this element\nNote: The object can be for the fallback value before the locale resourced are loaded from JSON",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 236,
+              "column": 2
+            },
+            "end": {
+              "line": 238,
+              "column": 3
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "is",
+          "type": "string | null | undefined",
+          "description": "Set as the value of this.constructor.is",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 101,
+              "column": 6
+            },
+            "end": {
+              "line": 101,
+              "column": 25
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "templateDefaultLang",
+          "type": "String",
+          "description": "default value: 'en'; locale for the template",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 106,
+              "column": 6
+            },
+            "end": {
+              "line": 106,
+              "column": 42
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "effectiveLang",
+          "type": "String",
+          "description": "set as this.lang value when locale resources are updated",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 6
+            },
+            "end": {
+              "line": 111,
+              "column": 37
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "observeHtmlLang",
+          "type": "Boolean",
+          "description": "default value: true; set to false in constructor if html.lang changes must not be reflected to the element",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 116,
+              "column": 6
+            },
+            "end": {
+              "line": 116,
+              "column": 40
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_fetchStatus",
+          "type": "Object",
+          "description": "internally used object to store status of fetching locale resources; the object is shared among all the instances of a custom element",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 121,
+              "column": 6
+            },
+            "end": {
+              "line": 121,
+              "column": 36
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "i18n"
+        }
+      ],
+      "methods": [
+        {
+          "name": "resolveUrl",
+          "description": "Resolves URL relative to the base URL of the element class, emulating resolveUrl() in Polymer library",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 194,
+              "column": 2
+            },
+            "end": {
+              "line": 196,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "url",
+              "type": "string",
+              "description": "URL to resolve"
+            },
+            {
+              "name": "base",
+              "type": "string",
+              "defaultValue": "this.constructor.importMeta.url",
+              "description": "Base URL for resolution; default value: this.constructor.importMeta.url"
+            }
+          ],
+          "return": {
+            "type": "string",
+            "desc": "resolved URL"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "notifyPath",
+          "description": "Callback to notify updates on the locale resources; Does nothing as a dummy function for notifyPath() in Polymer library\nOptionally overrides this method to catch the updates of the locale resources since it is called just before each 'lang-updated' event is dispatched",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 204,
+              "column": 2
+            },
+            "end": {
+              "line": 206,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path",
+              "type": "string",
+              "description": "'text'; this.text is updated"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "this.text object"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "fire",
+          "description": "Emulates fire() of Polymer library",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 214,
+              "column": 2
+            },
+            "end": {
+              "line": 220,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "string",
+              "description": "Event type"
+            },
+            {
+              "name": "detail",
+              "type": "Object",
+              "defaultValue": "{}",
+              "description": "Event.detail object"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "defaultValue": "{}",
+              "description": "Event options"
+            }
+          ],
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_updateEffectiveLang",
+          "description": "Updates this.effectiveLang\nEvent listener of 'lang-updated' event",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 227,
+              "column": 2
+            },
+            "end": {
+              "line": 229,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "event",
+              "type": "Event",
+              "description": "'lang-updated' event"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "getText",
+          "description": "Gets the locale resources of the specified element name",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 246,
+              "column": 2
+            },
+            "end": {
+              "line": 259,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "(Pseudo-)Custom element name"
+            },
+            {
+              "name": "meta",
+              "type": "Object",
+              "description": "import.meta object of the target element"
+            }
+          ],
+          "return": {
+            "type": "Object",
+            "desc": "Locale resources of the target element"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_setText",
+          "description": "Internally sets the default locale resources for the specified (pseudo-)element name",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 267,
+              "column": 2
+            },
+            "end": {
+              "line": 274,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "(Pseudo-)element name"
+            },
+            {
+              "name": "bundle",
+              "type": "Object",
+              "description": "Locale resources object"
+            },
+            {
+              "name": "templateLang",
+              "type": "string",
+              "description": "Locale of the locale resources object"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "getBoundElement",
+          "description": "Obtains bound (pseudo-)element of the specified name",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 282,
+              "column": 2
+            },
+            "end": {
+              "line": 317,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "(Pseudo-)element name"
+            },
+            {
+              "name": "meta",
+              "type": "Object",
+              "description": "import.meta object for the (pseudo-)element"
+            }
+          ],
+          "return": {
+            "type": "HTMLElement",
+            "desc": "Bound element"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_startMutationObserver",
+          "description": "Internally starts mutation observer for lang property of html tag of the document at constructor",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 322,
+              "column": 2
+            },
+            "end": {
+              "line": 336,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_handleHtmlLangChange",
+          "description": "Handle mutations of lang property of html tag via MutationObserver",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 342,
+              "column": 2
+            },
+            "end": {
+              "line": 354,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "mutations",
+              "type": "Array",
+              "description": "Array of mutations"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_polyfillAttributeChangedCallback",
+          "description": "Setup polyfill for attributeChangedCallback() of custom elements v1 for unsupported browsers",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 359,
+              "column": 2
+            },
+            "end": {
+              "line": 363,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_handleSelfAttributeChange",
+          "description": "Polyfills calls to attributeChangedCallback()",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 369,
+              "column": 2
+            },
+            "end": {
+              "line": 379,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "mutations",
+              "type": "Array",
+              "description": "Array of mutations of observedAttributes"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "attributeChangedCallback",
+          "description": "attributeChangedCallback of custom elements v1 to catch lang attribute changes\nIt calls super.attributeChangedCallback() for attriutes other than lang",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 388,
+              "column": 2
+            },
+            "end": {
+              "line": 406,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "Name of attribute"
+            },
+            {
+              "name": "oldValue",
+              "type": "string",
+              "description": "Old value of the attribute"
+            },
+            {
+              "name": "newValue",
+              "type": "string",
+              "description": "New value of the attribute"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "_processTasks",
+          "description": "Internally processes queued tasks in this._tasks, which contains _langChanged calls to self, queued at attributeChangedCallback",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 411,
+              "column": 2
+            },
+            "end": {
+              "line": 418,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "i18n"
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 639,
+          "column": 0
+        },
+        "end": {
+          "line": 639,
+          "column": 50
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "ObserverElement",
+      "attributes": [
+        {
+          "name": "template-default-lang",
+          "description": "default value: 'en'; locale for the template",
+          "sourceRange": {
+            "start": {
+              "line": 106,
+              "column": 6
+            },
+            "end": {
+              "line": 106,
+              "column": 42
+            }
+          },
+          "metadata": {},
+          "type": "String",
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "effective-lang",
+          "description": "set as this.lang value when locale resources are updated",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 6
+            },
+            "end": {
+              "line": 111,
+              "column": 37
+            }
+          },
+          "metadata": {},
+          "type": "String",
+          "inheritedFrom": "i18n"
+        },
+        {
+          "name": "observe-html-lang",
+          "description": "default value: true; set to false in constructor if html.lang changes must not be reflected to the element",
+          "sourceRange": {
+            "start": {
+              "line": 116,
+              "column": 6
+            },
+            "end": {
+              "line": 116,
+              "column": 40
+            }
+          },
+          "metadata": {},
+          "type": "Boolean",
+          "inheritedFrom": "i18n"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "lang-updated",
+          "description": "Fired when its locale resources are updated",
+          "metadata": {},
+          "inheritedFrom": "i18n"
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "mixins": [
+        "i18n"
+      ]
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "demo/preprocess/clock.js",
+      "properties": [
+        {
+          "name": "date",
+          "type": "?",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 44,
+              "column": 2
+            },
+            "end": {
+              "line": 46,
+              "column": 3
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": false
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "_langUpdated",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 62,
+              "column": 2
+            },
+            "end": {
+              "line": 64,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "event"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "render",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 65,
+              "column": 2
+            },
+            "end": {
+              "line": 126,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "invalidate",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 127,
+              "column": 2
+            },
+            "end": {
+              "line": 135,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "attributeChangedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 136,
+              "column": 2
+            },
+            "end": {
+              "line": 147,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "oldValue"
+            },
+            {
+              "name": "newValue"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 35,
+          "column": 7
+        },
+        "end": {
+          "line": 148,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "LitClock",
+      "attributes": [],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "lit-clock"
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "demo/preprocess/clock.js",
+      "properties": [
+        {
+          "name": "date",
+          "type": "?",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 180,
+              "column": 2
+            },
+            "end": {
+              "line": 183,
+              "column": 3
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": false
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "_langUpdated",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 62,
+              "column": 2
+            },
+            "end": {
+              "line": 64,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "event"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "LitClock"
+        },
+        {
+          "name": "render",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 193,
+              "column": 2
+            },
+            "end": {
+              "line": 225,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "invalidate",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 127,
+              "column": 2
+            },
+            "end": {
+              "line": 135,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "LitClock"
+        },
+        {
+          "name": "attributeChangedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 136,
+              "column": 2
+            },
+            "end": {
+              "line": 147,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "oldValue"
+            },
+            {
+              "name": "newValue"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "LitClock"
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 176,
+          "column": 0
+        },
+        "end": {
+          "line": 226,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "LitClock",
+      "name": "WorldClock",
+      "attributes": [],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "world-clock"
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "demo/preprocess/clock.js",
+      "properties": [],
+      "methods": [
+        {
+          "name": "_langUpdated",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 242,
+              "column": 2
+            },
+            "end": {
+              "line": 246,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "event"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 247,
+              "column": 2
+            },
+            "end": {
+              "line": 250,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "render",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 251,
+              "column": 2
+            },
+            "end": {
+              "line": 286,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "invalidate",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 287,
+              "column": 2
+            },
+            "end": {
+              "line": 295,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 228,
+          "column": 0
+        },
+        "end": {
+          "line": 296,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "WorldClockContainer",
+      "attributes": [],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "world-clock-container"
+    }
+  ],
+  "mixins": [
+    {
+      "description": "I18N mixin for lit-html",
+      "summary": "I18N mixin for lit-html",
+      "path": "i18n.js",
+      "properties": [
+        {
+          "name": "text",
+          "type": "?",
+          "description": "Read-only locale resources object of this element\nNote: The object can be for the fallback value before the locale resourced are loaded from JSON",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 236,
+              "column": 2
+            },
+            "end": {
+              "line": 238,
+              "column": 3
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          }
+        },
+        {
+          "name": "is",
+          "type": "string | null | undefined",
+          "description": "Set as the value of this.constructor.is",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 101,
+              "column": 6
+            },
+            "end": {
+              "line": 101,
+              "column": 25
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "templateDefaultLang",
+          "type": "String",
+          "description": "default value: 'en'; locale for the template",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 106,
+              "column": 6
+            },
+            "end": {
+              "line": 106,
+              "column": 42
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "effectiveLang",
+          "type": "String",
+          "description": "set as this.lang value when locale resources are updated",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 6
+            },
+            "end": {
+              "line": 111,
+              "column": 37
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "observeHtmlLang",
+          "type": "Boolean",
+          "description": "default value: true; set to false in constructor if html.lang changes must not be reflected to the element",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 116,
+              "column": 6
+            },
+            "end": {
+              "line": 116,
+              "column": 40
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          }
+        },
+        {
+          "name": "_fetchStatus",
+          "type": "Object",
+          "description": "internally used object to store status of fetching locale resources; the object is shared among all the instances of a custom element",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 121,
+              "column": 6
+            },
+            "end": {
+              "line": 121,
+              "column": 36
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "resolveUrl",
+          "description": "Resolves URL relative to the base URL of the element class, emulating resolveUrl() in Polymer library",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 194,
+              "column": 2
+            },
+            "end": {
+              "line": 196,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "url",
+              "type": "string",
+              "description": "URL to resolve"
+            },
+            {
+              "name": "base",
+              "type": "string",
+              "defaultValue": "this.constructor.importMeta.url",
+              "description": "Base URL for resolution; default value: this.constructor.importMeta.url"
+            }
+          ],
+          "return": {
+            "type": "string",
+            "desc": "resolved URL"
+          }
+        },
+        {
+          "name": "notifyPath",
+          "description": "Callback to notify updates on the locale resources; Does nothing as a dummy function for notifyPath() in Polymer library\nOptionally overrides this method to catch the updates of the locale resources since it is called just before each 'lang-updated' event is dispatched",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 204,
+              "column": 2
+            },
+            "end": {
+              "line": 206,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path",
+              "type": "string",
+              "description": "'text'; this.text is updated"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "this.text object"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "fire",
+          "description": "Emulates fire() of Polymer library",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 214,
+              "column": 2
+            },
+            "end": {
+              "line": 220,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "string",
+              "description": "Event type"
+            },
+            {
+              "name": "detail",
+              "type": "Object",
+              "defaultValue": "{}",
+              "description": "Event.detail object"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "defaultValue": "{}",
+              "description": "Event options"
+            }
+          ]
+        },
+        {
+          "name": "_updateEffectiveLang",
+          "description": "Updates this.effectiveLang\nEvent listener of 'lang-updated' event",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 227,
+              "column": 2
+            },
+            "end": {
+              "line": 229,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "event",
+              "type": "Event",
+              "description": "'lang-updated' event"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "getText",
+          "description": "Gets the locale resources of the specified element name",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 246,
+              "column": 2
+            },
+            "end": {
+              "line": 259,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "(Pseudo-)Custom element name"
+            },
+            {
+              "name": "meta",
+              "type": "Object",
+              "description": "import.meta object of the target element"
+            }
+          ],
+          "return": {
+            "type": "Object",
+            "desc": "Locale resources of the target element"
+          }
+        },
+        {
+          "name": "_setText",
+          "description": "Internally sets the default locale resources for the specified (pseudo-)element name",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 267,
+              "column": 2
+            },
+            "end": {
+              "line": 274,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "(Pseudo-)element name"
+            },
+            {
+              "name": "bundle",
+              "type": "Object",
+              "description": "Locale resources object"
+            },
+            {
+              "name": "templateLang",
+              "type": "string",
+              "description": "Locale of the locale resources object"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "getBoundElement",
+          "description": "Obtains bound (pseudo-)element of the specified name",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 282,
+              "column": 2
+            },
+            "end": {
+              "line": 317,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "(Pseudo-)element name"
+            },
+            {
+              "name": "meta",
+              "type": "Object",
+              "description": "import.meta object for the (pseudo-)element"
+            }
+          ],
+          "return": {
+            "type": "HTMLElement",
+            "desc": "Bound element"
+          }
+        },
+        {
+          "name": "_startMutationObserver",
+          "description": "Internally starts mutation observer for lang property of html tag of the document at constructor",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 322,
+              "column": 2
+            },
+            "end": {
+              "line": 336,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_handleHtmlLangChange",
+          "description": "Handle mutations of lang property of html tag via MutationObserver",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 342,
+              "column": 2
+            },
+            "end": {
+              "line": 354,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "mutations",
+              "type": "Array",
+              "description": "Array of mutations"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_polyfillAttributeChangedCallback",
+          "description": "Setup polyfill for attributeChangedCallback() of custom elements v1 for unsupported browsers",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 359,
+              "column": 2
+            },
+            "end": {
+              "line": 363,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_handleSelfAttributeChange",
+          "description": "Polyfills calls to attributeChangedCallback()",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 369,
+              "column": 2
+            },
+            "end": {
+              "line": 379,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "mutations",
+              "type": "Array",
+              "description": "Array of mutations of observedAttributes"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "attributeChangedCallback",
+          "description": "attributeChangedCallback of custom elements v1 to catch lang attribute changes\nIt calls super.attributeChangedCallback() for attriutes other than lang",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 388,
+              "column": 2
+            },
+            "end": {
+              "line": 406,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "Name of attribute"
+            },
+            {
+              "name": "oldValue",
+              "type": "string",
+              "description": "Old value of the attribute"
+            },
+            {
+              "name": "newValue",
+              "type": "string",
+              "description": "New value of the attribute"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_processTasks",
+          "description": "Internally processes queued tasks in this._tasks, which contains _langChanged calls to self, queued at attributeChangedCallback",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 411,
+              "column": 2
+            },
+            "end": {
+              "line": 418,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/preprocess/index.html",
+          "description": "World Clocks demo (preprocessed)"
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 94,
+          "column": 7
+        },
+        "end": {
+          "line": 419,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "name": "i18n",
+      "attributes": [
+        {
+          "name": "template-default-lang",
+          "description": "default value: 'en'; locale for the template",
+          "sourceRange": {
+            "start": {
+              "line": 106,
+              "column": 6
+            },
+            "end": {
+              "line": 106,
+              "column": 42
+            }
+          },
+          "metadata": {},
+          "type": "String"
+        },
+        {
+          "name": "effective-lang",
+          "description": "set as this.lang value when locale resources are updated",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 6
+            },
+            "end": {
+              "line": 111,
+              "column": 37
+            }
+          },
+          "metadata": {},
+          "type": "String"
+        },
+        {
+          "name": "observe-html-lang",
+          "description": "default value: true; set to false in constructor if html.lang changes must not be reflected to the element",
+          "sourceRange": {
+            "start": {
+              "line": 116,
+              "column": 6
+            },
+            "end": {
+              "line": 116,
+              "column": 40
+            }
+          },
+          "metadata": {},
+          "type": "Boolean"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "lang-updated",
+          "description": "Fired when its locale resources are updated",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": []
+    }
+  ],
+  "functions": [
+    {
+      "name": "html",
+      "description": "Preprocess a template literal and hand it to lit-html\nEach template literal must have its unique (pseudo-)element name to identify itself\nThe preprocessed template for each template is cached with the (pseudo-)element name as its key\n\nExample:\n\n```js\n  return html`${bind(this)}...`;\n```\n\nExample:\n\n```js\nconst meta = import.meta;\nfunction getMessage() {\n  const name = 'get-message';\n  return html`${bind(name,meta)}...`;\n}\n```",
+      "summary": "",
+      "sourceRange": {
+        "file": "i18n.js",
+        "start": {
+          "line": 446,
+          "column": 20
+        },
+        "end": {
+          "line": 631,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "params": [
+        {
+          "type": "Array.<string>",
+          "desc": "Array of strings in the template literal. [0] must be '' if I18N is required",
+          "name": "strings"
+        },
+        {
+          "type": "Array.<any>",
+          "desc": "Array of parts in the tempalte literal. [0] must be an instance of ElementBinding or NameBinding if I18N is required",
+          "name": "parts"
+        }
+      ],
+      "return": {
+        "type": "TemplateResult",
+        "desc": "generated by lit-html"
+      }
+    },
+    {
+      "name": "bind",
+      "description": "Bind a prefixed I18N template to a specified ID or an element\n\nExample: Bound to this (the element is not extendable)\n\n```js\nclass MyElement extends i18n(HTMLElement) {\n  static get importMeta() { return import.meta; }\n  render() {\n    return html`${bind(this)}...`;\n  }\n}\n```\n\nExample: Bound to a name\n\n```js\nconst binding = bind('get-message', import.meta)\nfunction getMessage() {\n  return html`${binding}...`;\n}\n```\n\nExample: Bound to this with a name (the element is extendable)\n\n```js\nclass MyElement extends i18n(HTMLElement) {\n  static get importMeta() { return import.meta; }\n  render() {\n    return html`${bind(this, 'my-element')}...`;\n  }\n}\nclass MyExtendedElement extends MyElement {\n  static get importMeta() { return import.meta; }\n  render() {\n    return html`${bind(this, 'my-extended-element')}...${super.render()}`;\n  }\n}\n```",
+      "summary": "",
+      "sourceRange": {
+        "file": "i18n.js",
+        "start": {
+          "line": 776,
+          "column": 20
+        },
+        "end": {
+          "line": 831,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "params": [
+        {
+          "type": "(HTMLElement | string)",
+          "desc": "(Tag name of) target element instance",
+          "name": "target"
+        },
+        {
+          "type": "Object",
+          "desc": "import.meta for the module. Optional if target is an element. Mandatory if target is a name",
+          "name": "meta"
+        }
+      ]
+    },
+    {
+      "name": "getMessage",
+      "description": "",
+      "summary": "",
+      "sourceRange": {
+        "file": "demo/preprocess/message.js",
+        "start": {
+          "line": 17,
+          "column": 26
+        },
+        "end": {
+          "line": 32,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "params": []
+    }
+  ],
+  "classes": [
+    {
+      "description": "Base class to bind templates to (pseudo-)elements",
+      "summary": "",
+      "path": "i18n.js",
+      "properties": [],
+      "methods": [
+        {
+          "name": "toString",
+          "description": "Returns an empty string",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 649,
+              "column": 2
+            },
+            "end": {
+              "line": 651,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "string",
+            "desc": "'' An empty string to represent a binding object"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 644,
+          "column": 0
+        },
+        "end": {
+          "line": 652,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "name": "BindingBase"
+    },
+    {
+      "description": "Binding to an element",
+      "summary": "",
+      "path": "i18n.js",
+      "properties": [],
+      "methods": [
+        {
+          "name": "toString",
+          "description": "Returns an empty string",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 649,
+              "column": 2
+            },
+            "end": {
+              "line": 651,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "string",
+            "desc": "'' An empty string to represent a binding object"
+          },
+          "inheritedFrom": "BindingBase"
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 657,
+          "column": 0
+        },
+        "end": {
+          "line": 680,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "BindingBase",
+      "name": "ElementBinding"
+    },
+    {
+      "description": "Binding to a (pseudo-)element name",
+      "summary": "",
+      "path": "i18n.js",
+      "properties": [],
+      "methods": [
+        {
+          "name": "toString",
+          "description": "Returns an empty string",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 649,
+              "column": 2
+            },
+            "end": {
+              "line": 651,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "string",
+            "desc": "'' An empty string to represent a binding object"
+          },
+          "inheritedFrom": "BindingBase"
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 685,
+          "column": 0
+        },
+        "end": {
+          "line": 702,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "BindingBase",
+      "name": "NameBinding"
+    },
+    {
+      "description": "Binding to a (pseudo-)element with a name",
+      "summary": "",
+      "path": "i18n.js",
+      "properties": [],
+      "methods": [
+        {
+          "name": "toString",
+          "description": "Returns an empty string",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 649,
+              "column": 2
+            },
+            "end": {
+              "line": 651,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "string",
+            "desc": "'' An empty string to represent a binding object"
+          },
+          "inheritedFrom": "BindingBase"
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 707,
+          "column": 0
+        },
+        "end": {
+          "line": 731,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "BindingBase",
+      "name": "ElementNameBinding"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "todo": [
+      {
+        "op": "add",
+        "path": "/model/target/i18n-target-attr",
+        "value": "I18N target attribute value"
+      },
+      {
+        "op": "add",
+        "path": "/model/target/i18n-target-attr2/0",
+        "value": "I18N target with {1} and {2}"
+      },
+      {
+        "op": "add",
+        "path": "/model/target/i18n-target-attr2/1",
+        "value": "{{parts.5}}"
+      },
+      {
+        "op": "add",
+        "path": "/model/target/i18n-target-attr2/2",
+        "value": "{{parts.6}}"
+      },
+      {
+        "op": "add",
+        "path": "/target/0",
+        "value": "Time: {1}:{2}"
+      },
+      {
+        "op": "add",
+        "path": "/target/1",
+        "value": "{{parts.7}}"
+      },
+      {
+        "op": "add",
+        "path": "/target/2",
+        "value": "{{parts.8}}"
+      }
+    ]
+  },
+  "model": {
+    "target": {
+      "i18n-target-attr": "fr I18N target attribute value",
+      "i18n-target-attr2": [
+        "fr I18N target with {1} and {2}",
+        "{{parts.5}}",
+        "{{parts.6}}"
+      ]
+    }
+  },
+  "target": [
+    "fr Time: {1}:{2}",
+    "{{parts.7}}",
+    "{{parts.8}}"
+  ]
+}

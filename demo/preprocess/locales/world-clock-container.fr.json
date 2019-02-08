@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "todo": [
+      {
+        "op": "add",
+        "path": "/div_1",
+        "value": "World Clocks"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/0",
+        "value": "No timezones"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/1",
+        "value": "Only 1 timezone for {2} is shown."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/one",
+        "value": "{1} timezone other than {2} is shown."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/0/other",
+        "value": "{1} timezones other than {2} are shown."
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/1",
+        "value": "{{parts.1 - 1}}"
+      },
+      {
+        "op": "add",
+        "path": "/compound-format-text/2",
+        "value": "{{parts.2}}"
+      }
+    ]
+  },
+  "model": {},
+  "div_1": "fr World Clocks",
+  "compound-format-text": [
+    {
+      "0": "fr No timezones",
+      "1": "fr Only 1 timezone for {2} is shown.",
+      "one": "fr {1} timezone other than {2} is shown.",
+      "other": "fr {1} timezones other than {2} are shown."
+    },
+    "{{parts.1 - 1}}",
+    "{{parts.2}}"
+  ]
+}
