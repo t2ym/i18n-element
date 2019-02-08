@@ -45,7 +45,7 @@ const binding = bind('get-message', import.meta); // bound to a pseudo-element n
 const getMessage = () => html`${'get-message', binding}<span>get message</span>`;
 ```
 
-- Each HTML template literal is bound to its (pseudo-)element name
+- Each HTML template literal is bound to its **unique** (pseudo-)element name
 - Fetch JSON for locale resources at `locales/{element-name}.{locale}.json`
 
 ## Install
