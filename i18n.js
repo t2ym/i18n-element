@@ -84,23 +84,62 @@ const templateCache = new Map();
 
 const boundElements = new Map();
 
-// Minimal PoC I18N mixin for lit-html
+/**
+ * I18N mixin for lit-html
+ *
+ * Properties:
+ *  static get importMeta() { return import.meta; } // Extended class must have this property
+ *  text - {Object} the current locale resources object; read-only
+ *  is - {string} default value: this.constructor.is; Element name
+ *  templateDefaultLang - {string} default value: 'en'; locale for the template
+ *  effectiveLang - {string} set as this.lang value when locale resources are updated
+ *  observeHtmlLang - {boolean} default value: true; set to false in constructor if html.lang changes must not be reflected to the element
+ *  _fetchStatus - {Object} internally used object to store status of fetching locale resources; the object is shared among all the instances of a custom element
+ *
+ * @polymer
+ * @mixinFunction
+ * @param {HTMLElement} base Base class to support I18N
+ * @summary I18N mixin for lit-html
+ */
 export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, base) {
 
+  /**
+   * Fired when its locale resources are updated
+   *
+   * @event lang-updated
+   * @param {lang} this.lang
+   * @param {lastLang} Last this.lang value
+   */
+
+  /**
+   * is property by generating the custom element name from its own class name by un-camel-casing
+   * @type {!string} element name
+   */
   static get is() {
     return UncamelCase(this.name || /* name is undefined in IE11 */ this.toString().replace(/^function ([^ \(]*)((.*|[\n]*)*)$/, '$1'));
   }
 
+  /**
+   * observedAttributes property for custom elements v1 API, adding lang property to that of the super class
+   * @type {Array} list of observed attributes
+   */
   static get observedAttributes() {
     let attributes = new Set(super.observedAttributes);
     ['lang'].forEach(attr => attributes.add(attr));
     return [...attributes];
   }
 
+  /**
+   * isI18n property to return true if this mixin is provided
+   * @type {boolean} true to show that this mixin is provided
+   */
   static get isI18n() {
     return true;
   }
 
+  /**
+   * constructor
+   */
   constructor() {
     super();
     this.is = this.constructor.is;
@@ -126,17 +165,31 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     this._startMutationObserver();
   }
 
+  /**
+   * Resolves URL relative to the base URL of the element class, emulating resolveUrl() in Polymer library
+   * @param {string} url URL to resolve
+   * @param {string} base Base URL for resolution; default value: this.constructor.importMeta.url
+   * @return {string} resolved URL
+   */
   resolveUrl(url, base = this.constructor.importMeta.url) {
     return new URL(url, base).href;
   }
 
-  notifyPath() {
-    // TODO: Any actions required?
-    // this.invalidate(); // ??
+  /**
+   * Callback to notify updates on the locale resources; Does nothing as a dummy function for notifyPath() in Polymer library
+   * Optionally overrides this method to catch the updates of the locale resources since it is called just before each 'lang-updated' event is dispatched
+   * @param {string} path 'text'; this.text is updated
+   * @param {Object} value this.text object
+   */
+  notifyPath(path, value) {
+    // this.invalidate()
   }
 
   /**
    * Emulates fire() of Polymer library
+   * @param {string} type Event type
+   * @param {Object} detail Event.detail object
+   * @param {Object} options Event options
    */
   fire(type, detail = {}, options = {}) {
     const { bubbles = true, cancelable = false, composed = true, node = this } = options;
@@ -146,14 +199,30 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     return event;
   }
 
+  /**
+   * Updates this.effectiveLang
+   * Event listener of 'lang-updated' event
+   * @param {Event} event 'lang-updated' event
+   */
   _updateEffectiveLang(event) {
     this.effectiveLang = this.lang = this.lang || this.templateDefaultLang || I18nControllerBehavior.properties.defaultLang.value || 'en';
   }
 
+  /**
+   * Read-only locale resources object of this element
+   * Note: The object can be for the fallback value before the locale resourced are loaded from JSON
+   * @type {Object} Locale resources object of the current locale
+   */
   get text() {
     return this._getBundle(this.lang);
   }
 
+  /**
+   * Gets the locale resources of the specified element name
+   * @param {string} name (Pseudo-)Custom element name
+   * @param {Object} meta import.meta object of the target element
+   * @return {Object} Locale resources of the target element
+   */
   getText(name, meta) {
     this._preprocessed = true;
     if (name === this.is) {
@@ -169,6 +238,12 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     }
   }
 
+  /**
+   * Internally sets the default locale resources for the specified (pseudo-)element name
+   * @param {string} name (Pseudo-)element name
+   * @param {Object} bundle Locale resources object
+   * @param {string} templateLang Locale of the locale resources object
+   */
   _setText(name, bundle, templateLang) {
     I18nControllerBehavior.properties.masterBundles.value[''][name] = bundle;
     if (templateLang) {
@@ -178,6 +253,12 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     }
   }
 
+  /**
+   * Obtains bound (pseudo-)element of the specified name
+   * @param {string} name (Pseudo-)element name
+   * @param {Object} meta import.meta object for the (pseudo-)element
+   * @return {HTMLElement} Bound element
+   */
   getBoundElement(name, meta) {
     let boundElement = boundElements.get(name);
     if (!boundElement) {
@@ -215,6 +296,9 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     return boundElement;    
   }
 
+  /**
+   * Internally starts mutation observer for lang property of html tag of the document at constructor
+   */
   _startMutationObserver() {
     this._htmlLangObserver = this._htmlLangObserver || 
       new MutationObserver(this._handleHtmlLangChange.bind(this));
@@ -231,6 +315,10 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     }
   }
 
+  /**
+   * Handle mutations of lang property of html tag via MutationObserver
+   * @param {Array} mutations Array of mutations
+   */
   _handleHtmlLangChange(mutations) {
     mutations.forEach(function(mutation) {
       switch (mutation.type) {
@@ -245,12 +333,19 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     }, this);
   }
 
+  /**
+   * Setup polyfill for attributeChangedCallback() of custom elements v1 for unsupported browsers
+   */
   _polyfillAttributeChangedCallback() {
     this._selfObserver = this._selfObserver || 
       new MutationObserver(this._handleSelfAttributeChange.bind(this));
     this._selfObserver.observe(this, { attributes: true, attributeOldValue: true, attributeFilter: this.constructor.observedAttributes });
   }
 
+  /**
+   * Polyfills calls to attributeChangedCallback()
+   * @param {Array} mutations Array of mutations of observedAttributes
+   */
   _handleSelfAttributeChange(mutations) {
     mutations.forEach(function(mutation) {
       switch (mutation.type) {
@@ -263,6 +358,13 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     }, this);
   }
 
+  /**
+   * attributeChangedCallback of custom elements v1 to catch lang attribute changes
+   * It calls super.attributeChangedCallback() for attriutes other than lang
+   * @param {string} name Name of attribute
+   * @param {string} oldValue Old value of the attribute
+   * @param {string} newValue New value of the attribute
+   */
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'lang') {
       // super.attributeChangedCallbck() is not called
@@ -283,6 +385,9 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     }
   }
 
+  /**
+   * Internally processes queued tasks in this._tasks, which contains _langChanged calls to self, queued at attributeChangedCallback
+   */
   _processTasks() {
     if (this._tasks) {
       let task;
@@ -295,6 +400,8 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
 
 /**
  * Preprocess a template literal and hand it to lit-html
+ * Each template literal must have its unique (pseudo-)element name to identify itself
+ * The preprocessed template for each template is cached with the (pseudo-)element name as its key
  *
  * Example:
  *
@@ -312,9 +419,9 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
  * }
  * ```
  *
- * @param strings Array of strings in the template literal. [0] must be '' if I18N is required
- * @param parts Array of parts in the tempalte literal. [0] must be an instance of ElementBinding or NameBinding if I18N is required
- * @return TemplateResult generated by lit-html
+ * @param {Array<string>} strings Array of strings in the template literal. [0] must be '' if I18N is required
+ * @param {Array<any>} parts Array of parts in the tempalte literal. [0] must be an instance of ElementBinding or NameBinding if I18N is required
+ * @return {TemplateResult} generated by lit-html
  */
 export const html = (strings, ...parts) => {
   let name, meta, element;
@@ -503,14 +610,40 @@ export const html = (strings, ...parts) => {
   return litHtml(preprocessedStrings, ...preprocessedParts);
 }
 
+/**
+ * A dummy `<observer-element>` class to call a method getBoundElement without instantiating any elements
+ * @customElement
+ * @polymer
+ * @appliesMixin i18n
+ */
 class ObserverElement extends i18n(HTMLElement) {}
 
+/**
+ * Base class to bind templates to (pseudo-)elements
+ */
 class BindingBase {
+  /*
+   * Returns an empty string
+   * @return {string} '' An empty string to represent a binding object
+   */
   toString() {
     return '';
   }
 }
+
+/**
+ * Binding to an element
+ */
 class ElementBinding extends BindingBase {
+  /**
+   * Constructs ElementBinding object
+   *  Properties:
+   *   this.name: element.constructor.is
+   *   this.meta: element.constructor.importMeta
+   *   this.element: element
+   *
+   * @param {HTMLElement} element 'this' element to bind
+   */
   constructor(element) {
     super();
     if (element instanceof HTMLElement && element.constructor.isI18n) {
@@ -525,7 +658,21 @@ class ElementBinding extends BindingBase {
     }
   }
 }
+
+/**
+ * Binding to a (pseudo-)element name
+ */
 class NameBinding extends BindingBase {
+  /**
+   * Constructs NameBinding object
+   *  Properties:
+   *   this.name: name
+   *   this.meta: meta
+   *   this.element: (pseudo-)element instance, which is generated by getBoundElement() and cached
+   *
+   * @param {string} name (Pseudo-)element name
+   * @param {Object} meta import.meta Object of the (pseudo-)element
+   */
   constructor(name, meta) {
     super();
     this.name = name || null;
@@ -533,7 +680,21 @@ class NameBinding extends BindingBase {
     this.element = ObserverElement.prototype.getBoundElement(name, meta);
   }
 }
+
+/**
+ * Binding to a (pseudo-)element with a name
+ */
 class ElementNameBinding extends BindingBase {
+  /**
+   * Constructs NameBinding object
+   *  Properties:
+   *   this.name: name
+   *   this.meta: element.constructor.importMeta
+   *   this.element: element
+   *
+   * @param {HTMLElement} element 'this' element to bind
+   * @param {string} name (Pseudo-)element name
+   */
   constructor(element, name) {
     super();
     if (element instanceof HTMLElement && element.constructor.isI18n && name) {
@@ -548,6 +709,7 @@ class ElementNameBinding extends BindingBase {
     }
   }
 }
+
 /**
  * Bind a prefixed I18N template to a specified ID or an element
  *
@@ -588,8 +750,8 @@ class ElementNameBinding extends BindingBase {
  * }
  * ```
  *
- * @param target (Tag name of) target element instance
- * @param meta import.meta for the module. Optional if target is an element. Mandatory if target is a name
+ * @param {HTMLElement|string} target (Tag name of) target element instance
+ * @param {Object} meta import.meta for the module. Optional if target is an element. Mandatory if target is a name
  */
 export const bind = function (target, meta) {
   let partsGenerator;
