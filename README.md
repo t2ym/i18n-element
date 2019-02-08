@@ -1,163 +1,177 @@
 [![Build Status](https://travis-ci.org/t2ym/i18n-element.svg?branch=master)](https://travis-ci.org/t2ym/i18n-element)
 [![Coverage Status](https://coveralls.io/repos/github/t2ym/i18n-element/badge.svg?branch=master)](https://coveralls.io/github/t2ym/i18n-element?branch=master)
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/t2ym/i18n-element)
-[![Bower](https://img.shields.io/bower/v/i18n-element.svg)](https://www.webcomponents.org/element/t2ym/i18n-element)
 [![npm](https://img.shields.io/npm/v/i18n-element.svg)](https://www.npmjs.com/package/i18n-element)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/t2ym/i18n-element)
 
 # i18n-element
 
-I18N Base Element for Polymer 2.x with [i18n-behavior](https://www.webcomponents.org/element/t2ym/i18n-behavior)
+I18N Base Element for [`lit-html`](https://lit-html.polymer-project.org/) and [Polymer](https://polymer-library.polymer-project.org/) with [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) as I18N engine
 
-## Conceptual Workflow
+- `i18n-element` inserts **I18N layer** into UI definitions in HTML templates transparently
+- `i18n-element` comes with the full-featured automation [tools](#Tools)
 
-<img src="https://raw.githubusercontent.com/wiki/t2ym/i18n-behavior/PolymerI18nFlow.gif" width="768px">
+## Extendable and composable HTML template literals based on `lit-html`
 
-from i18n-behavior.
+```javascript
+import { html, i18n, bind } from 'i18n-element/i18n.js';
 
-## Browser Compatibility
+class MyI18nElement extends i18n(HTMLElement) {
+  ... // a few boilerplate mandatory methods are omitted here
+  render() {
+    return html`${bind(this, 'my-i18n-element')}
+      <span>localizable message with ${this.property}</span>`;
+  }
+  ...
+}
 
-Polyfilled by [`webcomponents-lite.js`](https://github.com/webcomponents/webcomponentsjs)
+class ExtendedElement extends MyI18nElement {
+  render() {
+    return html`${bind(this, 'extended-element')}
+      <div>extended message with ${this.property}</div>
+      ${super.render()}`;
+  }
+}
 
-| Browser   | Chrome* | Firefox* | Edge 13+  | IE 11  | Safari 9+ | Chrome Android* | Mobile Safari* | Opera* |
-|:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
-| Supported | ✔       | ✔        | ✔         | ✔      | ✔         | ✔               | ✔              | ✔      |
+class CompositeElement extends i18n(HTMLElement) {
+  render() {
+    return html`${bind(this /* bound to 'composite-element' */)}
+      <div>composite element with ${getMessage()}</div>
+      <extended-element></extended-element>`;
+  }
+}
 
-__ES5 transpilation is required for non-ES6-ready browsers.__
+const binding = bind('get-message', import.meta); // bound to a pseudo-element name
 
-## Demo on GitHub Pages
+const getMessage = () => html`${'get-message', binding}<span>get message</span>`;
+```
 
-### [Demo](https://t2ym.github.io/i18n-element/components/i18n-element/demo/poc/index.html) for ES6-ready browsers
-
-[Demo Source index.html](https://github.com/t2ym/i18n-element/blob/master/demo/poc/index.html)
+- Each HTML template literal is bound to its (pseudo-)element name
+- Fetch JSON for locale resources at `locales/{element-name}.{locale}.json`
 
 ## Install
 
-```shell
-bower install i18n-element
+```sh
+npm install i18n-element
 ```
 
 ## Import
 
-```html
-<link rel="import" href="bower_components/i18n-element/i18n-element.html">
+- `lit-html` elements
+
+```javascript
+import { html, i18n, bind } from 'i18n-element/i18n.js';
+```
+
+- Polymer elements
+```javascript
+import { Localizable } from 'i18n-element/i18n-element.js';
+```
+
+## Quick Tour
+
+[I18N-ready `pwa-starter-kit`](https://github.com/t2ym/pwa-starter-kit)
+
+```sh
+    npm install -g polymer-cli
+    git clone https://github.com/t2ym/pwa-starter-kit
+    cd pwa-starter-kit
+    npm ci
+    # Add Locales
+    gulp locales --targets="de es fr ja zh-Hans"
+    # I18N Process
+    gulp
+    # Translate XLIFF ./xliff/bundle.*.xlf
+    # Merge Translation
+    gulp
+    # Dev build on http://localhost:8080
+    polymer serve
+    # Static build
+    polymer build
+    # Static build on http://localhost:8080
+    cd build/{esm-unbundled|esm-bundled|es6-bundled|es5-bundled}
+    python -m SimpleHTTPServer -p 8080
 ```
 
 ## Syntax
 
-### `Mixins.Localizable` [Class Expressions Mixin](http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
+### I18N for `lit-html` elements
 
-- Extend Polymer.LegacyElementMixin(HTMLElement) for now
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/clock/clock.js)
 
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/localizable-element.html)
+```javascript
+import { html, i18n, bind } from 'i18n-element/i18n.js';
 
-```html
-<dom-module id="localizable-element">
-  <template>
-    <span id="label1">Localizable UI label 1</span><br>
-    <span id="label2">Localizable UI label 2</span><br>
-    <span id="label3">Localizable UI label 3</span>
-  </template>
-</dom-module>
-<script>
-class LocalizableElement extends Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement)) {
+class AwesomeElement extends i18n(HTMLElement) {
+  static get importMeta() { return import.meta; }
+  constructor() {
+    super();
+    this.attachShadow({mode: 'open'});
+    this.addEventListener('lang-updated', _langUpdated.bind(this));
+  }
+  _langUpdated(event) { this.invalidate(); }
+  render() {
+    return html`${bind(this, 'awesome-element')}
+      <div>localizable message from ${this.is}</div>`;
+  }
+  invalidate() {
+    render(this.render(), this.shadowRoot);
+  }
+}
+customElements.define('awesome-element', AwesomeElement);
+```
+
+- I18N process automation for [`i18n-element/demo/`](https://github.com/t2ym/i18n-element/blob/master/demo/)
+
+```sh
+    # npm run demo === cd demo; gulp
+    # Add locales
+    npm run demo -- locales --targets="de es fr ja zh-Hans"
+    # I18N process
+    npm run demo
+```
+
+### `Localizable` mixin for Polymer elements
+
+[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/localizable-element.js)
+
+```javascript
+import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+
+import { Localizable } from 'i18n-element/i18n-element.js';
+
+class LocalizableElement extends Localizable(LegacyElementMixin(HTMLElement)) {
+  static importMeta() { return import.meta; }
+  static get template() {
+    return html`<span id="label1">Localizable UI label 1</span>`;
+  }
   static get is() { return 'localizable-element'; }
 }
 customElements.define(LocalizableElement.is, LocalizableElement);
-</script>
 ```
 
-### `BaseElements.I18nElement` I18N Base Element Class
+### `Define = class` Thin Definition Syntax
 
-- Equivalent to `Mixins.Localizable(Polymer.LegacyElementMixin(HTMLElement))`
+```javascript
+import 'i18n-element/define-element.js';
 
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-subclass-element.html)
-
-```html
-<dom-module id="i18n-subclass-element">
-  <template>
-    <span id="label1">Subclass UI label 1</span><br>
-    <span id="label2">Subclass UI label 2</span><br>
-    <span id="label3">Subclass UI label 3</span>
-  </template>
-</dom-module>
-<script>
-class I18nSubclassElement extends BaseElements.I18nElement {
-  static get is() { return 'i18n-subclass-element'; }
+Define = class ThinElement extends Localizable(LegacyElementMixin(HTMLElement)) {
+  static importMeta() { return import.meta; }
+  static get template() {
+    return html`<span id="label1">Localizable UI label 1</span>`;
+  }
+  // static get is() can be omitted
 }
-customElements.define(I18nSubclassElement.is, I18nSubclassElement);
-</script>
+// customElements.define() can be omitted
 ```
 
-### `Define = class` Thin Definition Syntax derived from [Thin Polymer](https://github.com/t2ym/thin-polymer) for Polymer 1.x
+### I18N-ready Bound Element `i18n-dom-bind` based on Polymer `dom-bind`
 
-Additional Import:
-```html
-<link rel="import" href="bower_components/i18n-element/define-element.html">
+```javascript
+import 'i18n-element/i18n-dom-bind.js';
 ```
 
-- `is` static property is generated by un-camel-casing class name
-- `<template id="element-name">` is used instead of `<dom-module id="element-name">`
-- `customElements.define(ElementClass.is, ElementClass)` is called
-- Element class is registered as `Define.ElementClass`
-- Applicable to both Class Expressions Mixin and I18N Base Element Class
-- Applicable to non-I18N element classes as well
-- Either template id or class name can be omitted if the template and the class are in a dedicated HTML without other custom element definitions
-- [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) 1.2.3 or later is required for vulcanized applications
-- `targetVersion: 2` option is required for `gulp-i18n-preprocess`
-
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-thin-element.html)
-
-```html
-<template id="i18n-thin-element">
-  <span id="label1">Thin UI label 1</span><br>
-  <span id="label2">Thin UI label 2</span><br>
-  <span id="label3">Thin UI label 3</span>
-</template>
-<script>
-Define = class I18nThinElement extends BaseElements.I18nElement {
-}
-</script>
-```
-
-### `Polymer({ is, behaviors })` Legacy Syntax for Polymer 1.x Compatibility
-
-Import:
-```html
-<!-- DO NOT IMPORT i18n-element.html -->
-<link rel="import" href="bower_components/i18n-behavior/i18n-behavior.html">
-```
-
-- Polymer 1.x Compatible Legacy Syntax
-- Import [`i18n-behavior.html`](https://www.webcomponents.org/element/t2ym/i18n-behavior), and not `i18n-element.html`
-- [`gulp-i18n-preprocess`](https://github.com/t2ym/gulp-i18n-preprocess) 1.2.3 or later is required for vulcanized applications
-- `targetVersion: 2` option is required for `gulp-i18n-preprocess`
-
-[Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/elements/i18n-legacy-element.html)
-
-```html
-<dom-module id="i18n-legacy-element">
-  <template>
-    <span id="label1">Legacy UI label 1</span><br>
-    <span id="label2">Legacy UI label 2</span><br>
-    <span id="label3">Legacy UI label 3</span>
-  </template>
-</dom-module>
-<script>
-Polymer({
-  is: 'i18n-legacy-element',
-  behaviors: [ BehaviorsStore.I18nBehavior ]
-});
-</script>
-```
-
-### I18N-ready Bound Element `i18n-dom-bind`
-
-Additional Import:
-```html
-<link rel="import" href="bower_components/i18n-element/i18n-dom-bind.html">
-```
-
-- Based on `dom-bind` Element
+- Based on Polymer `dom-bind` Element
 - `i18n-dom-bind` element must have `id` attribute
 
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/poc/index.html)
@@ -165,33 +179,48 @@ Additional Import:
 ```html
 <i18n-dom-bind id="el5">
   <template>
-    <span id="label1">Bound UI label 1</span><br>
-    <span id="label2">Bound UI label 2</span><br>
-    <span id="label3">Bound UI label 3</span>
+    <span id="label1">Bound UI label 1</span>
   </template>
 </i18n-dom-bind>
 ```
 
-## [Tests](https://t2ym.github.io/i18n-element/components/i18n-element/test/index2.html) on GitHub Pages
+## Tools
 
-### Test Suites
+Full-featured automation tools are available
 
-| Test Suites (`*-test.html`) | Description                 |
-|:----------------------------|:----------------------------|
-| basic                       | Basic functionalities       |
-| edge-case                   | Edge cases                  |
-| multiple-case               | Multiple element cases      |
-| template-default-lang       | `templateDefaultLang` tests |
-| preference                  | `i18n-preference` tests     |
-| no-persist                  | `i18n-preference` tests     |
-| define-element              | `Define = class` tests      |
+| Module        | NPM version | Description |
+|:--------------|:------------|:------------|
+| [gulp-i18n-preprocess](https://github.com/t2ym/gulp-i18n-preprocess) | [![npm](https://img.shields.io/npm/v/gulp-i18n-preprocess.svg)](https://www.npmjs.com/package/gulp-i18n-preprocess) | Build-time I18N preprocessor |
+| [gulp-i18n-leverage](https://github.com/t2ym/gulp-i18n-leverage) | [![npm](https://img.shields.io/npm/v/gulp-i18n-leverage.svg)](https://www.npmjs.com/package/gulp-i18n-leverage) | L10N JSON updater |
+| [gulp-i18n-add-locales](https://github.com/t2ym/gulp-i18n-add-locales) | [![npm](https://img.shields.io/npm/v/gulp-i18n-add-locales.svg)](https://www.npmjs.com/package/gulp-i18n-add-locales) |  L10N JSON placeholder generator |
+| [xliff-conv](https://github.com/t2ym/xliff-conv) | [![npm](https://img.shields.io/npm/v/xliff-conv.svg)](https://www.npmjs.com/package/xliff-conv) | XLIFF/JSON converter |
+| [live-localizer](https://github.com/t2ym/live-localizer) | [![npm](https://img.shields.io/npm/v/live-localizer.svg)](https://www.npmjs.com/package/live-localizer) | L10N widget with Firebase storage |
+| [i18n-element](https://github.com/t2ym/i18n-element) | [![npm](https://img.shields.io/npm/v/i18n-element.svg)](https://www.npmjs.com/package/i18n-element) | I18N base element class |
+| [i18n-behavior](https://github.com/t2ym/i18n-behavior) | [![npm](https://img.shields.io/npm/v/i18n-behavior.svg)](https://www.npmjs.com/package/i18n-behavior) | Run-time I18N handler |
+| [i18n-format](https://github.com/t2ym/i18n-format) | [![npm](https://img.shields.io/npm/v/i18n-format.svg)](https://www.npmjs.com/package/i18n-format) | I18N text formatter |
+| [i18n-number](https://github.com/t2ym/i18n-number) | [![npm](https://img.shields.io/npm/v/i18n-number.svg)](https://www.npmjs.com/package/i18n-number) | I18N number formatter |
 
-### Test on Build Phases
+They are fully integrated in these samples:
 
-| Build Phases      | UI Strings | L10N JSON            | HTML                    | JavaScript                   |
-|:------------------|:-----------|:---------------------|:------------------------|:-----------------------------|
-| src2              | Hard-coded | Modular              | Modular                 | HTML Embedded                |
-| preprocess2       | Extracted  | Modular              | Modular                 | HTML Embedded                |
+- [I18N-ready `pwa-starter-kit`](https://github.com/t2ym/pwa-starter-kit) with [`pwa-starter-kit/gulpfile.js`](https://github.com/t2ym/pwa-starter-kit/blob/master/gulpfile.js)
+- [`i18n-element` demo](https://github.com/t2ym/i18n-element) with [`i18n-element/demo/gulpfile.js`](https://github.com/t2ym/i18n-element/blob/master/demo/gulpfile.js)
+- [Live Localizer demo](https://github.com/t2ym/live-localizer) with [`live-localizer/demo/gulpfile.js`](https://github.com/t2ym/live-localizer/blob/master/demo/gulpfile.js)
+
+## Compatible Versions
+
+| i18n-behavior  | i18n-element   | Polymer | lit-html |
+|:---------------|:---------------|:--------|:---------|
+| 3.x            | 3.x            | 3.x     | 1.x      |
+| 2.x            | 2.x            | 1.x-2.x | -        |
+| 1.x            | -              | 1.x     | -        |
+
+## Browser Compatibility
+
+- Polyfilled by `@webcomponents/webcomponentsjs/webcomponents-{bundle|loader}.js`
+
+| Browser   | Chrome  | Firefox  | Edge 13+  | IE 11  | Safari 9+ | Chrome Android  | Mobile Safari  | Opera  |
+|:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
+| Supported | ✔       | ✔        | ✔         | ✔      | ✔         | ✔               | ✔              | ✔      |
 
 ## License
 
