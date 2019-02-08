@@ -85,7 +85,7 @@
     "wct-browser-legacy": "^1.0.1",
     "wct-istanbul": "^0.14.0",
     "web-component-tester": "^6.9.2",
-    "xliff-conv": "^1.0.10"
+    "xliff-conv": "^1.0.12"
   },
   "resolutions": {
     "inherits": "2.0.3",
