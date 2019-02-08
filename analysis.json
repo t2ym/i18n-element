@@ -1530,7 +1530,12 @@
         }
       ],
       "staticMethods": [],
-      "demos": [],
+      "demos": [
+        {
+          "url": "demo/preprocess/index.html",
+          "description": "World Clocks demo (preprocessed)"
+        }
+      ],
       "metadata": {},
       "sourceRange": {
         "start": {

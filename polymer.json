@@ -4,9 +4,14 @@
   "sources": [
   ],
   "extraDependencies": [
+    "node_modules/@polymer/**",
     "node_modules/@webcomponents/webcomponentsjs/**",
+    "node_modules/marked/**",
+    "node_modules/prismjs/**",
     "demo/preprocess/locales/**",
-    "demo/preprocess/*.json"
+    "demo/preprocess/*.json",
+    "demo/preprocess/index.html",
+    "analysis.json"
   ],
   "builds": [
     {
