@@ -141,7 +141,7 @@ import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { Localizable } from 'i18n-element/i18n-element.js';
 
 class LocalizableElement extends Localizable(LegacyElementMixin(HTMLElement)) {
-  static importMeta() { return import.meta; }
+  static get importMeta() { return import.meta; }
   static get template() {
     return html`<span id="label1">Localizable UI label 1</span>`;
   }
@@ -156,7 +156,7 @@ customElements.define(LocalizableElement.is, LocalizableElement);
 import 'i18n-element/define-element.js';
 
 Define = class ThinElement extends Localizable(LegacyElementMixin(HTMLElement)) {
-  static importMeta() { return import.meta; }
+  static get importMeta() { return import.meta; }
   static get template() {
     return html`<span id="label1">Localizable UI label 1</span>`;
   }
