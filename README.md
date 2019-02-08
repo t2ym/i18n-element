@@ -96,6 +96,8 @@ import { Localizable } from 'i18n-element/i18n-element.js';
 
 ### I18N for `lit-html` elements
 
+[API Docs](https://t2ym.github.io/i18n-element/)
+[Demo](https://t2ym.github.io/i18n-element/demo/preprocess/)
 [Demo Source](https://github.com/t2ym/i18n-element/blob/master/demo/clock/clock.js)
 
 ```javascript
