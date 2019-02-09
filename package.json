@@ -22,7 +22,7 @@
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
   "version": "3.0.0-pre.27-lit-html.18",
-  "main": "i18n-element.js",
+  "main": "i18n.js",
   "directories": {
     "test": "test"
   },
