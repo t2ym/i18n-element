@@ -18,7 +18,7 @@ if (!Object.getOwnPropertyDescriptor(DocumentFragment.prototype, 'children')) {
     }
   });
 }
-if (!Object.getOwnPropertyDescriptor(SVGElement.prototype, 'children')) {
+if (!Object.getOwnPropertyDescriptor(Element.prototype, 'children')) {
   Object.defineProperty(SVGElement.prototype, 'children', {
     enumerable: true,
     configurable: true,
