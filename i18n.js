@@ -68,14 +68,69 @@ const i18nMethods = ((mixin, excludes) => {
     if (excludes.indexOf(method) >= 0) {
       continue;
     }
-    else {
+    else if (excludes.indexOf('!' + method) >= 0) {
       result.push(method);
+      continue;
     }
+    /* istanbul ignore next: proper _I18nBehavior should always be handed as mixin */
+    throw new Error(`i18nMethods: Unexpected method ${method} in mixin ${JSON.stringify(Object.getOwnPropertyNames(mixin))}`);
   }
   return result;
 })(_I18nBehavior, [
-  // TODO: There should be more unnecessary methods to exclude
-  'properties', 'listeners', 'bedoreRegister', 'registered', 'created', 'ready', 'attached', 'detached', '_onDomChange', '_updateEffectiveLang'
+  // delarative Polymer properties
+  'hostAttributes',
+  'properties',
+  'listeners',
+  // Polymer lifecycle callbacks
+  'bedoreRegister',
+  'registered',
+  'created',
+  'ready',
+  'attached',
+  'detached',
+  // i18n-dom-bind callback
+  '_onDomChange',
+  // overridden methods
+  '_updateEffectiveLang',
+  '_handleHtmlLangChange',
+  // superseded by attributeChangedCallback
+  '_handleLangAttributeChange',
+  // MutationObserver for <html lang> is NOT disconnected even if this.observeHtmlLang is false
+  '_observeHtmlLangChanged',
+
+  // mixin methods (not excluded)
+  // text object getter
+  '!_getBundle',
+  // fallback language analyzer
+  '!_enumerateFallbackLanguages',
+  // locale resources fetcher
+  '!_langChanged',
+  '!_fetchLanguage',
+  '!_fetchBundle',
+  // XHR handlers
+  '!_handleResponse',
+  '!_handleError',
+  // collaborative 'lang-updated' event handling among instances of the same custom element
+  '!_forwardLangEvent',
+  // collaborative 'bundle-fetched' event handling among all instances waiting for bundle.*.json being fetched
+  '!_handleBundleFetched',
+  // locale resources JSON constructor with fallback capability
+  '!_constructBundle',
+  // internal utility method for locale resources JSON
+  '!_deepMap',
+  // template preprocessor methods
+  '!_constructDefaultBundle',
+  '!_traverseAttributes',
+  '!_traverseTemplateTree',
+  '!_isCompoundAnnotatedText',
+  '!_hasAnnotatedText',
+  '!_compoundAnnotationToSpan',
+  '!_setBundleValue',
+  '!_generateMessageId',
+  // utility methods for templates
+  '!or',
+  '!tr',
+  '!i18nFormat',
 ]);
 //console.log('methods', JSON.stringify(methods, null, 2));
 
