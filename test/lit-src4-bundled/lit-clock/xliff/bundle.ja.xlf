@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file xml:space="default" source-language="en" target-language="ja" datatype="plaintext" original="messages" date="2019-01-22T09:40:32Z" product-name="messages">
+    <header>
+      <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.11"/>
+    </header>
+    <body>
+      <trans-unit id="get-message.div" approved="yes">
+        <source>message</source>
+        <target state="translated">ja メッセージ</target>
+      </trans-unit>
+      <trans-unit id="lit-clock.model.target.i18n-target-attr" approved="yes">
+        <source>I18N target attribute value</source>
+        <target state="translated">ja I18N target attribute value</target>
+      </trans-unit>
+      <trans-unit id="lit-clock.model.target.i18n-target-attr2.0" approved="yes">
+        <source>I18N target with {1} and {2}</source>
+        <target state="translated">ja I18N target with {1} and {2}</target>
+      </trans-unit>
+      <trans-unit id="lit-clock.model.target.i18n-target-attr2.1" approved="yes">
+        <source>{{parts.5}}</source>
+        <target state="translated">{{parts.5}}</target>
+      </trans-unit>
+      <trans-unit id="lit-clock.model.target.i18n-target-attr2.2" approved="yes">
+        <source>{{parts.6}}</source>
+        <target state="translated">{{parts.6}}</target>
+      </trans-unit>
+      <trans-unit id="lit-clock.target.0" approved="yes">
+        <source>Time: {1}:{2}</source>
+        <target state="translated">ja 時刻: {1}:{2}</target>
+      </trans-unit>
+      <trans-unit id="lit-clock.target.1" approved="yes">
+        <source>{{parts.7}}</source>
+        <target state="translated">{{parts.7}}</target>
+      </trans-unit>
+      <trans-unit id="lit-clock.target.2" approved="yes">
+        <source>{{parts.8}}</source>
+        <target state="translated">{{parts.8}}</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.div_1" approved="yes">
+        <source>World Clocks</source>
+        <target state="translated">ja 世界時計</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.0" approved="yes">
+        <source>No timezones</source>
+        <target state="translated">どのタイムゾーンも表示されていません。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.1" approved="yes">
+        <source>Only 1 timezone for {2} is shown.</source>
+        <target state="translated">タイムゾーン{2}が1つだけ表示されています。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.one" approved="yes">
+        <source>{1} timezone other than {2} is shown.</source>
+        <target state="translated">{2}以外に、{1}つのタイムゾーンが表示されています。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.0.other" approved="yes">
+        <source>{1} timezones other than {2} are shown.</source>
+        <target state="translated">{2}以外に、{1}つのタイムゾーンが表示されています。</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.1" approved="yes">
+        <source>{{parts.1 - 1}}</source>
+        <target state="translated">{{parts.1 - 1}}</target>
+      </trans-unit>
+      <trans-unit id="world-clock-container.compound-format-text.2" approved="yes">
+        <source>{{parts.2}}</source>
+        <target state="translated">{{parts.2}}</target>
+      </trans-unit>
+      <trans-unit id="world-clock.div_1.0" approved="yes">
+        <source> Timezone: GMT{1}
+        {2}
+        {3} </source>
+        <target state="translated">ja タイムゾーン: GMT{1}
+        {2}
+        {3} </target>
+      </trans-unit>
+      <trans-unit id="world-clock.div_1.1" approved="yes">
+        <source>{{parts.0}}</source>
+        <target state="translated">{{parts.0}}</target>
+      </trans-unit>
+      <trans-unit id="world-clock.div_1.2" approved="yes">
+        <source>-1h</source>
+        <target state="translated">-1時間</target>
+      </trans-unit>
+      <trans-unit id="world-clock.div_1.3" approved="yes">
+        <source>+1h</source>
+        <target state="translated">+1時間</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
