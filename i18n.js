@@ -555,7 +555,7 @@ export const html = (strings, ...parts) => {
       }
     }
     template.innerHTML = originalHtml;
-    _I18nBehavior._constructDefaultBundle(template, name);
+    element.constructor.prototype._constructDefaultBundle(template, name);
     preprocessedHtml = template.innerHTML;
     if (isEdge) {
       // Note for Edge: Substituted transform attributes are reverted to original transform attributes since Edge unexpectedly modifies transform attributes in SVG
