@@ -68,7 +68,7 @@ const i18nMethods = ((mixin, excludes) => {
     if (excludes.indexOf(method) >= 0) {
       continue;
     }
-    else if (excludes.indexOf('!' + method) >= 0) {
+    else /* if (excludes.indexOf('!' + method) >= 0) */ {
       result.push(method);
       continue;
     }
