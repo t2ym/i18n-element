@@ -289,6 +289,9 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       if (boundElement.lang !== this.lang) {
         boundElement.lang = this.lang;
       }
+      if (boundElement.templateDefaultLang !== this.templateDefaultLang) {
+        boundElement.templateDefaultLang = this.templateDefaultLang;
+      }
       return boundElement._getBundle(this.lang);
     }
   }
@@ -555,6 +558,9 @@ export const html = (strings, ...parts) => {
       }
     }
     template.innerHTML = originalHtml;
+    if (element.templateDefaultLang) {
+      template.setAttribute('lang', element.templateDefaultLang);
+    }
     element.constructor.prototype._constructDefaultBundle(template, name);
     preprocessedHtml = template.innerHTML;
     if (isEdge) {
