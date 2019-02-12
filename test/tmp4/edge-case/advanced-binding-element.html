@@ -1,18 +1,18 @@
-<!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"><!-- start of innerHTML --><template id="advanced-binding-element" basepath="edge-case/" localizable-text="embedded">
-    <span id="status">{{tr(status,text.statusMessages)}}</span>
+<!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"></head><body><dom-module id="advanced-binding-element"><template localizable-text="embedded">
+    <span id="status">{{parts.0}}</span>
 
-    <span id="default">{{or(value,text.defaultValue)}}</span>
+    <span id="default">{{parts.1}}</span>
 
     <i18n-format id="annotated-format" lang="{{effectiveLang}}">
-      <span>{{tr(status,text.statusMessageFormats)}}</span>
-      <span slot="1">{{parameter}}</span>
+      <span>{{parts.2}}</span>
+      <span slot="1">{{parts.3}}</span>
       <span slot="2">{{text.annotated-format.2}}</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="{{model.aria-attributes.title}}" aria-label$="{{model.aria-attributes.aria-label}}" aria-valuetext$="{{model.aria-attributes.aria-valuetext}}" .bindvalue="{{parts.4}}">
 
-    <span>{{tr('key',text.nodefault)}}</span>
-    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{text.defaultValue}}</span><span slot="2">{{text.defaultValue}}</span></i18n-format></span>
+    <span>{{parts.5}}</span>
+    <span><i18n-format lang="{{effectiveLang}}"><span>{{text.span_5.0}}</span><span slot="1">{{parts.6}}</span><span slot="2">{{parts.7}}</span></i18n-format></span>
 
     <template>
       <json-data text-id="statusMessages">{{text.statusMessages}}</json-data>
@@ -20,7 +20,7 @@
       <json-data text-id="statusMessageFormats">{{text.statusMessageFormats}}</json-data>
       <json-data text-id="nodefault">{{text.nodefault}}</json-data>
     </template>
-  <template id="localizable-text">
+<template id="localizable-text">
 <json-data>
 {
   "meta": {},
@@ -32,14 +32,14 @@
     }
   },
   "annotated-format": [
-    "{{tr(status,text.statusMessageFormats)}}",
-    "{{parameter}}",
+    "{{parts.2}}",
+    "{{parts.3}}",
     "string parameter"
   ],
   "span_5": [
     "{1} {2}",
-    "{{text.defaultValue}}",
-    "{{text.defaultValue}}"
+    "{{parts.6}}",
+    "{{parts.7}}"
   ],
   "statusMessages": {
     "ok": "healthy status",
@@ -60,4 +60,5 @@
 }
 </json-data>
 </template>
-</template><!-- end of innerHTML --></head><body></body></html>
+</template></dom-module><!-- end of dom-module id="advanced-binding-element" -->
+</body></html>

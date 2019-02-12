@@ -8,14 +8,14 @@
     }
   },
   "annotated-format": [
-    "{{tr(status,text.statusMessageFormats)}}",
-    "{{parameter}}",
+    "{{parts.2}}",
+    "{{parts.3}}",
     "string parameter"
   ],
   "span_5": [
     "{1} {2}",
-    "{{text.defaultValue}}",
-    "{{text.defaultValue}}"
+    "{{parts.6}}",
+    "{{parts.7}}"
   ],
   "statusMessages": {
     "ok": "healthy status",
