@@ -32,12 +32,12 @@
   "p_13": [
     "ru A paragraph with {1} is converted to {2}.",
     "ru parameters",
-    "ru &lt;i18n-format&gt;"
+    "ru <i18n-format>"
   ],
   "paragraph": [
     "ru A paragraph with {1} is converted to {2}.",
     "ru id",
-    "ru &lt;i18n-format&gt;"
+    "ru <i18n-format>"
   ],
   "text_15": " ru outermost text at the end "
 }

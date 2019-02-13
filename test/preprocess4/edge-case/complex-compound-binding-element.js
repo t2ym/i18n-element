@@ -854,14 +854,14 @@ case 'legacy': {
         <i>{{item}} </i>
       </template></dom-repeat>
       is converted to 
-      <code><i18n-format></code>.
+      <code>&lt;i18n-format&gt;</code>.
     </p>
     <p id="paragraph2">A paragraph with deep 
       <dom-repeat items="{{text.parameters}}"><template>
         <span><i>{{item}}</i> </span>
       </template></dom-repeat>
       is <b>not</b> converted to 
-      <code><i18n-format></code>.
+      <code>&lt;i18n-format&gt;</code>.
       <dom-if if="false"><template></template></dom-if>
       <dom-if if="false"><template>  </template></dom-if>
       <dom-if if="false"><template>{{text.updated}}</template></dom-if>

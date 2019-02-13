@@ -47,3 +47,11 @@ export const getMessage2 = () => {
     'div': 'message 2'
   }));
 };
+customElements.define('broken-element', class extends HTMLElement {
+  static get isI18n() {
+    return this._isI18n = !this._isI18n;
+  }
+});
+bind(document.createElement('broken-element'));
+bind(document.createElement('broken-element'), 'broken-element') + '';
+bind('invalid-binding', 1);

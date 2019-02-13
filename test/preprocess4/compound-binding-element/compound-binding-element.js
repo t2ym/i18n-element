@@ -453,7 +453,7 @@ case 'element-binding': {
             'id',
             '{{parts.54}}',
             '{{parts.55}}',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'text_15': [
             ' outermost text at the end with {1} and {2} variables ',
@@ -913,7 +913,7 @@ case 'name-binding': {
             'id',
             '{{parts.54}}',
             '{{parts.55}}',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'text_15': [
             ' outermost text at the end with {1} and {2} variables ',
@@ -1373,7 +1373,7 @@ case 'element-name-binding': {
             'id',
             '{{parts.54}}',
             '{{parts.55}}',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'text_15': [
             ' outermost text at the end with {1} and {2} variables ',

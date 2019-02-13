@@ -143,7 +143,7 @@
     "fr id",
     "{{parts.54}}",
     "{{parts.55}}",
-    "fr &lt;i18n-format&gt;"
+    "fr <i18n-format>"
   ],
   "text_15": [
     " fr outermost text at the end with {1} and {2} variables ",

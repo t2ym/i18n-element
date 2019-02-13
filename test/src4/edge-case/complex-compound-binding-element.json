@@ -1,7 +1,8 @@
 {
+  "meta": {},
   "model": {},
   "item-update2": [
-    "updated: {1}, by: {2} xxx {3} {4} {5} hello ",
+    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ",
     "{{parts.0}}",
     "{{parts.1}}",
     "{{parts.2}}",
@@ -9,7 +10,7 @@
     "{{parts.3}}"
   ],
   "item-update": [
-    "updated: {1}, by: {2} xxx {3} {4} {5} hello {6} {7} {8} ",
+    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello\n      {6}\n      {7}\n      {8} ",
     "{{parts.4}}",
     "{{parts.5}}",
     "{{parts.6}}",
@@ -20,7 +21,7 @@
     "{{parts.10}}"
   ],
   "item-update3": [
-    "updated: {1}, by: {2} xxx {3} {4} {5} hello ",
+    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ",
     "{{parts.11}}",
     "{{parts.12}}",
     "{{parts.13}}",
@@ -28,7 +29,7 @@
     "{{parts.14}}"
   ],
   "item-update4": [
-    "updated: {1}, by: {2} xxx {3} {4} {5} hello ",
+    "updated: {1}, by: \n      {2}\n      xxx\n      {3}\n      {4}\n      {5}\n      hello ",
     "{{parts.15}}",
     "{{parts.16}}",
     "{{parts.17}}",
@@ -36,12 +37,12 @@
     "{{parts.18}}"
   ],
   "paragraph": [
-    "A paragraph with {1} is converted to {2}. ",
+    "A paragraph with \n      {1}\n      is converted to \n      {2}. ",
     "{{parts.19}}",
     "<i18n-format>"
   ],
   "paragraph2": [
-    "A paragraph with deep {1} is {2} converted to {3}. {4} {5} {6} ",
+    "A paragraph with deep \n      {1}\n      is {2} converted to \n      {3}.\n      {4}\n      {5}\n      {6} ",
     "{{parts.20}}",
     "not",
     "<i18n-format>",
@@ -65,5 +66,5 @@
   "if-content": "IF CONTENT",
   "if-content2": "IF CONTENT 2",
   "if": "IF",
-  "content": "CONTENT",
+  "content": "CONTENT"
 }

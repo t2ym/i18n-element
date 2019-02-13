@@ -48,12 +48,12 @@ suite('I18nElement with ' +
     'p_13': [
       'A paragraph with {1} is converted to {2}.',
       'parameters',
-      '&lt;i18n-format&gt;'
+      '<i18n-format>'
     ],
     'paragraph': [
       'A paragraph with {1} is converted to {2}.',
       'id',
-      '&lt;i18n-format&gt;'
+      '<i18n-format>'
     ],
     'text_15': ' outermost text at the end '
   };
@@ -84,7 +84,7 @@ suite('I18nElement with ' +
       'PolymerDom.children.1.attributes.slot.value': '1' },
     { select: 'p:not([id]) i18n-format',
       'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': '&lt;i18n-format&gt;',
+      'PolymerDom.children.2.textContent': '<i18n-format>',
       'PolymerDom.children.2.attributes.slot.value': '2' },
     { select: '[id="paragraph"] i18n-format',
       'PolymerDom.children.0.textContent': 'A paragraph with {1} is converted to {2}.' },
@@ -94,7 +94,7 @@ suite('I18nElement with ' +
       'PolymerDom.children.1.attributes.slot.value': '1' },
     { select: '[id="paragraph"] i18n-format',
       'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': '&lt;i18n-format&gt;',
+      'PolymerDom.children.2.textContent': '<i18n-format>',
       'PolymerDom.children.2.attributes.slot.value': '2' },
     { select: '[id="paragraph"]', 'nextTextSibling.data': ' outermost text at the end ' }
   ];
@@ -135,12 +135,12 @@ suite('I18nElement with ' +
     'p_13': [
       'A paragraph with {1} is converted to {2}.',
       'parameters',
-      '&lt;i18n-format&gt;'
+      '<i18n-format>'
     ],
     'paragraph': [
       'A paragraph with {1} is converted to {2}.',
       'id',
-      '&lt;i18n-format&gt;'
+      '<i18n-format>'
     ],
     'text_15': ' outermost text at the end '
   };
@@ -192,7 +192,7 @@ suite('I18nElement with ' +
       'PolymerDom.children.1.attributes.slot.value': '1' },
     { select: 'p:not([text-id]) i18n-format',
       'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': '&lt;i18n-format&gt;',
+      'PolymerDom.children.2.textContent': '<i18n-format>',
       'PolymerDom.children.2.attributes.slot.value': '2' },
     { select: '[text-id="paragraph"] i18n-format',
       'PolymerDom.children.0.textContent': 'A paragraph with {1} is converted to {2}.' },
@@ -202,7 +202,7 @@ suite('I18nElement with ' +
       'PolymerDom.children.1.attributes.slot.value': '1' },
     { select: '[text-id="paragraph"] i18n-format',
       'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': '&lt;i18n-format&gt;',
+      'PolymerDom.children.2.textContent': '<i18n-format>',
       'PolymerDom.children.2.attributes.slot.value': '2' },
     { select: '[text-id="paragraph"]', 'nextTextSibling.data': ' outermost text at the end ' }
   ];
@@ -615,12 +615,12 @@ suite('I18nElement with ' +
     'p_13': [
       'fr-CA A paragraph with {1} is converted to {2}.',
       'fr-CA parameters',
-      'fr-CA &lt;i18n-format&gt;'
+      'fr-CA <i18n-format>'
     ],
     'paragraph': [
       'fr-CA A paragraph with {1} is converted to {2}.',
       'fr-CA id',
-      'fr-CA &lt;i18n-format&gt;'
+      'fr-CA <i18n-format>'
     ],
     'text_15': 'fr-CA  outermost text at the end '
   };
@@ -651,7 +651,7 @@ suite('I18nElement with ' +
       'PolymerDom.children.1.attributes.slot.value': '1' },
     { select: 'p:not([id]) i18n-format',
       'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': 'fr-CA &lt;i18n-format&gt;',
+      'PolymerDom.children.2.textContent': 'fr-CA <i18n-format>',
       'PolymerDom.children.2.attributes.slot.value': '2' },
     { select: '[id="paragraph"] i18n-format',
       'PolymerDom.children.0.textContent': 'fr-CA A paragraph with {1} is converted to {2}.' },
@@ -661,7 +661,7 @@ suite('I18nElement with ' +
       'PolymerDom.children.1.attributes.slot.value': '1' },
     { select: '[id="paragraph"] i18n-format',
       'PolymerDom.children.2.tagName': 'CODE',
-      'PolymerDom.children.2.textContent': 'fr-CA &lt;i18n-format&gt;',
+      'PolymerDom.children.2.textContent': 'fr-CA <i18n-format>',
       'PolymerDom.children.2.attributes.slot.value': '2' },
     { select: '[id="paragraph"]', 'nextTextSibling.data': 'fr-CA  outermost text at the end ' }
   ];
@@ -809,7 +809,7 @@ suite('I18nElement with ' +
       "id",
       "{{parts.54}}",
       "{{parts.55}}",
-      "&lt;i18n-format&gt;"
+      "<i18n-format>"
     ],
     "text_15": [
       " outermost text at the end with {1} and {2} variables ",
