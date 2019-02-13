@@ -136,6 +136,14 @@ window.getProperty = function getProperty (target, name) {
       else if (p === 'childNodes') {
         cursor = Array.prototype.filter.call(cursor[p], (node) => node.nodeType !== node.COMMENT_NODE);
       }
+      else if (p === 'textContent') {
+        if (navigator.userAgent.match(/ Version[/]9[.][0-9]*[.][0-9]* Safari[/]/) && cursor[p].match(/comment/)) {
+          cursor = Array.prototype.map.call(cursor.childNodes, function (n) { return n.nodeType === n.TEXT_NODE ? n.textContent : ''; }).join('')
+        }
+        else {
+          cursor = cursor[p];
+        }
+      }
       else {
         cursor = cursor[p];
       }
