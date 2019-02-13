@@ -237,8 +237,7 @@ function traverseAst(ast, templates) {
             let indexOfLocalizableText = preprocessedTemplate.indexOf(localizableTextPrefix);
             let indexOfLocalizableTextPostfix = preprocessedTemplate.indexOf(localizableTextPostfix, indexOfLocalizableText);
             let localizableTextJSON = preprocessedTemplate.substring(indexOfLocalizableText + localizableTextPrefix.length, indexOfLocalizableTextPostfix);
-            localizableTextJSON = localizableTextJSON.replace(/&quot;/g, '\\"').replace(/&#34;/g, '\\"');
-            localizableTextJSON = he.decode(localizableTextJSON);
+            localizableTextJSON = JSON.stringify(JSON.parse(localizableTextJSON), ((key, value) => typeof value === 'string' ? he.decode(value) : value), 2)
             let strippedTemplate = preprocessedTemplate.substring(0, indexOfLocalizableText);
             let strings = [{
               "type": "Literal",
