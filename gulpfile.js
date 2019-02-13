@@ -802,3 +802,9 @@ gulp.task('patch-browser-capabilities', () => {
   return gulp.src([ 'test/browser-capabilities.js' ], { base: 'test' })
     .pipe(gulp.dest('node_modules/browser-capabilities/lib'));
 });
+
+gulp.task('patch-web-component-tester-for-selenium-grid-ie11', () => {
+  return gulp.src([ 'node_modules/web-component-tester/runner/webserver.js '], { base: 'node_modules/web-component-tester/runner' })
+    .pipe(replace("const DEFAULT_HEADERS = {","const DEFAULT_HEADERS =/**/{\n    'X-UA-Compatible': 'IE=11',"))
+    .pipe(gulp.dest('node_modules/web-component-tester/runner/'));
+});
