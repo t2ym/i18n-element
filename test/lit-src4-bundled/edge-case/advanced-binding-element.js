@@ -2,78 +2,36 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import 'i18n-behavior/i18n-behavior.js';
-
+import {render, svg} from 'lit-html/lit-html.js';
+import {html, i18n, bind} from '../../../i18n.js';
 import '@polymer/iron-input/iron-input.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
-const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<template id="advanced-binding-element">
-    <span id="status">{{tr(status,text.statusMessages)}}</span>
-
-    <span id="default">{{or(value,text.defaultValue)}}</span>
-
-    <i18n-format id="annotated-format">
-      <span>{{tr(status,text.statusMessageFormats)}}</span>
-      <span>{{parameter}}</span>
-      <span>string parameter</span>
-    </i18n-format>
-
-    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
-
-    <span>{{tr('key',text.nodefault)}}</span>
-    <span>{{text.defaultValue}} {{text.defaultValue}}</span>
-
-    <template>
-      <json-data text-id="statusMessages">{
-        "ok": "healthy status",
-        "busy": "busy status",
-        "error": "error status",
-        "default": "unknown status"
-      }</json-data>
-      <span text-id="defaultValue">default value</span>
-      <json-data text-id="statusMessageFormats">{
-        "ok": "healthy status",
-        "busy": "busy status with {2}",
-        "error": "error status with {1} and {2}",
-        "default": "unknown status"
-      }</json-data>
-      <json-data text-id="nodefault">{
-        "ok": "ok status"
-      }</json-data>
-    </template>
-  </template>`;
-
-document.head.appendChild($_documentContainer.content);
 switch (syntax) {
 default:
-case 'mixin':
+case 'element-binding':
   {
-    class AdvancedBindingElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+    class AdvancedBindingElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
-    <span id="status">{{tr(status,text.statusMessages)}}</span>
+      render() {
+        return html`${bind(this)}
+    <span id="status">${this.tr(this.status,this.text.statusMessages)}</span>
 
-    <span id="default">{{or(value,text.defaultValue)}}</span>
+    <span id="default">${this.or(this.value,this.text.defaultValue)}</span>
 
     <i18n-format id="annotated-format">
-      <span>{{tr(status,text.statusMessageFormats)}}</span>
-      <span>{{parameter}}</span>
+      <span>${this.tr(this.status,this.text.statusMessageFormats)}</span>
+      <span>${this.parameter}</span>
       <span>string parameter</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" .bindvalue=${this.value}>
 
-    <span>{{tr('key',text.nodefault)}}</span>
-    <span>{{text.defaultValue}} {{text.defaultValue}}</span>
+    <span>${this.tr('key',this.text.nodefault)}</span>
+    <span>${this.text.defaultValue} ${this.text.defaultValue}</span>
 
     <template>
       <json-data text-id="statusMessages">{
@@ -96,43 +54,93 @@ case 'mixin':
 `;
       }
 
-      static get is() { return 'advanced-binding-element' }
-      static get properties () {
-        return {
-          status: {
-            type: String,
-            value: 'ok'
-          },
-          value: {
-            type: String
-          },
-          parameter: {
-            type: String
-          }
+      static get observedAttributes() {
+        let attributes = new Set(super.observedAttributes);
+        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
+        return [...attributes];
+      }
+
+      get status() {
+        return this._status;
+      }
+      set status(value) {
+        this._status = value;
+        this.invalidate();
+      }
+
+      get value() {
+        return this._value;
+      }
+      set value(value) {
+        this._value = value;
+        this.invalidate();
+      }
+
+      get parameter() {
+        return this._parameter;
+      }
+      set parameter(value) {
+        this._parameter = value;
+        this.invalidate();
+      }
+
+      constructor() {
+        super();
+        this.status = 'ok';
+        this.attachShadow({mode: 'open'});
+        let _langUpdatedBindThis = this._langUpdated.bind(this);
+        this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
+      }
+
+      _updateEffectiveLang(event) {
+        super._updateEffectiveLang(event);
+        console.log(`${this.is}: _updateEffectiveLang effectiveLang="${this.effectiveLang}" lang="${this.lang}"`)
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
         }
       }
 
-      ready() {
-        this.addEventListener('lang-updated', this._langUpdated);
-        this.addEventListener('rendered', this._rendered);
-        super.ready();
+      attributeChangedCallback(name, oldValue, newValue) {
+        const handleOnlyBySelf = [];
+        if (!handleOnlyBySelf.indexOf(name) >= 0) {
+          if (typeof super.attributeChangedCallback === 'function') {
+            super.attributeChangedCallback(name, oldValue, newValue);
+          }
+        }
+        switch (name) {
+        //case 'target-attribute': break;
+        default:
+          break;
+        }
       }
 
       connectedCallback() {
         //console.log('advanced-binding-element: connected');
-        super.connectedCallback();
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.addEventListener('rendered', this._rendered);
+        this.invalidate();
       }
 
       disconnectedCallback() {
-        super.disconnectedCallback();
+        if (super.disconnectedCallback) {
+          super.disconnectedCallback();
+        }
         //console.log('advanced-binding-element: disconnected');
       }
 
       _langUpdated(e) {
+        this.invalidate();
         console.log('lang-updated', e.composedPath()[0], e.target, e.detail, 'lang = ' + this.lang, 'effectiveLang = ' + this.effectiveLang);
-        if (e.composedPath()[0] === this /*&&
-            this.effectiveLang === this.lang*/) {
-          this.model = deepcopy(this.text.model);
+        if (e.composedPath()[0] === this) {
           this._checkLang();
         }
       }
@@ -143,9 +151,11 @@ case 'mixin':
       }
 
       _checkLang() {
-        var i18nFormats = this.root.querySelectorAll('i18n-format');
+        var i18nFormats = this.shadowRoot.querySelectorAll('i18n-format');
+        console.log('_checkLang', i18nFormats);
         var allLangUpdated = (this.lang === this.effectiveLang);
         Array.prototype.forEach.call(i18nFormats, function (el) {
+          console.log('_checkLang el.lang=', el.lang, ' this.lang', this.lang);
           if (el.lang !== this.lang) {
             allLangUpdated = false;
           }
@@ -154,37 +164,39 @@ case 'mixin':
           }
         }.bind(this));
         if (allLangUpdated) {
-          console.log(this.is + ' local-dom-ready');
-          this.fire('local-dom-ready');
-        }          
+          setTimeout(() => {
+            console.log(this.is + ' local-dom-ready' + ' lang=' + this.lang);
+            this.fire('local-dom-ready');
+          }, 500);
+        }
       }
     }
     customElements.define(AdvancedBindingElement.is, AdvancedBindingElement);
   }
   break;
-case 'base-element':
+case 'name-binding':
   {
-    class AdvancedBindingElement extends BaseElements.I18nElement {
+    class AdvancedBindingElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
-    <span id="status">{{tr(status,text.statusMessages)}}</span>
+      render() {
+        return html`${bind('advanced-binding-element', import.meta)}
+    <span id="status">${this.tr(this.status,this.text.statusMessages)}</span>
 
-    <span id="default">{{or(value,text.defaultValue)}}</span>
+    <span id="default">${this.or(this.value,this.text.defaultValue)}</span>
 
     <i18n-format id="annotated-format">
-      <span>{{tr(status,text.statusMessageFormats)}}</span>
-      <span>{{parameter}}</span>
+      <span>${this.tr(this.status,this.text.statusMessageFormats)}</span>
+      <span>${this.parameter}</span>
       <span>string parameter</span>
     </i18n-format>
 
-    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" bind-value="{{value}}">
+    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" .bindvalue=${this.value}>
 
-    <span>{{tr('key',text.nodefault)}}</span>
-    <span>{{text.defaultValue}} {{text.defaultValue}}</span>
+    <span>${this.tr('key',this.text.nodefault)}</span>
+    <span>${this.text.defaultValue} ${this.text.defaultValue}</span>
 
     <template>
       <json-data text-id="statusMessages">{
@@ -207,43 +219,93 @@ case 'base-element':
 `;
       }
 
-      static get is() { return 'advanced-binding-element' }
-      static get properties () {
-        return {
-          status: {
-            type: String,
-            value: 'ok'
-          },
-          value: {
-            type: String
-          },
-          parameter: {
-            type: String
-          }
+      static get observedAttributes() {
+        let attributes = new Set(super.observedAttributes);
+        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
+        return [...attributes];
+      }
+
+      get status() {
+        return this._status;
+      }
+      set status(value) {
+        this._status = value;
+        this.invalidate();
+      }
+
+      get value() {
+        return this._value;
+      }
+      set value(value) {
+        this._value = value;
+        this.invalidate();
+      }
+
+      get parameter() {
+        return this._parameter;
+      }
+      set parameter(value) {
+        this._parameter = value;
+        this.invalidate();
+      }
+
+      constructor() {
+        super();
+        this.status = 'ok';
+        this.attachShadow({mode: 'open'});
+        let _langUpdatedBindThis = this._langUpdated.bind(this);
+        this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
+      }
+
+      _updateEffectiveLang(event) {
+        super._updateEffectiveLang(event);
+        console.log(`${this.is}: _updateEffectiveLang effectiveLang="${this.effectiveLang}" lang="${this.lang}"`)
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
         }
       }
 
-      ready() {
-        this.addEventListener('lang-updated', this._langUpdated);
-        this.addEventListener('rendered', this._rendered);
-        super.ready();
+      attributeChangedCallback(name, oldValue, newValue) {
+        const handleOnlyBySelf = [];
+        if (!handleOnlyBySelf.indexOf(name) >= 0) {
+          if (typeof super.attributeChangedCallback === 'function') {
+            super.attributeChangedCallback(name, oldValue, newValue);
+          }
+        }
+        switch (name) {
+        //case 'target-attribute': break;
+        default:
+          break;
+        }
       }
 
       connectedCallback() {
         //console.log('advanced-binding-element: connected');
-        super.connectedCallback();
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.addEventListener('rendered', this._rendered);
+        this.invalidate();
       }
 
       disconnectedCallback() {
-        super.disconnectedCallback();
+        if (super.disconnectedCallback) {
+          super.disconnectedCallback();
+        }
         //console.log('advanced-binding-element: disconnected');
       }
 
       _langUpdated(e) {
+        this.invalidate();
         console.log('lang-updated', e.composedPath()[0], e.target, e.detail, 'lang = ' + this.lang, 'effectiveLang = ' + this.effectiveLang);
-        if (e.composedPath()[0] === this /*&&
-            this.effectiveLang === this.lang*/) {
-          this.model = deepcopy(this.text.model);
+        if (e.composedPath()[0] === this) {
           this._checkLang();
         }
       }
@@ -254,9 +316,11 @@ case 'base-element':
       }
 
       _checkLang() {
-        var i18nFormats = this.root.querySelectorAll('i18n-format');
+        var i18nFormats = this.shadowRoot.querySelectorAll('i18n-format');
+        console.log('_checkLang', i18nFormats);
         var allLangUpdated = (this.lang === this.effectiveLang);
         Array.prototype.forEach.call(i18nFormats, function (el) {
+          console.log('_checkLang el.lang=', el.lang, ' this.lang', this.lang);
           if (el.lang !== this.lang) {
             allLangUpdated = false;
           }
@@ -265,57 +329,148 @@ case 'base-element':
           }
         }.bind(this));
         if (allLangUpdated) {
-          this.fire('local-dom-ready');
-        }          
+          setTimeout(() => {
+            console.log(this.is + ' local-dom-ready' + ' lang=' + this.lang);
+            this.fire('local-dom-ready');
+          }, 500);
+        }
       }
     }
     customElements.define(AdvancedBindingElement.is, AdvancedBindingElement);
   }
   break;
-case 'thin':
+case 'element-name-binding':
   {
-    Define = class AdvancedBindingElement extends BaseElements.I18nElement {
-
+    class AdvancedBindingElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get properties () {
-        return {
-          status: {
-            type: String,
-            value: 'ok'
-          },
-          value: {
-            type: String
-          },
-          parameter: {
-            type: String
-          }
+      render() {
+        return html`${bind(this, 'advanced-binding-element')}
+    <span id="status">${this.tr(this.status,this.text.statusMessages)}</span>
+
+    <span id="default">${this.or(this.value,this.text.defaultValue)}</span>
+
+    <i18n-format id="annotated-format">
+      <span>${this.tr(this.status,this.text.statusMessageFormats)}</span>
+      <span>${this.parameter}</span>
+      <span>string parameter</span>
+    </i18n-format>
+
+    <input is="iron-input" id="aria-attributes" title="tooltip text" aria-label="aria label text" aria-valuetext="aria value text" .bindvalue=${this.value}>
+
+    <span>${this.tr('key',this.text.nodefault)}</span>
+    <span>${this.text.defaultValue} ${this.text.defaultValue}</span>
+
+    <template>
+      <json-data text-id="statusMessages">{
+        "ok": "healthy status",
+        "busy": "busy status",
+        "error": "error status",
+        "default": "unknown status"
+      }</json-data>
+      <span text-id="defaultValue">default value</span>
+      <json-data text-id="statusMessageFormats">{
+        "ok": "healthy status",
+        "busy": "busy status with {2}",
+        "error": "error status with {1} and {2}",
+        "default": "unknown status"
+      }</json-data>
+      <json-data text-id="nodefault">{
+        "ok": "ok status"
+      }</json-data>
+    </template>
+`;
+      }
+
+      static get observedAttributes() {
+        let attributes = new Set(super.observedAttributes);
+        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
+        return [...attributes];
+      }
+
+      get status() {
+        return this._status;
+      }
+      set status(value) {
+        this._status = value;
+        this.invalidate();
+      }
+
+      get value() {
+        return this._value;
+      }
+      set value(value) {
+        this._value = value;
+        this.invalidate();
+      }
+
+      get parameter() {
+        return this._parameter;
+      }
+      set parameter(value) {
+        this._parameter = value;
+        this.invalidate();
+      }
+
+      constructor() {
+        super();
+        this.status = 'ok';
+        this.attachShadow({mode: 'open'});
+        let _langUpdatedBindThis = this._langUpdated.bind(this);
+        this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
+      }
+
+      _updateEffectiveLang(event) {
+        super._updateEffectiveLang(event);
+        console.log(`${this.is}: _updateEffectiveLang effectiveLang="${this.effectiveLang}" lang="${this.lang}"`)
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
         }
       }
 
-      ready() {
-        this.addEventListener('lang-updated', this._langUpdated);
-        this.addEventListener('rendered', this._rendered);
-        super.ready();
+      attributeChangedCallback(name, oldValue, newValue) {
+        const handleOnlyBySelf = [];
+        if (!handleOnlyBySelf.indexOf(name) >= 0) {
+          if (typeof super.attributeChangedCallback === 'function') {
+            super.attributeChangedCallback(name, oldValue, newValue);
+          }
+        }
+        switch (name) {
+        //case 'target-attribute': break;
+        default:
+          break;
+        }
       }
 
       connectedCallback() {
         //console.log('advanced-binding-element: connected');
-        super.connectedCallback();
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.addEventListener('rendered', this._rendered);
+        this.invalidate();
       }
 
       disconnectedCallback() {
-        super.disconnectedCallback();
+        if (super.disconnectedCallback) {
+          super.disconnectedCallback();
+        }
         //console.log('advanced-binding-element: disconnected');
       }
 
       _langUpdated(e) {
+        this.invalidate();
         console.log('lang-updated', e.composedPath()[0], e.target, e.detail, 'lang = ' + this.lang, 'effectiveLang = ' + this.effectiveLang);
-        if (e.composedPath()[0] === this /*&&
-            this.effectiveLang === this.lang*/) {
-          this.model = deepcopy(this.text.model);
+        if (e.composedPath()[0] === this) {
           this._checkLang();
         }
       }
@@ -326,9 +481,11 @@ case 'thin':
       }
 
       _checkLang() {
-        var i18nFormats = this.root.querySelectorAll('i18n-format');
+        var i18nFormats = this.shadowRoot.querySelectorAll('i18n-format');
+        console.log('_checkLang', i18nFormats);
         var allLangUpdated = (this.lang === this.effectiveLang);
         Array.prototype.forEach.call(i18nFormats, function (el) {
+          console.log('_checkLang el.lang=', el.lang, ' this.lang', this.lang);
           if (el.lang !== this.lang) {
             allLangUpdated = false;
           }
@@ -337,10 +494,14 @@ case 'thin':
           }
         }.bind(this));
         if (allLangUpdated) {
-          this.fire('local-dom-ready');
-        }          
+          setTimeout(() => {
+            console.log(this.is + ' local-dom-ready' + ' lang=' + this.lang);
+            this.fire('local-dom-ready');
+          }, 500);
+        }
       }
     }
+    customElements.define(AdvancedBindingElement.is, AdvancedBindingElement);
   }
   break;
 case 'legacy':

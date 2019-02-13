@@ -38,12 +38,12 @@
   "p_13": [
     "fr A paragraph with {1} is converted to {2}.",
     "fr parameters",
-    "fr &lt;i18n-format&gt;"
+    "fr <i18n-format>"
   ],
   "paragraph": [
     "fr A paragraph with {1} is converted to {2}.",
     "fr id",
-    "fr &lt;i18n-format&gt;"
+    "fr <i18n-format>"
   ],
   "text_15": " fr outermost text at the end "
 }

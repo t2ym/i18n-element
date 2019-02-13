@@ -190,12 +190,12 @@ case 'element-binding': {
           'p_13': [
             'A paragraph with {1} is converted to {2}.',
             'parameters',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'paragraph': [
             'A paragraph with {1} is converted to {2}.',
             'id',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'text_15': ' outermost text at the end '
         }));
@@ -372,12 +372,12 @@ case 'name-binding': {
           'p_13': [
             'A paragraph with {1} is converted to {2}.',
             'parameters',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'paragraph': [
             'A paragraph with {1} is converted to {2}.',
             'id',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'text_15': ' outermost text at the end '
         }));
@@ -554,12 +554,12 @@ case 'element-name-binding': {
           'p_13': [
             'A paragraph with {1} is converted to {2}.',
             'parameters',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'paragraph': [
             'A paragraph with {1} is converted to {2}.',
             'id',
-            '&lt;i18n-format&gt;'
+            '<i18n-format>'
           ],
           'text_15': ' outermost text at the end '
         }));

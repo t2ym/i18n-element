@@ -10,14 +10,14 @@
     }
   },
   "annotated-format": [
-    "{{tr(status,text.statusMessageFormats)}}",
-    "{{parameter}}",
+    "{{parts.2}}",
+    "{{parts.3}}",
     "fr string parameter"
   ],
   "span_5": [
     "fr {1} {2}",
-    "{{text.defaultValue}}",
-    "{{text.defaultValue}}"
+    "{{parts.6}}",
+    "{{parts.7}}"
   ],
   "statusMessages": {
     "ok": "fr healthy status",

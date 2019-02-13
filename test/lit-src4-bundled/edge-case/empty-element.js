@@ -2,64 +2,210 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import 'i18n-behavior/i18n-behavior.js';
+import {render} from 'lit-html/lit-html.js';
+import {html, i18n, bind} from '../../../i18n.js';
 
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<template id="empty-element">
-  </template>`;
-
-document.head.appendChild($_documentContainer.content);
 switch (syntax) {
 default:
-case 'mixin':
+case 'element-binding':
   {
-    class EmptyElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+    class EmptyElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
-
-`;
+      render() {
+        return html`${bind(this)}`;
       }
 
-      static get is() { return 'empty-element' }
+      static get observedAttributes() {
+        let attributes = new Set(super.observedAttributes);
+        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
+        return [...attributes];
+      }
+
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        let _langUpdatedBindThis = this._langUpdated.bind(this);
+        this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
+      }
+
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      _updateEffectiveLang(event) {
+        super._updateEffectiveLang(event);
+        console.log(`${this.is}: _updateEffectiveLang effectiveLang="${this.effectiveLang}" lang="${this.lang}"`)
+      }
+
+      _langUpdated(event) {
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
+        }
+      }
+
+      attributeChangedCallback(name, oldValue, newValue) {
+        const handleOnlyBySelf = [];
+        if (!handleOnlyBySelf.indexOf(name) >= 0) {
+          if (typeof super.attributeChangedCallback === 'function') {
+            super.attributeChangedCallback(name, oldValue, newValue);
+          }
+        }
+        switch (name) {
+        //case 'target-attribute': break;
+        default:
+          break;
+        }
+      }
     }
     customElements.define(EmptyElement.is, EmptyElement);
   }
   break;
-case 'base-element':
+case 'name-binding':
   {
-    class EmptyElement extends BaseElements.I18nElement {
+    class EmptyElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
-
-`;
+      render() {
+        return html`${bind('empty-element', import.meta)}`;
       }
 
-      static get is() { return 'empty-element' }
+      static get observedAttributes() {
+        let attributes = new Set(super.observedAttributes);
+        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
+        return [...attributes];
+      }
+
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        let _langUpdatedBindThis = this._langUpdated.bind(this);
+        this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
+      }
+
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      _updateEffectiveLang(event) {
+        super._updateEffectiveLang(event);
+        console.log(`${this.is}: _updateEffectiveLang effectiveLang="${this.effectiveLang}" lang="${this.lang}"`)
+      }
+
+      _langUpdated(event) {
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
+        }
+      }
+
+      attributeChangedCallback(name, oldValue, newValue) {
+        const handleOnlyBySelf = [];
+        if (!handleOnlyBySelf.indexOf(name) >= 0) {
+          if (typeof super.attributeChangedCallback === 'function') {
+            super.attributeChangedCallback(name, oldValue, newValue);
+          }
+        }
+        switch (name) {
+        //case 'target-attribute': break;
+        default:
+          break;
+        }
+      }
     }
     customElements.define(EmptyElement.is, EmptyElement);
   }
   break;
-case 'thin':
+case 'element-name-binding':
   {
-    Define = class EmptyElement extends BaseElements.I18nElement {
-
+    class EmptyElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
+      render() {
+        return html`${bind(this, 'empty-element')}`;
+      }
+
+      static get observedAttributes() {
+        let attributes = new Set(super.observedAttributes);
+        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
+        return [...attributes];
+      }
+
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        let _langUpdatedBindThis = this._langUpdated.bind(this);
+        this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
+      }
+
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      _updateEffectiveLang(event) {
+        super._updateEffectiveLang(event);
+        console.log(`${this.is}: _updateEffectiveLang effectiveLang="${this.effectiveLang}" lang="${this.lang}"`)
+      }
+
+      _langUpdated(event) {
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
+        }
+      }
+
+      attributeChangedCallback(name, oldValue, newValue) {
+        const handleOnlyBySelf = [];
+        if (!handleOnlyBySelf.indexOf(name) >= 0) {
+          if (typeof super.attributeChangedCallback === 'function') {
+            super.attributeChangedCallback(name, oldValue, newValue);
+          }
+        }
+        switch (name) {
+        //case 'target-attribute': break;
+        default:
+          break;
+        }
+      }
     }
+    customElements.define(EmptyElement.is, EmptyElement);
   }
   break;
 case 'legacy':

@@ -122,8 +122,8 @@ window.getProperty = function getProperty (target, name) {
         } while (cursor.nodeType === cursor.COMMENT_NODE ||
                  (cursor.nodeType === cursor.TEXT_NODE && cursor.data.match(/^[\s]*$/)));
       }
-      else if (p === 'effectiveChildNodes') {
-        cursor = cursor.getEffectiveChildNodes();
+      else if (p === 'assignedNodes') {
+        cursor = cursor.assignedNodes();
       }
       else if (p === 'nonWS') {
         cursor = Array.prototype.filter.call(cursor, function (item) {
@@ -135,6 +135,14 @@ window.getProperty = function getProperty (target, name) {
       }
       else if (p === 'childNodes') {
         cursor = Array.prototype.filter.call(cursor[p], (node) => node.nodeType !== node.COMMENT_NODE);
+      }
+      else if (p === 'textContent') {
+        if (navigator.userAgent.match(/ Version[/]9[.][0-9]*[.][0-9]* Safari[/]/) && cursor[p].match(/comment/)) {
+          cursor = Array.prototype.map.call(cursor.childNodes, function (n) { return n.nodeType === n.TEXT_NODE ? n.textContent : ''; }).join('')
+        }
+        else {
+          cursor = cursor[p];
+        }
       }
       else {
         cursor = cursor[p];
@@ -497,8 +505,10 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
                   params.assign && (params.assign.lang || params.assign['html.lang']) && (params.assign.lang && params.assign.lang !== element.effectiveLang || params.assign['html.lang'] && params.assign['html.lang'] !== element.effectiveLang))) {
                 el.addEventListener(event, function fixtureSetup (e) {
                   if (el === e.composedPath()[0] &&
-                      el.lang === params.lang &&
-                      el.effectiveLang === params.effectiveLang) {
+                      ((el.lang === params.lang &&
+                      el.effectiveLang === params.effectiveLang) /* ||
+                      (el.lang === 'en' && params.lang === '' &&
+                      el.effectiveLang === 'en' && params.effectiveLang === '')*/)) {
                     el.removeEventListener(event, fixtureSetup);
                     console.log('setup: updateProperty resolving on ' + event);
                     if (!resolved) {

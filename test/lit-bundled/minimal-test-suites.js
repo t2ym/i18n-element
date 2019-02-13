@@ -963,7 +963,6 @@ suite('lit-html I18N with ' +
       localDOM: localDOM_simple,
       lightDOM: undefined
     }),
-    /*
     s('commented simple text default', 'simple text default', {
       fixture: 'commented-simple-text-element-default-fixture'
     }),
