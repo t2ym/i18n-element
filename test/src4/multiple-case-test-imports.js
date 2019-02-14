@@ -1,8 +1,4 @@
-import './fake-server.js';
 import './test-runner.js';
-import '../../i18n-element.js';
-import '../../define-element.js';
-import '../../i18n-dom-bind.js';
 import './multiple-case/multiple-element.js';
 import './multiple-case-test-suites.js';
 

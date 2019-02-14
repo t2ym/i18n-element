@@ -1,13 +1,8 @@
-<!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"><!-- start of innerHTML --><template id="multiple-element" basepath="multiple-case/" localizable-text="embedded">
-    <div id="base">
-      <dom-repeat id="items" items="{{getArray(count)}}" on-dom-change="domChanged"><template>
-        <span>
-          <item-element lang="{{effectiveLang}}" observe-html-lang="{{observeHtmlLang}}"></item-element>
-        </span>
-      </template></dom-repeat>
-    </div>
-    <div id="save"></div>
-  <template id="localizable-text">
+<!-- temporary HTML --><html><head><link rel="import" href="../../../i18n-element.html"></head><body><dom-module id="multiple-element"><template localizable-text="embedded">
+          <div id="base">
+            {{parts.0}}
+          </div>
+          <div id="save"></div><template id="localizable-text">
 <json-data>
 {
   "meta": {},
@@ -15,4 +10,5 @@
 }
 </json-data>
 </template>
-</template><!-- end of innerHTML --></head><body></body></html>
+</template></dom-module><!-- end of dom-module id="multiple-element" -->
+</body></html>

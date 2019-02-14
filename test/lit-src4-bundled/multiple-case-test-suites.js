@@ -17,26 +17,26 @@ suite('I18nElement with ' +
   var count1 = 100;
 
   var localDOM_multiple_element = [
-    { select: 'div item-element', '$.label.textContent': 'A' }
+    { select: 'div item-element', 'shadowRoot.children.0.textContent': 'A' }
   ];
 
   var suites = [
     s('multiple element', null, {
       fixture: 'multiple-element-fixture', 
-      fixtureModel: { observeHtmlLang: false, lang: lang0, count: count1 },
-      assign: { lang: lang1 },
+      fixtureModel: { observeHtmlLang: true, 'html.lang': lang0, count: count1 },
+      assign: { 'html.lang': lang1 },
       lang: lang1,
       effectiveLang: lang1,
       templateDefaultLang: lang1,
       observeHtmlLang: false,
-      event: 'local-dom-ready',
-      text: { model: {} },
-      model: {},
+      //event: 'local-dom-ready',
+      //text: { model: {} },
+      //model: {},
       localDOM: localDOM_multiple_element,
       lightDOM: undefined
     }),
     s(lang2 + ' multiple element', 'multiple element', {
-      assign: { lang: lang2 },
+      assign: { 'html.lang': lang2 },
       lang: lang2,
       effectiveLang: lang2
     })

@@ -2,65 +2,141 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import 'i18n-behavior/i18n-behavior.js';
+import {render} from 'lit-html/lit-html.js';
+import {html, i18n, bind} from '../../../i18n.js';
 
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<template id="item-element">
-    <span id="label">A</span>
-  </template>`;
-
-document.head.appendChild($_documentContainer.content);
 switch (syntax) {
 default:
-case 'mixin':
+case 'element-binding':
   {
-    class ItemElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+    class ItemElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
+      render() {
+        return html`${bind(this)}
     <span id="label">A</span>
 `;
       }
 
-      static get is() { return 'item-element' }
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.addEventListener('lang-updated', this._langUpdated); // invalidate on this 'lang-updated'
+      }
+
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      _langUpdated(event) {
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
+        }
+      }
+
     }
     customElements.define(ItemElement.is, ItemElement);
   }
   break;
-case 'base-element':
+case 'name-binding':
   {
-    class ItemElement extends BaseElements.I18nElement {
+    class ItemElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
+      render() {
+        return html`${bind('item-element', import.meta)}
     <span id="label">A</span>
 `;
       }
 
-      static get is() { return 'item-element' }
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.addEventListener('lang-updated', this._langUpdated); // invalidate on this 'lang-updated'
+      }
+
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      _langUpdated(event) {
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
+        }
+      }
+
     }
     customElements.define(ItemElement.is, ItemElement);
   }
   break;
-case 'thin':
+case 'element-name-binding':
   {
-    Define = class ItemElement extends BaseElements.I18nElement {
-
+    class ItemElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
+      render() {
+        return html`${bind(this, 'item-element')}
+    <span id="label">A</span>
+`;
+      }
+
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.addEventListener('lang-updated', this._langUpdated); // invalidate on this 'lang-updated'
+      }
+
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      _langUpdated(event) {
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+          });
+        }
+      }
+
     }
+    customElements.define(ItemElement.is, ItemElement);
   }
   break;
 case 'legacy':
