@@ -10,6 +10,11 @@ module.exports = {
     },
     {
       "url": 'http://selenium-hub:4444/wd/hub',
+      "browserName": "MicrosoftEdge",
+      "version": "17",
+    },
+    {
+      "url": 'http://selenium-hub:4444/wd/hub',
       "browserName": "safari",
       "version": "12",
     },
