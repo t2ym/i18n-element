@@ -1,8 +1,4 @@
-import './fake-server.js';
 import './test-runner.js';
-import '../../i18n-element.js';
-import '../../define-element.js';
-import '../../i18n-dom-bind.js';
 import './template-default-lang/template-default-lang-element.js';
 import './template-default-lang/null-template-default-lang-element.js';
 import './template-default-lang-test-suites.js';
