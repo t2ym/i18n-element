@@ -2,116 +2,211 @@
 @license https://github.com/t2ym/i18n-behavior/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
-import 'i18n-behavior/i18n-behavior.js';
+import {render, svg} from 'lit-html/lit-html.js';
+import {html, i18n, bind} from '../../../i18n.js';
+import deepcopy from 'deepcopy/dist/deepcopy.js';
 
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import { LegacyElementMixin } from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<template id="preference-element">
-    <span id="oldLang"></span>
-  </template>`;
-
-document.head.appendChild($_documentContainer.content);
 switch (syntax) {
 default:
-case 'mixin':
+case 'element-binding':
   {
-    class PreferenceElement extends Mixins.Localizable(LegacyElementMixin(HTMLElement)) {
+    class PreferenceElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
+      render() {
+        return html`${bind(this)}
     <span id="oldLang"></span>
 `;
       }
 
-      static get is() { return 'preference-element' }
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.addEventListener('lang-updated', this._langUpdated); // invalidate on this 'lang-updated'
+      }
 
-      ready() {
-        this.addEventListener('lang-updated', this._langUpdated);
-        super.ready();
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+            if (window.ShadyDOM) {
+              ShadyDOM.flush();
+            }
+          });
+        }
       }
 
       _langUpdated (e) {
         console.log(this.is, 'lang-updated', e.detail);
-        if (e.composedPath()[0] === this) {
+        this.invalidate();
+        if (!this.done && e.composedPath()[0] === this) {
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
-          if (!e.detail.lastLang || e.detail.lastLang === 'en' || e.detail.lastLang === 'en-US') {
-            this.$.oldLang.lang = e.detail.oldLang;
-            this.fire('local-dom-ready');
-          }
+          let intervalId = setInterval(() => {
+            let span = this.shadowRoot.querySelector('span');
+            if (span) {
+              if (!e.detail.lastLang || e.detail.lastLang === 'en' || e.detail.lastLang === 'en-US') {
+                if (e.detail.oldLang && e.detail.oldLang !== 'undefined' && !span.lang) {
+                  span.lang = e.detail.oldLang;
+                }
+                console.log('oldLang=' + span.lang);
+                if (span.lang) {
+                  this.done = true;
+                  this.fire('local-dom-ready');
+                  clearInterval(intervalId);
+                }
+              }
+            }
+          }, 10);
         }
       }
     }
     customElements.define(PreferenceElement.is, PreferenceElement);
   }
   break;
-case 'base-element':
+case 'name-binding':
   {
-    class PreferenceElement extends BaseElements.I18nElement {
+    class PreferenceElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      static get template() {
-        return html`
+      render() {
+        return html`${bind('preference-element', import.meta)}
     <span id="oldLang"></span>
 `;
       }
 
-      static get is() { return 'preference-element' }
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.addEventListener('lang-updated', this._langUpdated); // invalidate on this 'lang-updated'
+      }
 
-      ready() {
-        this.addEventListener('lang-updated', this._langUpdated);
-        super.ready();
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+            if (window.ShadyDOM) {
+              ShadyDOM.flush();
+            }
+          });
+        }
       }
 
       _langUpdated (e) {
         console.log(this.is, 'lang-updated', e.detail);
-        if (e.composedPath()[0] === this) {
+        this.invalidate();
+        if (!this.done && e.composedPath()[0] === this) {
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
-          if (!e.detail.lastLang || e.detail.lastLang === 'en') {
-            this.$.oldLang.lang = e.detail.oldLang;
-            this.fire('local-dom-ready');
-          }
+          let intervalId = setInterval(() => {
+            let span = this.shadowRoot.querySelector('span');
+            if (span) {
+              if (!e.detail.lastLang || e.detail.lastLang === 'en' || e.detail.lastLang === 'en-US') {
+                if (e.detail.oldLang && e.detail.oldLang !== 'undefined' && !span.lang) {
+                  span.lang = e.detail.oldLang;
+                }
+                console.log('oldLang=' + span.lang);
+                if (span.lang) {
+                  this.done = true;
+                  this.fire('local-dom-ready');
+                  clearInterval(intervalId);
+                }
+              }
+            }
+          }, 10);
         }
       }
     }
     customElements.define(PreferenceElement.is, PreferenceElement);
   }
   break;
-case 'thin':
+case 'element-name-binding':
   {
-    Define = class PreferenceElement extends BaseElements.I18nElement {
-
+    class PreferenceElement extends i18n(HTMLElement) {
       static get importMeta() {
         return import.meta;
       }
 
-      ready() {
-        this.addEventListener('lang-updated', this._langUpdated);
-        super.ready();
+      render() {
+        return html`${bind(this, 'preference-element')}
+    <span id="oldLang"></span>
+`;
+      }
+
+      constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.addEventListener('lang-updated', this._langUpdated); // invalidate on this 'lang-updated'
+      }
+
+      connectedCallback() {
+        if (super.connectedCallback) {
+          super.connectedCallback();
+        }
+        this.invalidate();
+      }
+
+      invalidate() {
+        if (!this.needsRender) {
+          this.needsRender = true;
+          Promise.resolve().then(() => {
+            this.needsRender = false;
+            render(this.render(), this.shadowRoot);
+            if (window.ShadyDOM) {
+              ShadyDOM.flush();
+            }
+          });
+        }
       }
 
       _langUpdated (e) {
         console.log(this.is, 'lang-updated', e.detail);
-        if (e.composedPath()[0] === this) {
+        this.invalidate();
+        if (!this.done && e.composedPath()[0] === this) {
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
-          if (!e.detail.lastLang || e.detail.lastLang === 'en') {
-            this.$.oldLang.lang = e.detail.oldLang;
-            this.fire('local-dom-ready');
-          }
+          let intervalId = setInterval(() => {
+            let span = this.shadowRoot.querySelector('span');
+            if (span) {
+              if (!e.detail.lastLang || e.detail.lastLang === 'en' || e.detail.lastLang === 'en-US') {
+                if (e.detail.oldLang && e.detail.oldLang !== 'undefined' && !span.lang) {
+                  span.lang = e.detail.oldLang;
+                }
+                console.log('oldLang=' + span.lang);
+                if (span.lang) {
+                  this.done = true;
+                  this.fire('local-dom-ready');
+                  clearInterval(intervalId);
+                }
+              }
+            }
+          }, 10);
         }
       }
-    };
+    }
+    customElements.define(PreferenceElement.is, PreferenceElement);
   }
   break;
 case 'legacy':

@@ -4,7 +4,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import './test-runner.js';
 suite('I18nElement with ' + 
-  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM') +
   (' in ' + syntax + ' syntax'), 
   function () {
 
@@ -27,15 +26,15 @@ suite('I18nElement with ' +
       fixture: 'preference-element-fixture', 
       fixtureModel: undefined,
       assign: undefined,
-      lang: isNavigatorLanguageEn ? lang1 : lang0,
-      effectiveLang: isNavigatorLanguageEn ? lang1 : lang0,
+      lang: isNavigatorLanguageEn ? lang1 : lang1,
+      effectiveLang: isNavigatorLanguageEn ? lang1 : lang1,
       templateDefaultLang: lang1,
       observeHtmlLang: true,
       event: 'local-dom-ready',
       text: { model: {} },
-      model: {},
+      //model: {},
       localDOM: [
-        (function F(){}).name && !navigator.userAgent.match(/Version[/].* Safari[/]/) && !navigator.userAgent.match(/Edge[/]/) ? { select: 'span#oldLang', 'lang.raw': navigatorLanguage } : { select: 'span#oldLang' }
+        { select: 'span', 'lang.raw': navigatorLanguage }
       ],
       lightDOM: undefined
     })
