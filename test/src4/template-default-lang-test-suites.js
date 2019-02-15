@@ -4,7 +4,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import './test-runner.js';
 suite('I18nElement with ' + 
-  (window.location.href.indexOf('?dom=Shadow') >= 0 ? 'Shadow DOM' : 'Shady DOM') +
   (' in ' + syntax + ' syntax'), 
   function () {
 
@@ -264,20 +263,20 @@ suite('I18nElement with ' +
       fixture: 'template-default-lang-element-fixture', 
       fixtureModel: undefined, 
       assign: undefined,
-      lang: lang0,
-      effectiveLang: lang0,
+      lang: lang2,
+      effectiveLang: lang2,
       templateDefaultLang: lang2,
       observeHtmlLang: true,
-      text: text_template_default_lang_fr,
-      model: {},
-      localDOM: localDOM_template_default_lang_fr,
+      text: text_template_default_lang,
+      //model: {},
+      localDOM: localDOM_template_default_lang,
       lightDOM: undefined
     }),
     s(lang6 + ' template default lang element', 'template default lang element', { 
       timeout: 60000,
       assign: { lang: lang6 },
-      lang: lang0,
-      effectiveLang: lang0
+      lang: lang2,
+      effectiveLang: lang2
     }),
     s(lang5 + ' template default lang element', 'template default lang element', { 
       timeout: 60000,
@@ -291,20 +290,20 @@ suite('I18nElement with ' +
       fixture: 'null-template-default-lang-element-fixture', 
       fixtureModel: undefined, 
       assign: undefined,
-      lang: lang0,
-      effectiveLang: lang0,
+      lang: lang1,
+      effectiveLang: lang1,
       templateDefaultLang: lang0,
       observeHtmlLang: true,
       text: text_simple,
-      model: {},
+      //model: {},
       localDOM: localDOM_simple,
       lightDOM: undefined
     }),
     s(lang6 + ' null template default lang element', 'null template default lang element', { 
       timeout: 60000,
       assign: { lang: lang6 },
-      lang: lang0,
-      effectiveLang: lang0
+      lang: lang1,
+      effectiveLang: lang1
     }),
     s(lang5 + ' null template default lang element', 'null template default lang element', { 
       timeout: 60000,
@@ -315,8 +314,8 @@ suite('I18nElement with ' +
     s(lang3 + ' null template default lang element', 'null template default lang element', { 
       timeout: 60000,
       assign: { lang: lang3 },
-      lang: lang0,
-      effectiveLang: lang0
+      lang: lang1,
+      effectiveLang: lang1
     }),
   ];
 

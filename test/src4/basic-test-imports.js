@@ -1,6 +1,4 @@
-import './fake-server.js';
 import './test-runner.js';
-import '../../i18n.js';
 import './simple-text-element/simple-text-element.js';
 import './commented-simple-text-element/commented-simple-text-element.js';
 import './plural-gender-element/plural-gender-element.js';

@@ -424,7 +424,9 @@ window.setupFixture = function setupFixture (params, fixtureModel) {
               element.fire('lang-updated');
             }
           }, 500);
-          resolve(element);
+          setTimeout(function () {
+            resolve(element);
+          }, 100);
         }
       }
       else {
