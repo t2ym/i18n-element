@@ -371,6 +371,13 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
         }
       }, 0);
     }
+    else {
+      setTimeout(() => {
+        if (!this.lang) {
+          this._updateEffectiveLang();
+        }
+      }, 0);
+    }
   }
 
   /**
