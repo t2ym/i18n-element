@@ -18,6 +18,12 @@ suite('I18nElement with ' +
   var lang8 = 'zh-CN';
   var lang9 = 'zh-TW';
   var lang10 = 'zh-Hans-CN-x-Linux';
+  var lang11 = 'null';
+  var lang12 = 'undefined';
+  var lang13 = null;
+  var lang14 = undefined;
+  var lang15 = 'illegal*language';
+  var lang16 = {};
   var text_complex_compound_binding = {
     'model': {},
     "item-update2": [
@@ -398,6 +404,24 @@ suite('I18nElement with ' +
     }),
     s(lang10 + ' fallback', lang7 + ' fallback', {
       assign: { lang: lang10 }
+    }),
+    s(lang11 + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang11 }
+    }),
+    s(lang12 + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang12 }
+    }),
+    s('null object' + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang13 }
+    }),
+    s('undefined value' + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang14 }
+    }),
+    s(lang15 + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang15 }
+    }),
+    s('object literal' + ' fallback', lang7 + ' fallback', {
+      assign: { lang: lang16 }
     }),
   ];
 
