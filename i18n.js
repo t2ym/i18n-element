@@ -53,6 +53,9 @@ const UncamelCase = function UncamelCase (name) {
   return tagName;
 }
 
+// string values 'null' and 'undefined', and non-string values are normalized as an empty string ''
+const normalize = v => typeof v === 'string' ? ((v === 'null' || v === 'undefined') ? '' : v) : '';
+
 const mixinMethods = (mixin, methods, base) => {
   class MixinClass extends base {
   }
@@ -260,7 +263,13 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
    * @param {Event} event 'lang-updated' event
    */
   _updateEffectiveLang(event) {
-    this.effectiveLang = this.lang = this.lang || this.templateDefaultLang || I18nControllerBehavior.properties.defaultLang.value || 'en';
+    let newValue = normalize(this.lang) || normalize(this.templateDefaultLang) || I18nControllerBehavior.properties.defaultLang.value || 'en';
+    if (this.effectiveLang !== newValue) {
+      this.effectiveLang = newValue;
+    }
+    if (this.lang !== newValue) {
+      this.lang = newValue;
+    }
   }
 
   /**
@@ -362,7 +371,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       new MutationObserver(this._handleHtmlLangChange.bind(this));
     this._htmlLangObserver.observe(this._html = I18nControllerBehavior.properties.html.value, { attributes: true });
     if (this.observeHtmlLang && this.lang !== this._html.lang && this._html.lang) {
-      let htmlLang = this._html.lang;
+      let htmlLang = normalize(this._html.lang);
       let originalLang = this.lang;
       setTimeout(() => {
         this._updateEffectiveLang();
@@ -373,7 +382,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     }
     else {
       setTimeout(() => {
-        if (!this.lang) {
+        if (!normalize(this.lang)) {
           this._updateEffectiveLang();
         }
       }, 0);
@@ -389,7 +398,10 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       switch (mutation.type) {
       case 'attributes':
         if (this.observeHtmlLang && mutation.attributeName === 'lang') {
-          this.lang = this._html.lang;
+          let lang = normalize(this._html.lang);
+          if (this.lang !== lang) {
+            this.lang = lang;
+          }
         }
         break;
       default:
@@ -433,6 +445,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'lang') {
       // super.attributeChangedCallbck() is not called
+      newValue = normalize(newValue);
       if (oldValue !== newValue) {
         if (I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
           this._langChanged(newValue, oldValue);
