@@ -31,9 +31,16 @@ if (!Object.getOwnPropertyDescriptor(Element.prototype, 'children')) {
 }
 
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
-const isIE11 = !(function F(){}).name;
-const isSafari9 = navigator.userAgent.match(/ Version[/]9[.][0-9]*[.][0-9]* Safari[/]/);
-const isAttributeChangedPolyfillRequired = isEdge || isIE11 || isSafari9;
+const isAttributeChangedPolyfillRequired = (function () {
+  class DummyCustomElementToCheckAttributeChangedCallbackCapability extends HTMLElement {
+    static get observedAttributes() { return ['lang']; }
+    attributeChangedCallback(name, oldValue, newValue) { this.attributeChangedCallbackCalled = true; }
+  }
+  customElements.define('dummy-custom-element-to-check-attribute-changed-callback-capability', DummyCustomElementToCheckAttributeChangedCallbackCapability);
+  const dummyElement = document.createElement('dummy-custom-element-to-check-attribute-changed-callback-capability');
+  dummyElement.lang = 'en'; // set lang "property" not "attribute"
+  return !dummyElement.attributeChangedCallbackCalled;
+})();
 
 const nameCache = new Map(); // for UncamelCase()
 const UncamelCase = function UncamelCase (name) {
