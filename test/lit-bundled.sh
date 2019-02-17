@@ -4,7 +4,7 @@ rm -rf lit-bundled lit-src4-bundled
 cp -rvf preprocess4 lit-bundled
 cp -rvf src4 lit-src4-bundled
 
-for i in minimal basic; do {
+for i in minimal basic edge-case multiple-case template-default-lang preference no-persist; do {
   echo Building lit-bundled $i;
   sed -e "s/test-name/${i}/g" lit-polymer.json >polymer.json
   polymer build --root=..
