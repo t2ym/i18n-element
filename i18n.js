@@ -573,9 +573,7 @@ export const html = (strings, ...parts) => {
     let _originalHtml = originalHtml;
     if (isEdge) {
       // Note for Edge: transform attributes are temporarily substituted for x-transform-x since Edge unexpectedly modifies transform attributes in SVG
-      while (originalHtml.indexOf('transform=') >= 0) {
-        originalHtml = originalHtml.replace('transform=', 'x-transform-x=');
-      }
+      originalHtml = originalHtml.replace(/([ \t\n])transform=/g, '$1x-transform-x=');
     }
     template.innerHTML = originalHtml;
     if (element.templateDefaultLang) {
@@ -585,9 +583,7 @@ export const html = (strings, ...parts) => {
     preprocessedHtml = template.innerHTML;
     if (isEdge) {
       // Note for Edge: Substituted transform attributes are reverted to original transform attributes since Edge unexpectedly modifies transform attributes in SVG
-      while (preprocessedHtml.indexOf('x-transform-x=') >= 0) {
-        preprocessedHtml = preprocessedHtml.replace('x-transform-x=', 'transform=');
-      }
+      preprocessedHtml = preprocessedHtml.replace(/x-transform-x=/g, 'transform=');
     }
     //console.log('preprocessed html: ', preprocessedHtml);
     element._processTasks();
