@@ -472,6 +472,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       while (task = this._tasks.shift()) {
         this[task[0]].apply(this, task[1]);
       }
+      this._tasks = null;
     }
   }
 }
@@ -532,6 +533,9 @@ export const html = (strings, ...parts) => {
   if (cachedTemplate) {
     preprocessedStrings = cachedTemplate.preprocessedStrings;
     preprocessedPartsGenerator = cachedTemplate.preprocessedPartsGenerator;
+    if (element._tasks) {
+      element._processTasks();
+    }
   }
   else {
     let originalHtml = '';
