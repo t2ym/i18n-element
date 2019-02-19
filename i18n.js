@@ -163,7 +163,12 @@ const boundElements = new Map();
  * @param {HTMLElement} base Base class to support I18N
  * @summary I18N mixin for lit-html
  */
-export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, base) {
+export const i18n = (base) => (c => {
+  if (!isAttributeChangedPolyfillRequired) {
+    delete c.prototype.setAttribute; // remove polyfilled setAttribute
+  }
+  return c;
+})(class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, base) {
 
   /**
    * Fired when its locale resources are updated
@@ -186,9 +191,11 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
    * @type {Array} list of observed attributes
    */
   static get observedAttributes() {
-    let attributes = new Set(super.observedAttributes);
-    ['lang'].forEach(attr => attributes.add(attr));
-    return [...attributes];
+    let attributesSet = new Set();
+    let attributes = [];
+    ['lang'].concat(super.observedAttributes || []).forEach(attr => attributesSet.add(attr));
+    attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+    return attributes;
   }
 
   /**
@@ -421,6 +428,37 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
   }
 
   /**
+   * Polyfills setAttribute by marking itself executing a setAttribute call
+   */
+  setAttribute(name, value) {
+    if (!this._observedAttributes) {
+      let observedAttributes = this.constructor.observedAttributes;
+      this.__proto__._observedAttributes = new Set();
+      for (let attr of observedAttributes) {
+        this._observedAttributes.add(attr);
+      }
+    }
+    if (this._observedAttributes.has(name)) {
+      this._lastSetAttributeCall = this._lastSetAttributeCall || Object.create(null);
+      this._inSetAttributeCall = true;
+      if (Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name)) {
+        delete this._lastSetAttributeCall[name];
+      }
+      super.setAttribute(name, value);
+      this._inSetAttributeCall = false;
+      if (Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name)) {
+        delete this._lastSetAttributeCall[name];
+      }
+      else {
+        this._lastSetAttributeCall[name] = value;
+      }
+    }
+    else {
+      super.setAttribute(name, value);
+    }
+  }
+
+  /**
    * Polyfills calls to attributeChangedCallback()
    * @param {Array} mutations Array of mutations of observedAttributes
    */
@@ -428,7 +466,26 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
     mutations.forEach(function(mutation) {
       switch (mutation.type) {
       case 'attributes':
-        this.attributeChangedCallback(mutation.attributeName, mutation.oldValue, this.getAttribute(mutation.attributeName));
+        let name = mutation.attributeName;
+        let oldValue = mutation.oldValue;
+        let newValue = this.getAttribute(name);
+        /*
+        console.log(`${this.is}._handleSelfAttributeChange mutation { "${name}", ` +
+          `"${oldValue}"(${typeof oldValue}), "${newValue}"(${typeof newValue}) } ` +
+          `_inSetAttributeCall=${this._inSetAttributeCall} _lastSetAttributeCall=${JSON.stringify(this._lastSetAttributeCall, null, 0)}`);
+         */
+        this._lastSetAttributeCall = this._lastSetAttributeCall || Object.create(null);
+        if (!this._inSetAttributeCall &&
+             (!Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name) ||
+               this._lastSetAttributeCall[name] !== newValue)) {
+          this.attributeChangedCallback(name, oldValue, newValue);
+        }
+        if (Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name)) {
+          delete this._lastSetAttributeCall[name];
+        }
+        else {
+          this._lastSetAttributeCall[name] = newValue;
+        }
         break;
       default:
         break;
@@ -445,7 +502,8 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'lang') {
-      // super.attributeChangedCallbck() is not called
+      // super.attributeChangedCallback() is not called
+      //console.log(`${this.is}#${this.number}.attributeChangedCallback("${name}", "${oldValue}"(${typeof oldValue}), "${newValue}"(${typeof newValue}))`);
       if (oldValue !== newValue) {
         if (I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
           this._langChanged(newValue, oldValue);
@@ -475,7 +533,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       this._tasks = null;
     }
   }
-}
+});
 
 /**
  * Preprocess a template literal and hand it to lit-html
