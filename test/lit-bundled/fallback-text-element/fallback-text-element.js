@@ -187,9 +187,11 @@ case 'element-binding': {
         }));
       }
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
-        [].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        let attributesSet = new Set();
+        let attributes = [];
+        [].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr));
+        return attributes;
       }
       constructor() {
         super();
@@ -355,9 +357,11 @@ case 'name-binding': {
         }));
       }
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
-        [].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        let attributesSet = new Set();
+        let attributes = [];
+        [].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr));
+        return attributes;
       }
       constructor() {
         super();
@@ -523,9 +527,11 @@ case 'element-name-binding': {
         }));
       }
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
-        [].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        let attributesSet = new Set();
+        let attributes = [];
+        [].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr));
+        return attributes;
       }
       constructor() {
         super();
