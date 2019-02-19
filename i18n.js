@@ -520,7 +520,10 @@ export const html = (strings, ...parts) => {
   else if (strings.length > 0 && strings[0] === '<!-- localizable -->' && parts[0] instanceof BindingBase) {
     //name = parts[0].name;
     //meta = parts[0].meta;
-    //element = parts[0].element;
+    element = parts[0].element;
+    if (element._tasks) {
+      element._processTasks();
+    }
     //console.log('html: rendering preprocessed HTML template for ' + parts[0].name);
     strings.shift();
     parts.shift();
