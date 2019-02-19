@@ -19,9 +19,11 @@ case 'element-binding':
       }
 
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
-        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        let attributesSet = new Set();
+        let attributes = [];
+        [/* list of additional observedAttributes */].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+        return attributes;
       }
 
       constructor() {
@@ -86,9 +88,11 @@ case 'name-binding':
       }
 
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
-        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        let attributesSet = new Set();
+        let attributes = [];
+        [/* list of additional observedAttributes */].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+        return attributes;
       }
 
       constructor() {
@@ -153,9 +157,11 @@ case 'element-name-binding':
       }
 
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
-        [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        let attributesSet = new Set();
+        let attributes = [];
+        [/* list of additional observedAttributes */].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+        return attributes;
       }
 
       constructor() {
