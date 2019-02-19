@@ -5,42 +5,9 @@ Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 import {html as litHtml, render, svg} from 'lit-html/lit-html.js';
 import { _I18nBehavior, I18nControllerBehavior } from 'i18n-behavior/i18n-behavior.js';
-
-// Polyfill IE 11
-if (!Object.getOwnPropertyDescriptor(DocumentFragment.prototype, 'children')) {
-  Object.defineProperty(DocumentFragment.prototype, 'children', {
-    enumerable: true,
-    configurable: true,
-    get: function () {
-      var childNodes = this.childNodes;
-      var children = Array.prototype.filter.call(childNodes, function (node) { return node.nodeType === node.ELEMENT_NODE; });
-      return children;
-    }
-  });
-}
-if (!Object.getOwnPropertyDescriptor(Element.prototype, 'children')) {
-  Object.defineProperty(SVGElement.prototype, 'children', {
-    enumerable: true,
-    configurable: true,
-    get: function () {
-      var childNodes = this.childNodes;
-      var children = Array.prototype.filter.call(childNodes, function (node) { return node.nodeType === node.ELEMENT_NODE; });
-      return children;
-    }
-  });
-}
+import { polyfill } from './polyfill.js';
 
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
-const isAttributeChangedPolyfillRequired = (function () {
-  class DummyCustomElementToCheckAttributeChangedCallbackCapability extends HTMLElement {
-    static get observedAttributes() { return ['lang']; }
-    attributeChangedCallback(name, oldValue, newValue) { this.attributeChangedCallbackCalled = true; }
-  }
-  customElements.define('dummy-custom-element-to-check-attribute-changed-callback-capability', DummyCustomElementToCheckAttributeChangedCallbackCapability);
-  const dummyElement = document.createElement('dummy-custom-element-to-check-attribute-changed-callback-capability');
-  dummyElement.lang = 'en'; // set lang "property" not "attribute"
-  return !dummyElement.attributeChangedCallbackCalled;
-})();
 
 const nameCache = new Map(); // for UncamelCase()
 const UncamelCase = function UncamelCase (name) {
@@ -163,12 +130,7 @@ const boundElements = new Map();
  * @param {HTMLElement} base Base class to support I18N
  * @summary I18N mixin for lit-html
  */
-export const i18n = (base) => (c => {
-  if (!isAttributeChangedPolyfillRequired) {
-    delete c.prototype.setAttribute; // remove polyfilled setAttribute
-  }
-  return c;
-})(class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, base) {
+export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, polyfill(base)) {
 
   /**
    * Fired when its locale resources are updated
@@ -228,9 +190,6 @@ export const i18n = (base) => (c => {
       };
     }
     this.addEventListener('lang-updated', this._updateEffectiveLang.bind(this));
-    if (isAttributeChangedPolyfillRequired) {
-      this._polyfillAttributeChangedCallback();
-    }
     this._startMutationObserver();
   }
 
@@ -419,81 +378,6 @@ export const i18n = (base) => (c => {
   }
 
   /**
-   * Setup polyfill for attributeChangedCallback() of custom elements v1 for unsupported browsers
-   */
-  _polyfillAttributeChangedCallback() {
-    this._selfObserver = this._selfObserver || 
-      new MutationObserver(this._handleSelfAttributeChange.bind(this));
-    this._selfObserver.observe(this, { attributes: true, attributeOldValue: true, attributeFilter: this.constructor.observedAttributes });
-  }
-
-  /**
-   * Polyfills setAttribute by marking itself executing a setAttribute call
-   */
-  setAttribute(name, value) {
-    if (!this._observedAttributes) {
-      let observedAttributes = this.constructor.observedAttributes;
-      this.__proto__._observedAttributes = new Set();
-      for (let attr of observedAttributes) {
-        this._observedAttributes.add(attr);
-      }
-    }
-    if (this._observedAttributes.has(name)) {
-      this._lastSetAttributeCall = this._lastSetAttributeCall || Object.create(null);
-      this._inSetAttributeCall = true;
-      if (Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name)) {
-        delete this._lastSetAttributeCall[name];
-      }
-      super.setAttribute(name, value);
-      this._inSetAttributeCall = false;
-      if (Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name)) {
-        delete this._lastSetAttributeCall[name];
-      }
-      else {
-        this._lastSetAttributeCall[name] = value;
-      }
-    }
-    else {
-      super.setAttribute(name, value);
-    }
-  }
-
-  /**
-   * Polyfills calls to attributeChangedCallback()
-   * @param {Array} mutations Array of mutations of observedAttributes
-   */
-  _handleSelfAttributeChange(mutations) {
-    mutations.forEach(function(mutation) {
-      switch (mutation.type) {
-      case 'attributes':
-        let name = mutation.attributeName;
-        let oldValue = mutation.oldValue;
-        let newValue = this.getAttribute(name);
-        /*
-        console.log(`${this.is}._handleSelfAttributeChange mutation { "${name}", ` +
-          `"${oldValue}"(${typeof oldValue}), "${newValue}"(${typeof newValue}) } ` +
-          `_inSetAttributeCall=${this._inSetAttributeCall} _lastSetAttributeCall=${JSON.stringify(this._lastSetAttributeCall, null, 0)}`);
-         */
-        this._lastSetAttributeCall = this._lastSetAttributeCall || Object.create(null);
-        if (!this._inSetAttributeCall &&
-             (!Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name) ||
-               this._lastSetAttributeCall[name] !== newValue)) {
-          this.attributeChangedCallback(name, oldValue, newValue);
-        }
-        if (Object.prototype.hasOwnProperty.call(this._lastSetAttributeCall, name)) {
-          delete this._lastSetAttributeCall[name];
-        }
-        else {
-          this._lastSetAttributeCall[name] = newValue;
-        }
-        break;
-      default:
-        break;
-      }
-    }, this);
-  }
-
-  /**
    * attributeChangedCallback of custom elements v1 to catch lang attribute changes
    * It calls super.attributeChangedCallback() for attriutes other than lang
    * @param {string} name Name of attribute
@@ -533,7 +417,7 @@ export const i18n = (base) => (c => {
       this._tasks = null;
     }
   }
-});
+}
 
 /**
  * Preprocess a template literal and hand it to lit-html
