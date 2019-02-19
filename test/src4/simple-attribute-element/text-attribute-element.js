@@ -78,7 +78,8 @@ case 'element-binding':
       }
 
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
+        let attributesSet = new Set();
+        let attributes = [];
         [
           'custom-text-attr1',
           'custom-text-attr2',
@@ -86,8 +87,9 @@ case 'element-binding':
           'out-of-scope-attr',
           'i18n-target',
           'i18n-target2'
-        ].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        ].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+        return attributes;
       }
 
       constructor() {
@@ -176,7 +178,8 @@ case 'name-binding':
       }
 
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
+        let attributesSet = new Set();
+        let attributes = [];
         [
           'custom-text-attr1',
           'custom-text-attr2',
@@ -184,8 +187,9 @@ case 'name-binding':
           'out-of-scope-attr',
           'i18n-target',
           'i18n-target2'
-        ].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        ].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+        return attributes;
       }
 
       constructor() {
@@ -274,7 +278,8 @@ case 'element-name-binding':
       }
 
       static get observedAttributes() {
-        let attributes = new Set(super.observedAttributes);
+        let attributesSet = new Set();
+        let attributes = [];
         [
           'custom-text-attr1',
           'custom-text-attr2',
@@ -282,8 +287,9 @@ case 'element-name-binding':
           'out-of-scope-attr',
           'i18n-target',
           'i18n-target2'
-        ].forEach(attr => attributes.add(attr));
-        return [...attributes];
+        ].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
+        attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+        return attributes;
       }
 
       constructor() {
