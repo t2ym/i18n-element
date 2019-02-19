@@ -38,11 +38,9 @@ export class LitClock extends i18n(HTMLElement) {
     return import.meta;
   }
   static get observedAttributes() {
-    let attributesSet = new Set();
-    let attributes = [];
-    [].concat(super.observedAttributes).forEach(attr => attributesSet.add(attr));
-    attributesSet.forEach(attr => attributes.push(attr));
-    return attributes;
+    let attributes = new Set(super.observedAttributes);
+    [].forEach(attr => attributesSet.add(attr));
+    return [...attributes];
   }
   get date() {
     return this._date;
