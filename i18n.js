@@ -399,7 +399,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       }
     }
     else {
-      if (typeof super.attributeChangedCallback === 'function') {
+      if (super.attributeChangedCallback) {
         super.attributeChangedCallback(name, oldValue, newValue);
       }
     }
