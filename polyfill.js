@@ -59,6 +59,13 @@ if (new Set([1]).size === 0) { // Set constructor cannot take initializers
     }
     return obj;
   };
+  // Polyfill [Symbol.species]
+  Object.defineProperty(Set, Symbol.species, {
+    get: function () { return Set; },
+    set: undefined,
+    enumerable: false,
+    configurable: true,
+  });
   // Polyfill [Symbol.iterator]
   _Set.prototype[Symbol.iterator] = function * () {
     let values = [];
@@ -71,12 +78,42 @@ if (new Set([1]).size === 0) { // Set constructor cannot take initializers
       yield value;
     }
   };
+  // Polyfill add() and has()
+  const setMinus0 = new _Set();
+  setMinus0.add(-0);
+  /* istanbul ignore if */
+  if (setMinus0.has(0)) {
+    setMinus0.clear(); // Unreachable code: Evolved IE 11?
+  }
+  _Set.prototype._add = _Set.prototype.add;
+  _Set.prototype._has = _Set.prototype.has;
+  _Set.prototype.add = function (value) {
+    if (value === 0 && setMinus0._has(value)) {
+      value = 0; // -0 is normalized as 0
+    }
+    this._add(value);
+    return this;
+  };
+  _Set.prototype.has = function (value) {
+    if (value === 0 && setMinus0._has(value)) {
+      value = 0; // -0 is normalized as 0
+    }
+    return this._has(value);
+  };
+  Set.prototype = _Set.prototype;
   window.Set = Set;
   // minimal tests
   let set = new Set([1, 2]);
   if (!(set.size === 2 &&
         set.has(1) && set.has(2) && !set.has(3) &&
-        set.values().next().value === 1)) {
+        set.values().next().value === 1 &&
+        set instanceof Set &&
+        Set[Symbol.species] === Set &&
+        set.add(3) === set &&
+        set.has(3) &&
+        new Set([0, -0]).size === 1 &&
+        new Set([-0]).has(0) &&
+        new Set([0]).has(-0))) {
     /* istanbul ignore next: Should not throw an error */
     throw new Error('Cannot polyfill Set class');
   }
@@ -93,6 +130,13 @@ if (new Map([[1, 'a']]).size === 0) { // Map constructor cannot take initializer
     }
     return obj;
   }
+  // Polyfill [Symbol.species]
+  Object.defineProperty(Map, Symbol.species, {
+    get: function () { return Map; },
+    set: undefined,
+    enumerable: false,
+    configurable: true,
+  });
   // Polyfill [Symbol.iterator]
   _Map.prototype[Symbol.iterator] = function * () {
     let keyValuePairs = [];
@@ -117,6 +161,29 @@ if (new Map([[1, 'a']]).size === 0) { // Map constructor cannot take initializer
       yield _entry;
     }
   }
+  // Polyfill set() and has()
+  const mapMinus0 = new _Map();
+  mapMinus0.set(-0, 1);
+  /* istanbul ignore if */
+  if (mapMinus0.has(0)) {
+    mapMinus0.clear(); // Unreachable code: Evolved IE 11?
+  }
+  _Map.prototype._set = _Map.prototype.set;
+  _Map.prototype._has = _Map.prototype.has;
+  _Map.prototype.set = function (key, value) {
+    if (key === 0 && mapMinus0._has(key)) {
+      key = 0; // -0 is normalized as 0
+    }
+    this._set(key, value);
+    return this;
+  };
+  _Map.prototype.has = function (key) {
+    if (key === 0 && mapMinus0._has(key)) {
+      key = 0; // -0 is normalized as 0
+    }
+    return this._has(key);
+  };
+  Map.prototype = _Map.prototype;
   window.Map = Map;
   // minimal tests
   let map = new Map([[1, 'a'], [2, 'b']]);
@@ -124,7 +191,14 @@ if (new Map([[1, 'a']]).size === 0) { // Map constructor cannot take initializer
         map.has(1) && map.has(2) && !map.has(3) &&
         map.keys().next().value === 1 &&
         map.values().next().value === 'a' &&
-        map.entries().next().value[0] === 1)) {
+        map.entries().next().value[0] === 1 &&
+        map instanceof Map &&
+        Map[Symbol.species] === Map &&
+        map.set(3, 'c') === map &&
+        map.has(3) &&
+        new Map([[0,'a'],[-0,'b']]).size === 1 &&
+        new Map([[-0,'b']]).has(0) &&
+        new Map([[0,'a']]).has(-0))) {
     /* istanbul ignore next: Should not throw an error */
     throw new Error('Cannot polyfill Map class');
   }
