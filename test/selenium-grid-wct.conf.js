@@ -69,6 +69,7 @@ module.exports = {
         "**/define-element.js",
         "**/define-element-base.js",
         "**/i18n.js",
+        "**/polyfill.js",
         "**/i18n-behavior/i18n-behavior.js",
         "**/i18n-behavior/i18n-attr-repo.js",
         "**/i18n-behavior/i18n-preference.js"

@@ -13,6 +13,7 @@ const vulcanize = require('gulp-vulcanize');
 const debug = require('gulp-debug');
 const replace = require('gulp-replace');
 const uglify = require('gulp-uglify');
+const htmlMinifier = require('html-minifier');
 const runSequence = require('run-sequence');
 const del = require('del');
 const gutil = require('gulp-util');
@@ -109,6 +110,13 @@ const escodegenOptionsCompact = {
     compact: true
   },
   comment: false
+};
+
+const minifyHtmlTemplates = false;
+const htmlMinifierOptions = {
+  // Same options as polymer build minify: true
+  collapseWhitespace: true,
+  removeComments: true,
 };
 
 function UncamelCase (name) {
@@ -239,6 +247,12 @@ function traverseAst(ast, templates) {
             let localizableTextJSON = preprocessedTemplate.substring(indexOfLocalizableText + localizableTextPrefix.length, indexOfLocalizableTextPostfix);
             localizableTextJSON = JSON.stringify(JSON.parse(localizableTextJSON), ((key, value) => typeof value === 'string' ? he.decode(value) : value), 2)
             let strippedTemplate = preprocessedTemplate.substring(0, indexOfLocalizableText);
+            if (minifyHtmlTemplates) {
+              //console.log(`${name}: original ${strippedTemplate}`);
+              strippedTemplate = htmlMinifier.minify(strippedTemplate, htmlMinifierOptions);
+              //console.log(`${name}: minified ${strippedTemplate}`);
+            }
+
             let strings = [{
               "type": "Literal",
               "value": "<!-- localizable -->",

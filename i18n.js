@@ -5,42 +5,9 @@ Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 import {html as litHtml, render, svg} from 'lit-html/lit-html.js';
 import { _I18nBehavior, I18nControllerBehavior } from 'i18n-behavior/i18n-behavior.js';
-
-// Polyfill IE 11
-if (!Object.getOwnPropertyDescriptor(DocumentFragment.prototype, 'children')) {
-  Object.defineProperty(DocumentFragment.prototype, 'children', {
-    enumerable: true,
-    configurable: true,
-    get: function () {
-      var childNodes = this.childNodes;
-      var children = Array.prototype.filter.call(childNodes, function (node) { return node.nodeType === node.ELEMENT_NODE; });
-      return children;
-    }
-  });
-}
-if (!Object.getOwnPropertyDescriptor(Element.prototype, 'children')) {
-  Object.defineProperty(SVGElement.prototype, 'children', {
-    enumerable: true,
-    configurable: true,
-    get: function () {
-      var childNodes = this.childNodes;
-      var children = Array.prototype.filter.call(childNodes, function (node) { return node.nodeType === node.ELEMENT_NODE; });
-      return children;
-    }
-  });
-}
+import { polyfill } from './polyfill.js';
 
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
-const isAttributeChangedPolyfillRequired = (function () {
-  class DummyCustomElementToCheckAttributeChangedCallbackCapability extends HTMLElement {
-    static get observedAttributes() { return ['lang']; }
-    attributeChangedCallback(name, oldValue, newValue) { this.attributeChangedCallbackCalled = true; }
-  }
-  customElements.define('dummy-custom-element-to-check-attribute-changed-callback-capability', DummyCustomElementToCheckAttributeChangedCallbackCapability);
-  const dummyElement = document.createElement('dummy-custom-element-to-check-attribute-changed-callback-capability');
-  dummyElement.lang = 'en'; // set lang "property" not "attribute"
-  return !dummyElement.attributeChangedCallbackCalled;
-})();
 
 const nameCache = new Map(); // for UncamelCase()
 const UncamelCase = function UncamelCase (name) {
@@ -163,7 +130,7 @@ const boundElements = new Map();
  * @param {HTMLElement} base Base class to support I18N
  * @summary I18N mixin for lit-html
  */
-export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, base) {
+export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, polyfill(base)) {
 
   /**
    * Fired when its locale resources are updated
@@ -186,9 +153,11 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
    * @type {Array} list of observed attributes
    */
   static get observedAttributes() {
-    let attributes = new Set(super.observedAttributes);
-    ['lang'].forEach(attr => attributes.add(attr));
-    return [...attributes];
+    let attributesSet = new Set();
+    let attributes = [];
+    ['lang'].concat(super.observedAttributes || []).forEach(attr => attributesSet.add(attr));
+    attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
+    return attributes;
   }
 
   /**
@@ -221,9 +190,6 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       };
     }
     this.addEventListener('lang-updated', this._updateEffectiveLang.bind(this));
-    if (isAttributeChangedPolyfillRequired) {
-      this._polyfillAttributeChangedCallback();
-    }
     this._startMutationObserver();
   }
 
@@ -412,31 +378,6 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
   }
 
   /**
-   * Setup polyfill for attributeChangedCallback() of custom elements v1 for unsupported browsers
-   */
-  _polyfillAttributeChangedCallback() {
-    this._selfObserver = this._selfObserver || 
-      new MutationObserver(this._handleSelfAttributeChange.bind(this));
-    this._selfObserver.observe(this, { attributes: true, attributeOldValue: true, attributeFilter: this.constructor.observedAttributes });
-  }
-
-  /**
-   * Polyfills calls to attributeChangedCallback()
-   * @param {Array} mutations Array of mutations of observedAttributes
-   */
-  _handleSelfAttributeChange(mutations) {
-    mutations.forEach(function(mutation) {
-      switch (mutation.type) {
-      case 'attributes':
-        this.attributeChangedCallback(mutation.attributeName, mutation.oldValue, this.getAttribute(mutation.attributeName));
-        break;
-      default:
-        break;
-      }
-    }, this);
-  }
-
-  /**
    * attributeChangedCallback of custom elements v1 to catch lang attribute changes
    * It calls super.attributeChangedCallback() for attriutes other than lang
    * @param {string} name Name of attribute
@@ -445,7 +386,8 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'lang') {
-      // super.attributeChangedCallbck() is not called
+      // super.attributeChangedCallback() is not called
+      //console.log(`${this.is}#${this.number}.attributeChangedCallback("${name}", "${oldValue}"(${typeof oldValue}), "${newValue}"(${typeof newValue}))`);
       if (oldValue !== newValue) {
         if (I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
           this._langChanged(newValue, oldValue);
@@ -457,7 +399,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       }
     }
     else {
-      if (typeof super.attributeChangedCallback === 'function') {
+      if (super.attributeChangedCallback) {
         super.attributeChangedCallback(name, oldValue, newValue);
       }
     }
@@ -472,6 +414,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       while (task = this._tasks.shift()) {
         this[task[0]].apply(this, task[1]);
       }
+      this._tasks = null;
     }
   }
 }
@@ -519,7 +462,10 @@ export const html = (strings, ...parts) => {
   else if (strings.length > 0 && strings[0] === '<!-- localizable -->' && parts[0] instanceof BindingBase) {
     //name = parts[0].name;
     //meta = parts[0].meta;
-    //element = parts[0].element;
+    element = parts[0].element;
+    if (element._tasks) {
+      element._processTasks();
+    }
     //console.log('html: rendering preprocessed HTML template for ' + parts[0].name);
     strings.shift();
     parts.shift();
@@ -532,6 +478,9 @@ export const html = (strings, ...parts) => {
   if (cachedTemplate) {
     preprocessedStrings = cachedTemplate.preprocessedStrings;
     preprocessedPartsGenerator = cachedTemplate.preprocessedPartsGenerator;
+    if (element._tasks) {
+      element._processTasks();
+    }
   }
   else {
     let originalHtml = '';

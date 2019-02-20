@@ -406,19 +406,19 @@ window.setupFixture = function setupFixture (params, fixtureModel) {
             typeof fixtureModel.lang === 'string' &&
             fixtureModel.lang !== 'en' &&
             fixtureModel.lang !== element.effectiveLang && element.effectiveLang !== 'en') {
-          console.log('setupFixture: waiting for lang-updated');
+          //console.log('setupFixture: waiting for lang-updated');
           element.addEventListener('lang-updated', function setupFixtureLangUpdated (event) {
-            console.log('setupFixtureLangUpdated');
+            //console.log('setupFixtureLangUpdated');
             if (event.target === element &&
                 element.effectiveLang === (fixtureModel.lang || element.templateDefaultLang || I18nControllerBehavior.properties.defaultLang.value || 'en')) {
-              console.log('setupFixtureLangUpdated lang = ' + event.detail.lang + ' effectiveLang = ' + element.effectiveLang);
+              //console.log('setupFixtureLangUpdated lang = ' + event.detail.lang + ' effectiveLang = ' + element.effectiveLang);
               element.removeEventListener('lang-updated', setupFixtureLangUpdated);
               resolve(element);
             }
           });
         }
         else {
-          console.log('setupFixture: element ready without lang-updated');
+          //console.log('setupFixture: element ready without lang-updated');
           setTimeout(function () {
             if (params.lang === '' || params.lang === 'en') {
               element.fire('lang-updated');
@@ -495,12 +495,12 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
         return (_wait ? new Promise((resolve) => { setTimeout(() => { resolve(); }, _wait); }) : Promise.resolve()).then(() => setupFixture(params, params.fixtureModel))
           .then(function (element) {
             el = element;
-            console.log('setup: element.lang = ' + element.lang);
+            //console.log('setup: element.lang = ' + element.lang);
             if (params && params.suite === 'fr simple attribute') {
               //debugger;
             }
             return new Promise(function (resolve, reject) {
-              console.log(params.suite, 'waiting for ' + event);
+              //console.log(params.suite, 'waiting for ' + event);
               var resolved = false;
               if (params &&
                   (params.event ||
@@ -512,18 +512,18 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
                       (el.lang === 'en' && params.lang === '' &&
                       el.effectiveLang === 'en' && params.effectiveLang === '')*/)) {
                     el.removeEventListener(event, fixtureSetup);
-                    console.log('setup: updateProperty resolving on ' + event);
+                    //console.log('setup: updateProperty resolving on ' + event);
                     if (!resolved) {
                       resolved = true;
                       resolve(el);
                     }
                   }
                   else {
-                    console.log(params.suite + ' skipping uninteresting event ' + event +
-                      ' "' + el.lang + '" "' + params.lang + '" "' + el.effectiveLang + '" "' + params.effectiveLang + '"');
+                    //console.log(params.suite + ' skipping uninteresting event ' + event +
+                    //  ' "' + el.lang + '" "' + params.lang + '" "' + el.effectiveLang + '" "' + params.effectiveLang + '"');
                   }
                 });
-                console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
+                //console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
                 updateProperty(el, params.assign);
                 setTimeout(() => {
                   if (!resolved) {
@@ -533,8 +533,8 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
                 }, 10000);
               }
               else {
-                console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
-                console.log('setup: updateProperty resolving without ' + event);
+                //console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
+                //console.log('setup: updateProperty resolving without ' + event);
                 updateProperty(el, params.assign);
                 resolve(el);
               }

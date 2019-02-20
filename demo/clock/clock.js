@@ -38,7 +38,7 @@ export class LitClock extends i18n(HTMLElement) {
 
   static get observedAttributes() {
     let attributes = new Set(super.observedAttributes);
-    [/* list of additional observedAttributes */].forEach(attr => attributes.add(attr));
+    [/* list of additional observedAttributes */].forEach(attr => attributesSet.add(attr));
     return [...attributes];
   }
 
@@ -170,7 +170,7 @@ export class LitClock extends i18n(HTMLElement) {
   attributeChangedCallback(name, oldValue, newValue) {
     const handleOnlyBySelf = [];
     if (!handleOnlyBySelf.indexOf(name) >= 0) {
-      if (typeof super.attributeChangedCallback === 'function') {
+      if (super.attributeChangedCallback) {
         super.attributeChangedCallback(name, oldValue, newValue);
       }
     }
