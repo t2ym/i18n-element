@@ -22,6 +22,7 @@ addons:
 script:
   - gulp patch-wct-browser-legacy # cp -vf test/browser.js node_modules/wct-browser-legacy/browser.js
   - #gulp patch-browser-capabilities # treat Edge as ES5 browser
+  - gulp patch-web-component-tester-for-http-caching
   - # for target in lit; do { export COVERAGE_DIR=test/coverage-report-${target}-safari9 && wct --npm --module-resolution node --root . --config-file test/safari9-wct.conf.js --skip-plugin istanbul test/${target}-index.html; } done
   - #for target in lit; do { export COVERAGE_DIR=test/coverage-report-${target}-non-safari9 && wct --npm --module-resolution node --root . --config-file test/non-safari9-wct.conf.js test/${target}-index.html; } done
   - #wct --npm --module-resolution node --root . --config-file test/non-safari9-wct.conf.js --skip-plugin istanbul test/lit-bundled-index.html 

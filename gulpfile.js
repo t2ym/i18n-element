@@ -808,3 +808,11 @@ gulp.task('patch-web-component-tester-for-selenium-grid-ie11', () => {
     .pipe(replace("const DEFAULT_HEADERS = {","const DEFAULT_HEADERS =/**/{\n    'X-UA-Compatible': 'IE=11',"))
     .pipe(gulp.dest('node_modules/web-component-tester/runner/'));
 });
+
+gulp.task('patch-web-component-tester-for-http-caching', () => {
+  return gulp.src([ 'node_modules/web-component-tester/runner/webserver.js '], { base: 'node_modules/web-component-tester/runner' })
+    .pipe(replace("'Cache-Control': 'no-cache, no-store, must-revalidate',", "'Cache-Control': 'public, max-age=31536000',"))
+    .pipe(replace("'Pragma': 'no-cache',", "//'Pragma':/**/ 'no-cache',"))
+    .pipe(replace("'Expires': '0',", "//'Expires':/**/ '0',"))
+    .pipe(gulp.dest('node_modules/web-component-tester/runner/'));
+});
