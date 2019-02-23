@@ -1,3 +1,4 @@
+import './fake-server.js';
 import './test-runner.js';
 import './simple-text-element/simple-text-element.js';
 import './commented-simple-text-element/commented-simple-text-element.js';

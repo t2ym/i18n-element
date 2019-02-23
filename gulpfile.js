@@ -301,9 +301,9 @@ gulp.task('mini-bundles', function (callback) {
 gulp.task('fake-server', function() {
   var fakeContents = {};
   var fakeServerFiles = [];
-  var fakeServerTemplate = '"use strict";\nvar fakeServerContents =\n%%%CONTENTS%%%;\n';
+  var fakeServerTemplate = 'window.fakeServerContents =\n%%%CONTENTS%%%;\n';
 
-  return gulp.src(['test/**/*.json', '!test/*-wct.conf.json', '!test/coverage*', '!test/bower*.json'])
+  return gulp.src(['test/**/*.json', '!**/bundle.json', '!test/*-wct.conf.json', '!test/coverage*', '!test/bower*.json', '!**/*-polymer.json', '!**/*gulpfile.js'])
     .pipe(sort())
     .pipe(through.obj(function (file, enc, callback) {
       fakeServerFiles.push(file);
@@ -316,6 +316,7 @@ gulp.task('fake-server', function() {
       var suite;
       while (fakeServerFiles.length > 0) {
         file = fakeServerFiles.shift();
+        console.log(file.path);
         match = file.path.substr(file.base.length).match(/^([^\/]*)(\/.*)$/);
         fakeContents[match[1]] = fakeContents[match[1]] || {};
         fakeContents[match[1]][match[2]] = String(file.contents);

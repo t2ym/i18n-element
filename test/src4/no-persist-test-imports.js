@@ -1,3 +1,4 @@
+import './fake-server.js';
 import './test-runner.js';
 import './preference/preference-element.js';
 import './no-persist-test-suites.js';

@@ -1,3 +1,4 @@
+import './fake-server.js';
 import './test-runner.js';
 import './template-default-lang/template-default-lang-element.js';
 import './template-default-lang/null-template-default-lang-element.js';

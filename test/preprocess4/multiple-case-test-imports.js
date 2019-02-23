@@ -1,3 +1,4 @@
+import './fake-server.js';
 import './test-runner.js';
 import './multiple-case/multiple-element.js';
 import './multiple-case-test-suites.js';

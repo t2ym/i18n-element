@@ -1,3 +1,4 @@
+import './fake-server.js';
 import './test-runner.js';
 import './edge-case/empty-element.js';
 import './edge-case/no-template-element.js';
