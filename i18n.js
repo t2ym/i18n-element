@@ -56,7 +56,6 @@ const i18nMethods = ((mixin, excludes) => {
   'properties',
   'listeners',
   // Polymer lifecycle callbacks
-  'bedoreRegister',
   'registered',
   'created',
   'ready',
