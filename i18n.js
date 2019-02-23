@@ -153,11 +153,9 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
    * @type {Array} list of observed attributes
    */
   static get observedAttributes() {
-    let attributesSet = new Set();
-    let attributes = [];
-    ['lang'].concat(super.observedAttributes || []).forEach(attr => attributesSet.add(attr));
-    attributesSet.forEach(attr => attributes.push(attr)); // forEach is supported by IE 11
-    return attributes;
+    let attributes = new Set(super.observedAttributes);
+    ['lang'].forEach(attr => attributes.add(attr));
+    return [...attributes];
   }
 
   /**
