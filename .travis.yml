@@ -27,5 +27,5 @@ script:
   - #wct --npm --module-resolution node --root . --config-file test/non-safari9-wct.conf.js --skip-plugin istanbul test/lit-bundled-index.html 
   - #for target in lit src3 preprocess3; do { export COVERAGE_DIR=test/coverage-report-${target} && wct --npm --module-resolution node --root . --config-file wct.conf.js test/${target}-index.html; } done
   - #for target in lit-bundled bundled; do { wct --npm --module-resolution node --skip-plugin istanbul --root . --config-file wct.conf.js test/${target}-index.html; } done
-  - wct --npm --module-resolution node --root . --config-file wct.conf.js test/no-bundled-index.html
+  - wct --npm --expanded test/no-bundled-index.html
   - 'if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger ''test/coverage-report*/lcov.info'' | ./node_modules/coveralls/bin/coveralls.js || echo success; fi'
