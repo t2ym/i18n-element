@@ -486,31 +486,24 @@ export const html = (strings, ...parts) => {
     let i;
     for (i = 0; i + offset < parts.length; i++) {
       let string = strings[i + offset];
-      let match = string.match(/([.?@])[^ =]*=$/);
-      if (match) {
-        switch (match[1]) {
-        case '.':
-          originalHtml += string.replace(/[.]([^ =]*)=$/, '$1=');
-          originalHtml += `{{parts.${i}:property}}`;
-          break;
-        case '?':
-          originalHtml += string.replace(/[?]([^ =]*)=$/, '$1=');
-          originalHtml += `{{parts.${i}:boolean}}`;
-          break;
-        case '@':
-          originalHtml += string.replace(/[@]([^ =]*)=$/, '$1=');
-          originalHtml += `{{parts.${i}:event}}`;
-          break;
-        default:
-          // Unreachable code
-          originalHtml += string;
-          originalHtml += `{{parts.${i}}}`;
-          break;
-        }
-      }
-      else {
+      let match = string.match(/([.?@])[^ =]*=$/) || [];
+      switch (match[1]) {
+      case '.':
+        originalHtml += string.replace(/[.]([^ =]*)=$/, '$1=');
+        originalHtml += `{{parts.${i}:property}}`;
+        break;
+      case '?':
+        originalHtml += string.replace(/[?]([^ =]*)=$/, '$1=');
+        originalHtml += `{{parts.${i}:boolean}}`;
+        break;
+      case '@':
+        originalHtml += string.replace(/[@]([^ =]*)=$/, '$1=');
+        originalHtml += `{{parts.${i}:event}}`;
+        break;
+      default:
         originalHtml += string;
         originalHtml += `{{parts.${i}}}`;
+        break;
       }
     }
     originalHtml += strings[i + offset];
@@ -564,8 +557,7 @@ export const html = (strings, ...parts) => {
           preprocessedString = preprocessedString.replace(/([^ =]*)=(["]?)$/, '@$1=$2');
           break;
         default:
-          // Unreacheable code
-          break;
+          throw new Error(`html: invalid part ${part}`);
         }
       }
       preprocessedStrings.push(preprocessedString);
