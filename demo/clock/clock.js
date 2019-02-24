@@ -169,7 +169,7 @@ export class LitClock extends i18n(HTMLElement) {
 
   attributeChangedCallback(name, oldValue, newValue) {
     const handleOnlyBySelf = [];
-    if (!handleOnlyBySelf.indexOf(name) >= 0) {
+    if (handleOnlyBySelf.indexOf(name) < 0) {
       if (super.attributeChangedCallback) {
         super.attributeChangedCallback(name, oldValue, newValue);
       }
