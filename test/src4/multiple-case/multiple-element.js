@@ -76,7 +76,7 @@ case 'element-binding':
         if (this.itemLang[this.lang] === this.count) {
           //console.log('count reached for ' + this.lang);
           //this.$.items.render();
-          setTimeout(() => this.fire('local-dom-ready'), 500);
+          setTimeout(() => this.fire('local-dom-ready'), 100);
         }
         return false;
       }
@@ -151,7 +151,7 @@ case 'name-binding':
         if (this.itemLang[this.lang] === this.count) {
           //console.log('count reached for ' + this.lang);
           //this.$.items.render();
-          setTimeout(() => this.fire('local-dom-ready'), 500);
+          setTimeout(() => this.fire('local-dom-ready'), 100);
         }
         return false;
       }
@@ -226,7 +226,7 @@ case 'element-name-binding':
         if (this.itemLang[this.lang] === this.count) {
           //console.log('count reached for ' + this.lang);
           //this.$.items.render();
-          setTimeout(() => this.fire('local-dom-ready'), 500);
+          setTimeout(() => this.fire('local-dom-ready'), 100);
         }
         return false;
       }

@@ -530,7 +530,7 @@ window.suitesRunner = function suitesRunner (suites, _wait) {
                     resolved = true;
                     resolve(el);
                   }
-                }, 10000);
+                }, 1000);
               }
               else {
                 //console.log('setup: updateProperty ' + JSON.stringify(params.assign, null, 2));
