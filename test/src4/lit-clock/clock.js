@@ -49,6 +49,7 @@ export class LitClock extends i18n(HTMLElement) {
 
   constructor() {
     super();
+    this.templateDefaultLang = 'fr';
     this.attachShadow({mode: 'open'});
     this.date = new Date();
     setInterval(() => {
@@ -171,7 +172,7 @@ export class LitClock extends i18n(HTMLElement) {
 
   attributeChangedCallback(name, oldValue, newValue) {
     const handleOnlyBySelf = [];
-    if (!handleOnlyBySelf.indexOf(name) >= 0) {
+    if (handleOnlyBySelf.indexOf(name) < 0) {
       if (typeof super.attributeChangedCallback === 'function') {
         super.attributeChangedCallback(name, oldValue, newValue);
       }
