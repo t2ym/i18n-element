@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "i18n-behavior": "^3.0.0-rc.2",
+    "i18n-behavior": "^3.0.0-rc.3",
     "lit-html": "^1.0.0"
   }
 }
