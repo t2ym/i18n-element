@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [3.0.0] 2019-2-24
 ### Added
 - Support `lit-html` I18N
 - Polymer 3.x in ES modules
