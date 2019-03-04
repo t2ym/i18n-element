@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+### Added
+
+### Changed
+- Depend on `i18n-behavior@4.0.0-pre.1`
+
+### Removed
+- Safari 9 support
+
 ## [3.0.0] 2019-2-24
 ### Added
 - Support `lit-html` I18N

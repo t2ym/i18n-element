@@ -5,7 +5,7 @@ Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 import {html as litHtml, render, svg} from 'lit-html/lit-html.js';
 import { _I18nBehavior, I18nControllerBehavior } from 'i18n-behavior/i18n-behavior.js';
-import { polyfill } from './polyfill.js';
+import { polyfill } from 'wc-putty/polyfill.js';
 
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
 
