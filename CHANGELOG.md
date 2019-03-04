@@ -2,12 +2,14 @@
 
 ## [Unreleased]
 ### Added
+- Use wc-putty/polyfill.js
 
 ### Changed
-- Depend on `i18n-behavior@4.0.0-pre.1`
+- Depend on `i18n-behavior@4.0.0-pre.2`
 
 ### Removed
 - Safari 9 support
+- polyfill.js
 
 ## [3.0.0] 2019-2-24
 ### Added
