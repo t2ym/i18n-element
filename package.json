@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "4.0.0-pre.3",
+  "version": "4.0.0-pre.4",
   "main": "i18n.js",
   "directories": {
     "test": "test"
@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "i18n-behavior": "^4.0.0-pre.4",
+    "i18n-behavior": "^4.0.0-pre.6",
     "lit-html": "^1.0.0",
     "wc-putty": "^0.1.0"
   }
