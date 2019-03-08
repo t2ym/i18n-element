@@ -5,7 +5,7 @@
 - Use wc-putty/polyfill.js
 
 ### Changed
-- Depend on `i18n-behavior@4.0.0-pre.4`
+- Depend on `i18n-behavior@4.0.0-pre.8`
 
 ### Removed
 - Safari 9 support
