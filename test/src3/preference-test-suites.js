@@ -26,6 +26,7 @@ suite('I18nElement with ' +
     s('preference', null, {
       fixture: 'preference-element-fixture', 
       fixtureModel: undefined,
+      wait: 5000,
       assign: undefined,
       lang: isNavigatorLanguageEn ? lang1 : lang0,
       effectiveLang: isNavigatorLanguageEn ? lang1 : lang0,
@@ -41,7 +42,7 @@ suite('I18nElement with ' +
     })
   ];
 
-  suitesRunner(suites);
+  suitesRunner(suites, 500);
 
   if (location.href.indexOf('syntax=thin') >= 0) {
     suite('thin syntax extra test', function () {

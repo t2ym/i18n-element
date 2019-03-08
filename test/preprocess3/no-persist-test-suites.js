@@ -41,7 +41,7 @@ suite('I18nElement with ' +
     })
   ];
 
-  suitesRunner(suites);
+  suitesRunner(suites, 500);
 
   suite('change persist', function () {
     test('persist true', function (done) {

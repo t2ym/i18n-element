@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "i18n-behavior": "^4.0.0-pre.7",
+    "i18n-behavior": "^4.0.0-pre.8",
     "lit-html": "^1.0.0",
     "wc-putty": "^0.1.0"
   }

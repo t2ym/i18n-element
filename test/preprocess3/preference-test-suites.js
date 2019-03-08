@@ -41,6 +41,6 @@ suite('I18nElement with ' +
     })
   ];
 
-  suitesRunner(suites);
+  suitesRunner(suites, 500);
 
 });

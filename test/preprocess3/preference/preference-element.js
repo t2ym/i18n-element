@@ -51,7 +51,9 @@ case 'mixin':
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
           if (!e.detail.lastLang || e.detail.lastLang === 'en' || e.detail.lastLang === 'en-US') {
-            this.$.oldLang.lang = e.detail.oldLang;
+            if (e.detail.oldLang) {
+              this.$.oldLang.lang = e.detail.oldLang;
+            }
             this.fire('local-dom-ready');
           }
         }
@@ -94,7 +96,9 @@ case 'base-element':
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
           if (!e.detail.lastLang || e.detail.lastLang === 'en') {
-            this.$.oldLang.lang = e.detail.oldLang;
+            if (e.detail.oldLang) {
+              this.$.oldLang.lang = e.detail.oldLang;
+            }
             this.fire('local-dom-ready');
           }
         }
@@ -122,7 +126,9 @@ case 'thin':
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
           if (!e.detail.lastLang || e.detail.lastLang === 'en') {
-            this.$.oldLang.lang = e.detail.oldLang;
+            if (e.detail.oldLang) {
+              this.$.oldLang.lang = e.detail.oldLang;
+            }
             this.fire('local-dom-ready');
           }
         }
@@ -162,7 +168,9 @@ case 'legacy':
           console.log(e.detail);
           console.log('navigator.language = ' + navigator.language);
           if (!e.detail.lastLang || e.detail.lastLang === 'en') {
-            this.$.oldLang.lang = e.detail.oldLang;
+            if (e.detail.oldLang) {
+              this.$.oldLang.lang = e.detail.oldLang;
+            }
             this.fire('local-dom-ready');
           }
         }

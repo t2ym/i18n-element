@@ -251,7 +251,8 @@ window.syntax = 'mixin';
 })();
 
 window.setupFakeServer = function setupFakeServer (e) {
-  if (isFakeServer) {
+  e = window;
+  if (isFakeServer && !e.server) {
     e.server = sinon.fakeServer.create();
     e.server.autoRespond = true;
     //e.server.autoRespondAfter = 100;
@@ -268,10 +269,11 @@ window.setupFakeServer = function setupFakeServer (e) {
     });
   }
 }
+setupFakeServer(window);
 
 window.teardownFakeServer = function teardownFakeServer (e) {
   if (isFakeServer) {
-    e.server.restore();
+    //e.server.restore();
   }
 }
 
@@ -410,7 +412,7 @@ window.setupFixture = function setupFixture (params, fixtureModel) {
             if (params.lang === '' || params.lang === 'en') {
               element.fire('lang-updated');
             }
-          }, 500);
+          }, params.wait ? params.wait + 500 : 500);
           resolve(element);
         }
       }
