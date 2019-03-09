@@ -817,3 +817,19 @@ gulp.task('patch-web-component-tester-for-http-caching', () => {
     .pipe(replace("'Expires': '0',", "//'Expires':/**/ '0',"))
     .pipe(gulp.dest('node_modules/web-component-tester/runner/'));
 });
+
+const rollup = require('rollup');
+const sizes = require('rollup-plugin-sizes');
+const filesize = require('rollup-plugin-filesize');
+const { terser } = require('rollup-plugin-terser');
+const gzip = require('gulp-gzip');
+
+gulp.task('size', function (cb) {
+  return gulp.src('test/build/i18n.js')
+    .pipe(debug())
+    .pipe(size())
+    .pipe(gzip())
+    .pipe(debug())
+    .pipe(size())
+    .pipe(gulp.dest('test/build/'));
+});

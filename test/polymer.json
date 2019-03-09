@@ -1,0 +1,30 @@
+{
+  "entrypoint": "test/empty.html",
+  "shell": "i18n.js",
+  "sources": [
+  ],
+  "extraDependencies": [
+  ],
+  "builds": [
+    {
+      "name": "esm-bundled",
+      "browserCapabilities": [
+        "es2015",
+        "modules"
+      ],
+      "js": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "bundle": true,
+      "addServiceWorker": false
+    }
+  ],
+  "moduleResolution": "node",
+  "npm": true
+}
