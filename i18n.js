@@ -1,10 +1,10 @@
 /**
 @license https://github.com/t2ym/i18n-element/blob/master/LICENSE.md
-Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+Copyright (c) 2019, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 
-import {html as litHtml, render, svg} from 'lit-html/lit-html.js';
-import { _I18nBehavior, I18nControllerBehavior } from 'i18n-behavior/i18n-behavior.js';
+import { html as litHtml } from 'lit-html/lit-html.js';
+import { I18nControllerMixin, I18nControllerBehavior } from 'i18n-behavior/i18n-controller.js';
 import { polyfill } from 'wc-putty/polyfill.js';
 
 const isEdge = navigator.userAgent.indexOf(' Edge/') >= 0;
@@ -27,85 +27,11 @@ const UncamelCase = function UncamelCase (name) {
   return tagName;
 }
 
-const mixinMethods = (mixin, methods, base) => {
-  class MixinClass extends base {
-  }
-  methods.forEach((method) => {
-    Object.defineProperty(MixinClass.prototype, method, Object.getOwnPropertyDescriptor(mixin, method));
-  });
-  return MixinClass;
+const mixinMethods = (mixin, base) => {
+  // Mixin directly into base.prototype object to omit extra prototype chaining
+  Object.assign(base.prototype, mixin);
+  return base;
 }
-
-const i18nMethods = ((mixin, excludes) => {
-  let result = [];
-  for (let method in mixin) {
-    if (excludes.indexOf(method) >= 0) {
-      continue;
-    }
-    else /* if (excludes.indexOf('!' + method) >= 0) */ {
-      result.push(method);
-      continue;
-    }
-    /* istanbul ignore next: proper _I18nBehavior should always be handed as mixin */
-    throw new Error(`i18nMethods: Unexpected method ${method} in mixin ${JSON.stringify(Object.getOwnPropertyNames(mixin))}`);
-  }
-  return result;
-})(_I18nBehavior, [
-  // delarative Polymer properties
-  'hostAttributes',
-  'properties',
-  'listeners',
-  // Polymer lifecycle callbacks
-  'registered',
-  'created',
-  'ready',
-  'attached',
-  'detached',
-  // i18n-dom-bind callback
-  '_onDomChange',
-  // overridden methods
-  '_updateEffectiveLang',
-  '_handleHtmlLangChange',
-  // superseded by attributeChangedCallback
-  '_handleLangAttributeChange',
-  // MutationObserver for <html lang> is NOT disconnected even if this.observeHtmlLang is false
-  '_observeHtmlLangChanged',
-
-  // mixin methods (not excluded)
-  // text object getter
-  '!_getBundle',
-  // fallback language analyzer
-  '!_enumerateFallbackLanguages',
-  // locale resources fetcher
-  '!_langChanged',
-  '!_fetchLanguage',
-  '!_fetchBundle',
-  // XHR handlers
-  '!_handleResponse',
-  '!_handleError',
-  // collaborative 'lang-updated' event handling among instances of the same custom element
-  '!_forwardLangEvent',
-  // collaborative 'bundle-fetched' event handling among all instances waiting for bundle.*.json being fetched
-  '!_handleBundleFetched',
-  // locale resources JSON constructor with fallback capability
-  '!_constructBundle',
-  // internal utility method for locale resources JSON
-  '!_deepMap',
-  // template preprocessor methods
-  '!_constructDefaultBundle',
-  '!_traverseAttributes',
-  '!_traverseTemplateTree',
-  '!_isCompoundAnnotatedText',
-  '!_hasAnnotatedText',
-  '!_compoundAnnotationToSpan',
-  '!_setBundleValue',
-  '!_generateMessageId',
-  // utility methods for templates
-  '!or',
-  '!tr',
-  '!i18nFormat',
-]);
-//console.log('methods', JSON.stringify(methods, null, 2));
 
 // Note: The bound (pseudo-)element-name in ${bind()} is used as the key to the cached strings and parts
 const templateCache = new Map();
@@ -129,7 +55,7 @@ const boundElements = new Map();
  * @param {HTMLElement} base Base class to support I18N
  * @summary I18N mixin for lit-html
  */
-export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBehavior, i18nMethods, polyfill(base)) {
+export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseElement extends polyfill(base) {
 
   /**
    * Fired when its locale resources are updated
@@ -414,7 +340,7 @@ export const i18n = (base) => class I18nBaseElement extends mixinMethods(_I18nBe
       this._tasks = null;
     }
   }
-}
+});
 
 /**
  * Preprocess a template literal and hand it to lit-html
