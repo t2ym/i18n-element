@@ -5,9 +5,12 @@
 - Use wc-putty/polyfill.js
 
 ### Changed
-- Depend on `i18n-behavior@4.0.0-pre.8`
+- Depend on `i18n-behavior@4.0.0-pre.9`
+  - Import `i18n-behavior/i18n-controller.js`, which is independent of Polymer library
 
 ### Removed
+- Mandatory dependency on Polymer library
+  - Polymer elements npm packages must depend on Polymer library by themselves to import i18n-element.js
 - Safari 9 support
 - polyfill.js
 
