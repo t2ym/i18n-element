@@ -24,7 +24,13 @@ export default {
         '@babel/plugin-syntax-import-meta',
         // rollup rewrites import.meta.url, but makes them point to the file location after bundling
         // we want the location before bundling
-        'bundled-import-meta',
+        [ 'bundled-import-meta', {
+          'mappings': {
+            'node_modules': '/node_modules'
+          },
+          'bundleDir': '.',
+          'importStyle': 'esm',
+        } ],
       ],
       presets: [
         minifyPreset({}, {
