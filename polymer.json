@@ -17,7 +17,7 @@
     {
       "name": "esm-unbundled",
       "browserCapabilities": [
-        "es2015",
+        "es2017",
         "modules"
       ],
       "js": {
@@ -35,7 +35,7 @@
     {
       "name": "esm-bundled",
       "browserCapabilities": [
-        "es2015",
+        "es2017",
         "modules"
       ],
       "js": {

@@ -33,6 +33,7 @@
   },
   "scripts": {
     "demo": "cd demo && gulp",
+    "demo-rollup-esm-bundled": "rollup -c demo/preprocess/esm-bundled.rollup.config.js",
     "size-polymer-build": "cd test && polymer build --root ..",
     "size-rollup": "rollup -c",
     "size-gulp": "gulp size",

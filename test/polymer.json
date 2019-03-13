@@ -9,7 +9,7 @@
     {
       "name": "esm-bundled",
       "browserCapabilities": [
-        "es2015",
+        "es2017",
         "modules"
       ],
       "js": {
