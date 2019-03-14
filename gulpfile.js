@@ -824,7 +824,17 @@ const filesize = require('rollup-plugin-filesize');
 const { terser } = require('rollup-plugin-terser');
 const gzip = require('gulp-gzip');
 
-gulp.task('size', function (cb) {
+gulp.task('size-webpack', function (cb) {
+  return gulp.src('dist/i18n.bundled-not-usable-as-it-is.js')
+    .pipe(debug())
+    .pipe(size())
+    .pipe(gzip())
+    .pipe(debug())
+    .pipe(size())
+    .pipe(gulp.dest('test/build/'));
+});
+
+gulp.task('size-rollup', function (cb) {
   return gulp.src('test/build/i18n.js')
     .pipe(debug())
     .pipe(size())
@@ -832,4 +842,11 @@ gulp.task('size', function (cb) {
     .pipe(debug())
     .pipe(size())
     .pipe(gulp.dest('test/build/'));
+});
+
+gulp.task('size', function(cb) {
+  runSequence(
+    'size-webpack',
+    'size-rollup',
+    cb);
 });
