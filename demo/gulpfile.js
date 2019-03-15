@@ -154,7 +154,7 @@ function traverseAst(ast, templates) {
         ast.source &&
         ast.source.type === 'Literal' &&
         typeof ast.source.value === 'string') {
-      let match = ast.source.value.match(/^([^/]*\/)?(i18n-element|i18n-element\/i18n[.]js|[.][.]\/[.][.]\/i18n[.]js)$/);
+      let match = ast.source.value.match(/^(.*\/)?(i18n-element|i18n-element\/i18n[.]js|[.][.]\/[.][.]\/i18n[.]js)$/);
       if (match) {
         let orig = ast.source.value;
         if (match[1]) {
