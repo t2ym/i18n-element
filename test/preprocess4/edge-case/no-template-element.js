@@ -3,7 +3,7 @@
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import {render} from 'lit-html/lit-html.js';
-import {html, i18n, bind} from '../../../i18n.js';
+import {html, i18n, bind} from '../../../i18n-core.js';
 switch (syntax) {
 default:
 case 'element-binding':

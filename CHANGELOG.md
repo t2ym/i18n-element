@@ -2,11 +2,15 @@
 
 ## [Unreleased]
 ### Added
+- i18n-core.js for preprocessed sources
+- demo/gulpfile.js to convert `import {} from "i18n-element/i18n.js"` to `import {} from "i18n-element/i18n-core.js"`
+  - Use the flag `const useI18nCoreJs = true;` to enable the conversion
 - Use wc-putty/polyfill.js
 
 ### Changed
-- Depend on `i18n-behavior@4.0.0-pre.9`
+- Depend on `i18n-behavior@4.0.0-pre.10`
   - Import `i18n-behavior/i18n-controller.js`, which is independent of Polymer library
+  - Import `i18n-behavior/i18n-controller-core.js` for preprocessed sources
 
 ### Removed
 - Mandatory dependency on Polymer library

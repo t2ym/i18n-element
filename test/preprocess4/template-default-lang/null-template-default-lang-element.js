@@ -7,7 +7,7 @@ import {
   html,
   i18n,
   bind
-} from '../../../i18n.js';
+} from '../../../i18n-core.js';
 switch (syntax) {
 default:
 case 'element-binding': {

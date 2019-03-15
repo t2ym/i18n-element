@@ -834,8 +834,18 @@ gulp.task('size-webpack', function (cb) {
     .pipe(gulp.dest('test/build/'));
 });
 
-gulp.task('size-rollup', function (cb) {
+gulp.task('size-polymer-build', function (cb) {
   return gulp.src('test/build/i18n.js')
+    .pipe(debug())
+    .pipe(size())
+    .pipe(gzip())
+    .pipe(debug())
+    .pipe(size())
+    .pipe(gulp.dest('test/build/'));
+});
+
+gulp.task('size-polymer-build-core', function (cb) {
+  return gulp.src('test/core/i18n-core.js')
     .pipe(debug())
     .pipe(size())
     .pipe(gzip())
@@ -847,6 +857,70 @@ gulp.task('size-rollup', function (cb) {
 gulp.task('size', function(cb) {
   runSequence(
     'size-webpack',
-    'size-rollup',
+    'size-polymer-build',
+    'size-polymer-build-core',
     cb);
+});
+
+gulp.task('i18n-core.js', function() {
+  return gulp.src([ 'src/i18n.js' ])
+    .pipe(through.obj(function (file, enc, callback) {
+      const FOR_I18N_JS_BEGIN = '/* unnecessary part of i18n-core.js: BEGIN */';
+      const FOR_I18N_JS_END = '/* unnecessary part of i18n-core.js: END */';
+      const FOR_I18N_CORE_JS_BEGIN = '/* uncommented part of i18n-core.js: BEGIN';
+      const FOR_I18N_CORE_JS_END = 'uncommented part of i18n-core.js: END */';
+      let src = String(file.contents);
+      let lines = src.split(/\n/);
+      let i18n_js = [];
+      let i18n_core_js = [];
+      let for_i18n_js = false;
+      let for_i18n_core_js = false;
+      for (let line of lines) {
+        switch (line) {
+        case FOR_I18N_JS_BEGIN:
+          for_i18n_js = true;
+          break;
+        case FOR_I18N_JS_END:
+          for_i18n_js = false;
+          break;
+        case FOR_I18N_CORE_JS_BEGIN:
+          for_i18n_core_js = true;
+          break;
+        case FOR_I18N_CORE_JS_END:
+          for_i18n_core_js = false;
+          break;
+        default:
+          if (for_i18n_js) {
+            if (for_i18n_core_js) {
+              throw new Error('Incorrect format found in src/i18n.js at ' + line);
+            }
+            else {
+              i18n_js.push(line);
+            }
+          }
+          else {
+            if (for_i18n_core_js) {
+              i18n_core_js.push(line);
+            }
+            else {
+              i18n_js.push(line);
+              i18n_core_js.push(line);
+            }
+          }
+          break;
+        }
+      }
+      let i18nCoreFile = new gutil.File({
+        cwd: file.cwd,
+        base: file.cwd,
+        path: 'i18n-core.js',
+        contents: new Buffer(i18n_core_js.join('\n'))
+      });
+      this.push(i18nCoreFile);
+      file.base = file.cwd;
+      file.path = 'i18n.js';
+      file.contents = new Buffer(i18n_js.join('\n'));
+      callback(null, file);
+    }))
+    .pipe(gulp.dest('.'));
 });

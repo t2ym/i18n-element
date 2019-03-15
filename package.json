@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "4.0.0-pre.7",
+  "version": "4.0.0-pre.8",
   "main": "i18n.js",
   "directories": {
     "test": "test"
@@ -36,10 +36,12 @@
     "demo-rollup-esm-bundled": "rollup -c demo/preprocess/esm-bundled.rollup.config.js",
     "demo-webpack": "webpack --config demo/preprocess/webpack.config.js --display-modules --mode none",
     "size-polymer-build": "cd test && polymer build --root ..",
+    "size-polymer-build-core": "cd test/core && polymer build --root ../..",
     "size-rollup": "rollup -c",
+    "size-rollup-core": "rollup -c core-rollup.config.js",
     "size-webpack": "webpack --display-modules --mode none",
     "size-gulp": "gulp size",
-    "size": "run-s size-polymer-build size-webpack size-rollup size-gulp"
+    "size": "run-s size-polymer-build size-polymer-build-core size-webpack size-rollup size-rollup-core size-gulp"
   },
   "author": "Tetsuya Mori <t2y3141592@gmail.com>",
   "license": "BSD-2-Clause",
@@ -126,7 +128,7 @@
     "type-detect": "1.0.0"
   },
   "dependencies": {
-    "i18n-behavior": "^4.0.0-pre.9",
+    "i18n-behavior": "^4.0.0-pre.10",
     "lit-html": "^1.0.0",
     "wc-putty": "^0.1.0"
   }

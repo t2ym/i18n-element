@@ -11,7 +11,7 @@ import {
   html,
   i18n,
   bind
-} from '../../../i18n.js';
+} from '../../../i18n-core.js';
 import './text-attribute-element.js';
 import '@polymer/paper-input/paper-input.js';
 import '@google-web-components/google-chart/google-chart.js';

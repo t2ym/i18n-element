@@ -5,7 +5,7 @@ Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 import {
   html,
   bind
-} from '../../i18n.js';
+} from '../../i18n-core.js';
 export const binding = bind('get-message', import.meta);
 let mutatingMessage = '';
 setInterval(() => {

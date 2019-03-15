@@ -39,6 +39,9 @@ const he = require('he');
 //const logging = require('plylog');
 const mergeStream = require('merge-stream');
 
+// Use i18n-core.js
+const useI18nCoreJs = true;
+
 // Global object to store localizable attributes repository
 var attributesRepository = {};
 
@@ -143,6 +146,32 @@ function traverseAst(ast, templates) {
       //console.log(`${ast.type}: name = ${ast.id.name}`);
       templates._classes.push(ast.id.name);
       inClass = true;
+    }
+    break;
+  case 'ImportDeclaration':
+    if (templates._preprocess &&
+        useI18nCoreJs &&
+        ast.source &&
+        ast.source.type === 'Literal' &&
+        typeof ast.source.value === 'string') {
+      let match = ast.source.value.match(/^([^/]*\/)?(i18n-element|i18n-element\/i18n[.]js|[.][.]\/[.][.]\/i18n[.]js)$/);
+      if (match) {
+        let orig = ast.source.value;
+        if (match[1]) {
+          if (match[2].indexOf('i18n-element') === 0) {
+            ast.source.value = `${match[1]}i18n-element/i18n-core.js`;
+          }
+        }
+        else {
+          if (match[2].indexOf('i18n-element') === 0) {
+            ast.source.value = 'i18n-element/i18n-core.js';
+          }
+          else {
+            ast.source.value = '../../i18n-core.js';
+          }
+        }
+        console.log(`ImportDeclaration: "${orig}" converted to "${ast.source.value}"`);
+      }
     }
     break;
   case 'TaggedTemplateExpression':

@@ -10,7 +10,7 @@ import {
   html,
   i18n,
   bind
-} from '../../../i18n.js';
+} from '../../../i18n-core.js';
 import deepcopy from 'deepcopy/dist/deepcopy.js';
 switch (syntax) {
 default:
