@@ -8,7 +8,7 @@
 - Use `wc-putty/polyfill.js`
 
 ### Changed
-- Depend on `i18n-behavior@4.0.0-pre.12`
+- Depend on `i18n-behavior@4.0.0-pre.13`
   - Import `i18n-behavior/i18n-controller.js`, which is independent of Polymer library
   - Import `i18n-behavior/i18n-controller-core.js` for preprocessed sources
 
