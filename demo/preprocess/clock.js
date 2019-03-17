@@ -255,8 +255,8 @@ class WorldClockContainer extends i18n(HTMLElement) {
       '\n      <style>\n        :host {\n          display: block;\n          width: 100%;\n        }\n        world-clock {\n          display: flow;\n          max-width: 300px;\n        }\n      </style>\n      <div>',
       '</div>\n      ',
       '\n      <i18n-format id="compound-format-text" class="text" lang="',
-      '">\n        <json-data>',
-      '</json-data>\n        <i18n-number offset="1" slot="1" lang="',
+      '" .data=',
+      '>\n        <!-- <json-data> is preprocessed as .data property -->\n        <json-data preprocessed></json-data>\n        <i18n-number offset="1" slot="1" lang="',
       '">',
       '</i18n-number>\n        <span slot="2">',
       '</span>\n      </i18n-format>\n    '
@@ -265,7 +265,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
       text['div_1'],
       repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item }></world-clock>`),
       effectiveLang,
-      JSON.stringify(text['compound-format-text']['0']),
+      text['compound-format-text']['0'],
       effectiveLang,
       this.timezones.length,
       'GMT' + (this.timezones[0] < 0 ? '' : '+') + this.timezones[0] / 60

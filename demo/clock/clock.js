@@ -291,6 +291,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
                (item, index) => 
                  /* no I18N for this template itself */html`<world-clock .timezone=${item}></world-clock>`)}
       <i18n-format id="compound-format-text" class="text">
+        <!-- <json-data> is to be preprocessed as .data property -->
         <json-data>{
           "0": "No timezones",
           "1": "Only 1 timezone for {2} is shown.",

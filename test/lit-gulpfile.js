@@ -13,6 +13,7 @@ const vulcanize = require('gulp-vulcanize');
 const debug = require('gulp-debug');
 const replace = require('gulp-replace');
 const uglify = require('gulp-uglify');
+const htmlMinifier = require('html-minifier');
 const runSequence = require('run-sequence');
 const del = require('del');
 const gutil = require('gulp-util');
@@ -37,6 +38,12 @@ const he = require('he');
 
 //const logging = require('plylog');
 const mergeStream = require('merge-stream');
+
+// Use i18n-core.js
+const useI18nCoreJs = true;
+
+// Proprocess to <i18n-format .data=${data}><json-data preprocessed>
+const useI18nFormatDataProperty = true;
 
 // Global object to store localizable attributes repository
 var attributesRepository = {};
@@ -111,6 +118,13 @@ const escodegenOptionsCompact = {
   comment: false
 };
 
+const minifyHtmlTemplates = false;
+const htmlMinifierOptions = {
+  // Same options as polymer build minify: true
+  collapseWhitespace: true,
+  removeComments: true,
+};
+
 function UncamelCase (name) {
   return name
     // insert a hyphen between lower & upper
@@ -135,6 +149,32 @@ function traverseAst(ast, templates) {
       //console.log(`${ast.type}: name = ${ast.id.name}`);
       templates._classes.push(ast.id.name);
       inClass = true;
+    }
+    break;
+  case 'ImportDeclaration':
+    if (templates._preprocess &&
+        useI18nCoreJs &&
+        ast.source &&
+        ast.source.type === 'Literal' &&
+        typeof ast.source.value === 'string') {
+      let match = ast.source.value.match(/^(.*\/)?(i18n-element|i18n-element\/i18n[.]js|[.][.]\/[.][.]\/[.][.]\/i18n[.]js)$/);
+      if (match) {
+        let orig = ast.source.value;
+        if (match[1]) {
+          if (match[2].indexOf('i18n-element') === 0) {
+            ast.source.value = `${match[1]}i18n-element/i18n-core.js`;
+          }
+        }
+        else {
+          if (match[2].indexOf('i18n-element') === 0) {
+            ast.source.value = 'i18n-element/i18n-core.js';
+          }
+          else {
+            ast.source.value = '../../../i18n-core.js';
+          }
+        }
+        console.log(`ImportDeclaration: "${orig}" converted to "${ast.source.value}"`);
+      }
     }
     break;
   case 'TaggedTemplateExpression':
@@ -237,9 +277,14 @@ function traverseAst(ast, templates) {
             let indexOfLocalizableText = preprocessedTemplate.indexOf(localizableTextPrefix);
             let indexOfLocalizableTextPostfix = preprocessedTemplate.indexOf(localizableTextPostfix, indexOfLocalizableText);
             let localizableTextJSON = preprocessedTemplate.substring(indexOfLocalizableText + localizableTextPrefix.length, indexOfLocalizableTextPostfix);
-            localizableTextJSON = localizableTextJSON.replace(/&quot;/g, '\\"').replace(/&#34;/g, '\\"');
-            localizableTextJSON = he.decode(localizableTextJSON);
+            localizableTextJSON = JSON.stringify(JSON.parse(localizableTextJSON), ((key, value) => typeof value === 'string' ? he.decode(value) : value), 2)
             let strippedTemplate = preprocessedTemplate.substring(0, indexOfLocalizableText);
+            if (minifyHtmlTemplates) {
+              //console.log(`${name}: original ${strippedTemplate}`);
+              strippedTemplate = htmlMinifier.minify(strippedTemplate, htmlMinifierOptions);
+              //console.log(`${name}: minified ${strippedTemplate}`);
+            }
+
             let strings = [{
               "type": "Literal",
               "value": "<!-- localizable -->",
@@ -249,6 +294,7 @@ function traverseAst(ast, templates) {
               "name": "_bind",
             }];
             let index;
+            let prefixNextString = '';
             //console.log(`${name} stripped=${strippedTemplate} localizable-text=${localizableTextJSON}`);
             while ((index = strippedTemplate.indexOf('{{')) >= 0) {
               let preprocessedString;
@@ -259,6 +305,10 @@ function traverseAst(ast, templates) {
               else {
                 preprocessedString = strippedTemplate.substring(0, index);
               }
+              if (prefixNextString) {
+                preprocessedString = prefixNextString + preprocessedString;
+                prefixNextString = '';
+              }
               strippedTemplate = strippedTemplate.substring(index);
               index = strippedTemplate.indexOf('}}');
               if (index < 0) {
@@ -267,10 +317,6 @@ function traverseAst(ast, templates) {
               let part = strippedTemplate.substring(0, index + 2);
               strippedTemplate = strippedTemplate.substring(index + 2);
               let partMatch = part.match(/^{{parts[.]([0-9]*)}}$/);
-              strings.push({
-                "type": "Literal",
-                "value": preprocessedString,
-              });
               if (partMatch) {
                 parts.push(ast.quasi.expressions[parseInt(partMatch[1]) + offset]);
               }
@@ -307,7 +353,27 @@ function traverseAst(ast, templates) {
                       valueExpression += `["${tmpPart}"]`;
                     }
                     if (isJSON) {
-                      valueExpression = `JSON.stringify(${valueExpression})`;
+                      if (useI18nFormatDataProperty) {
+                        /*
+                          Before conversion:
+                            <i18n-format lang="{{effectiveLang}}"> <!-- 0 or more whitespaces or comments --><json-data>{{serialize(text.target.0)}}</json-data>
+                          After conversion (equivalent tagged template literal):
+                            <i18n-format lang="${effectiveLang}" .data=${text['target']['0']}> <!-- 0 or more whitespaces or comments --><json-data preprocessed></json-data>
+                         */
+                        let match = preprocessedString.match(/^(.*[^-]|)>([ \n\t]*|(<!--(.|[\n\t])*-->)?)*<json-data>$/);
+                        if (match) {
+                          let preGt = match[1];
+                          let preJsonData = preprocessedString.substring(preGt.length, preprocessedString.length - '<json-data>'.length);
+                          preprocessedString = `${preGt} .data=`;
+                          prefixNextString = `${preJsonData}<json-data preprocessed>`;
+                        }
+                        else {
+                          valueExpression = `JSON.stringify(${valueExpression})`;
+                        }
+                      }
+                      else {
+                        valueExpression = `JSON.stringify(${valueExpression})`;
+                      }
                     }
                   }
                   valueExpressions.push(valueExpression);
@@ -330,10 +396,14 @@ function traverseAst(ast, templates) {
                 }
                 parts.push(valueExpressionAst);
               }
+              strings.push({
+                "type": "Literal",
+                "value": preprocessedString,
+              });
             }
             strings.push({
               "type": "Literal",
-              "value": strippedTemplate,
+              "value": prefixNextString + strippedTemplate,
             });
 
             let templateCode = ({

@@ -4,13 +4,14 @@ Copyright (c) 2018, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 import {
   html,
-  bind
+  bind,
+  i18n
 } from '../../../i18n-core.js';
 export const binding = bind('get-message', import.meta);
 let mutatingMessage = '';
 setInterval(() => {
   mutatingMessage = Date.now();
-  binding.element.fire('lang-updated');
+  binding.element.fire('lang-updated', null);
 }, 500);
 const getMutatingMessage = () => {
   return mutatingMessage;
@@ -47,6 +48,30 @@ export const getMessage2 = () => {
     'div': 'message 2'
   }));
 };
+binding.element.resolveUrl('');
+bind('', null, () => [], {});
+class DummyElement extends i18n(class DummyMixinElement extends HTMLElement {
+  static get observedAttributes() {
+    return ['attr'];
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+  }
+}) {
+}
+customElements.define(DummyElement.is, DummyElement);
+document.createElement(DummyElement.is).setAttribute('attr', 'value');
+try {
+  html([
+    '',
+    'hello'
+  ], bind('invalid-template'), 1, 2, 3);
+} catch (e) {
+  console.log(e);
+}
+try {
+} catch (e) {
+  console.log(e);
+}
 customElements.define('broken-element', class extends HTMLElement {
   static get isI18n() {
     return this._isI18n = !this._isI18n;

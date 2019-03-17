@@ -142,6 +142,7 @@
       <div>{{text.div_1}}</div>
       {{parts.0}}
       <i18n-format id="compound-format-text" class="text" lang="{{effectiveLang}}">
+        <!-- <json-data> is preprocessed as .data property -->
         <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
         <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{parts.1}}</i18n-number>
         <span slot="2">{{parts.2}}</span>
