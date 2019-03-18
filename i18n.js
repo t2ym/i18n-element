@@ -698,7 +698,7 @@ export const bind = function (target, meta) {
   let partsGenerator;
   let localizableText;
   let binding;
-  if (target instanceof BindingBase && typeof arguments[1] === 'function' && typeof arguments[2] === 'object') {
+  if (typeof arguments[1] === 'function' && typeof arguments[2] === 'object' && target instanceof BindingBase) {
     // bind(('name', binding), (_bind, text, model, effectiveLang) => [], {})
     binding = target;
     partsGenerator = arguments[1];
@@ -710,13 +710,13 @@ export const bind = function (target, meta) {
     partsGenerator = arguments[2];
     localizableText = arguments[3];
   }
-  else if (target instanceof HTMLElement && target.constructor.isI18n && typeof arguments[1] === 'string' && typeof arguments[2] === 'function' && typeof arguments[3] === 'object') {
+  else if (typeof arguments[1] === 'string' && typeof arguments[2] === 'function' && typeof arguments[3] === 'object' && target instanceof HTMLElement && target.constructor.isI18n) {
     // bind(this, 'name', (_bind, text, model, effectiveLang) => [], {})
     binding = new ElementNameBinding(target, arguments[1]);
     partsGenerator = arguments[2];
     localizableText = arguments[3];
   }
-  else if (target instanceof HTMLElement && target.constructor.isI18n && typeof arguments[1] === 'function' && typeof arguments[2] === 'object') {
+  else if (typeof arguments[1] === 'function' && typeof arguments[2] === 'object' && target instanceof HTMLElement && target.constructor.isI18n) {
     // bind(this, (_bind, text, model, effectiveLang) => [], {})
     binding = new ElementBinding(target);
     partsGenerator = arguments[1];
