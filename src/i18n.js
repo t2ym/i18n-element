@@ -5,10 +5,10 @@ Copyright (c) 2019, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
 import { html as litHtml } from 'lit-html/lit-html.js';
 /* unnecessary part of i18n-core.js: BEGIN */
-import { I18nControllerMixin, I18nControllerBehavior } from 'i18n-behavior/i18n-controller.js';
+import { I18nControllerMixin, I18nControllerBehavior, bundles } from 'i18n-behavior/i18n-controller.js';
 /* unnecessary part of i18n-core.js: END */
 /* uncommented part of i18n-core.js: BEGIN
-import { I18nControllerCoreMixin, I18nControllerBehavior } from 'i18n-behavior/i18n-controller-core.js';
+import { I18nControllerCoreMixin, I18nControllerBehavior, bundles } from 'i18n-behavior/i18n-controller-core.js';
 uncommented part of i18n-core.js: END */
 import { polyfill } from 'wc-putty/polyfill.js';
 
@@ -46,6 +46,9 @@ const templateCache = new Map();
 
 /* unnecessary part of i18n-core.js: END */
 const boundElements = new Map();
+
+/* default bundles */
+const defaultBundles = bundles[''];
 
 /**
  * I18N mixin for lit-html
@@ -216,11 +219,12 @@ uncommented part of i18n-core.js: END */
    * @param {string} templateLang Locale of the locale resources object
    */
   _setText(name, bundle, templateLang) {
-    I18nControllerBehavior.properties.masterBundles.value[''][name] = bundle;
+    defaultBundles[name] = bundle;
     if (templateLang) {
-      I18nControllerBehavior.properties.masterBundles.value[templateLang] =
-        I18nControllerBehavior.properties.masterBundles.value[templateLang] || {};
-      I18nControllerBehavior.properties.masterBundles.value[templateLang][name] = bundle;
+      if (!bundles.hasOwnProperty(templateLang)) {
+        bundles[templateLang] = {};
+      }
+      bundles[templateLang][name] = bundle;
     }
   }
 
@@ -326,7 +330,7 @@ uncommented part of i18n-core.js: END */
       // super.attributeChangedCallback() is not called
       //console.log(`${this.is}#${this.number}.attributeChangedCallback("${name}", "${oldValue}"(${typeof oldValue}), "${newValue}"(${typeof newValue}))`);
       if (oldValue !== newValue) {
-        if (I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
+        if (defaultBundles[this.constructor.is]) {
           this._langChanged(newValue, oldValue);
         }
         else {
@@ -752,7 +756,7 @@ export const bind = function (target, meta) {
   }
   if (binding) {
     // Preprocessed
-    if (!I18nControllerBehavior.properties.masterBundles.value[''][binding.name]) {
+    if (!defaultBundles.hasOwnProperty(binding.name)) {
       let templateLang = binding.element.templateDefaultLang || I18nControllerBehavior.properties.defaultLang.value || 'en';
       binding.element._setText(binding.name, localizableText, templateLang);
     }

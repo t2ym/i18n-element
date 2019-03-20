@@ -4,7 +4,7 @@ Copyright (c) 2019, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
 
 import { html as litHtml } from 'lit-html/lit-html.js';
-import { I18nControllerCoreMixin, I18nControllerBehavior } from 'i18n-behavior/i18n-controller-core.js';
+import { I18nControllerCoreMixin, I18nControllerBehavior, bundles } from 'i18n-behavior/i18n-controller-core.js';
 import { polyfill } from 'wc-putty/polyfill.js';
 
 const nameCache = new Map(); // for UncamelCase()
@@ -32,6 +32,9 @@ const mixinMethods = (mixin, base) => {
 }
 
 const boundElements = new Map();
+
+/* default bundles */
+const defaultBundles = bundles[''];
 
 /**
  * I18N mixin for lit-html
@@ -197,11 +200,12 @@ export const i18n = (base) => mixinMethods(I18nControllerCoreMixin, class I18nBa
    * @param {string} templateLang Locale of the locale resources object
    */
   _setText(name, bundle, templateLang) {
-    I18nControllerBehavior.properties.masterBundles.value[''][name] = bundle;
+    defaultBundles[name] = bundle;
     if (templateLang) {
-      I18nControllerBehavior.properties.masterBundles.value[templateLang] =
-        I18nControllerBehavior.properties.masterBundles.value[templateLang] || {};
-      I18nControllerBehavior.properties.masterBundles.value[templateLang][name] = bundle;
+      if (!bundles.hasOwnProperty(templateLang)) {
+        bundles[templateLang] = {};
+      }
+      bundles[templateLang][name] = bundle;
     }
   }
 
@@ -307,7 +311,7 @@ export const i18n = (base) => mixinMethods(I18nControllerCoreMixin, class I18nBa
       // super.attributeChangedCallback() is not called
       //console.log(`${this.is}#${this.number}.attributeChangedCallback("${name}", "${oldValue}"(${typeof oldValue}), "${newValue}"(${typeof newValue}))`);
       if (oldValue !== newValue) {
-        if (I18nControllerBehavior.properties.masterBundles.value[''][this.constructor.is]) {
+        if (defaultBundles[this.constructor.is]) {
           this._langChanged(newValue, oldValue);
         }
         else {
@@ -560,7 +564,7 @@ export const bind = function (target, meta) {
   }
   if (binding) {
     // Preprocessed
-    if (!I18nControllerBehavior.properties.masterBundles.value[''][binding.name]) {
+    if (!defaultBundles.hasOwnProperty(binding.name)) {
       let templateLang = binding.element.templateDefaultLang || I18nControllerBehavior.properties.defaultLang.value || 'en';
       binding.element._setText(binding.name, localizableText, templateLang);
     }
