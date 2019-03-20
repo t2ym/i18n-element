@@ -206,22 +206,44 @@ Full-featured automation tools are available
 They are fully integrated in these samples:
 
 - [I18N-ready `pwa-starter-kit`](https://github.com/t2ym/pwa-starter-kit) with [`pwa-starter-kit/gulpfile.js`](https://github.com/t2ym/pwa-starter-kit/blob/master/gulpfile.js)
-- [`i18n-element` demo](https://github.com/t2ym/i18n-element) with [`i18n-element/demo/gulpfile.js`](https://github.com/t2ym/i18n-element/blob/master/demo/gulpfile.js)
 - [Live Localizer demo](https://github.com/t2ym/live-localizer) with [`live-localizer/demo/gulpfile.js`](https://github.com/t2ym/live-localizer/blob/master/demo/gulpfile.js)
+  - This version is equipped with Firebase configuration and synchronization for `<live-localizer>`
+- [`i18n-element` demo](https://github.com/t2ym/i18n-element) with [`i18n-element/demo/gulpfile.js`](https://github.com/t2ym/i18n-element/blob/master/demo/gulpfile.js)
+  - This is the latest version
+
+### Configurations in `demo/gulpfile.js` - `npm run demo` to trigger I18N automation
+```javascript
+    const useI18nCoreJs = true; // true to use i18n-core.js for preprocessed scripts
+    const useI18nFormatDataProperty = true; // true to proprocess to <i18n-format .data=${data}><json-data preprocessed>
+    // Diretories are relative to the current directory
+    var srcDir = 'clock'; // source files directory before preprocessing; should be changed to 'src' or whatever the target project is configured with
+    var tmpDir = 'tmp'; // temporary directory for I18N preprocessing
+    var destDir = 'preprocess'; // directory for preprocessed files
+    const minifyHtmlTemplates = false; // true to minify HTML template literals (experimental)
+    const htmlMinifierOptions = { // options for minification of HTML template literals
+      // Same options as polymer build minify: true
+      collapseWhitespace: true,
+      removeComments: true,
+    };
+    const extractAnonymousTemplates = false; // true For Polymer 3.0 templates
+```
 
 ## Compatible Versions
 
-| i18n-behavior  | i18n-element   | Polymer | lit-html |
+| i18n-element   | i18n-behavior  | Polymer | lit-html |
 |:---------------|:---------------|:--------|:---------|
-| 3.x            | 3.x            | 3.x     | 1.x      |
+| 4.x            | 4.x            | 3.x (optional) | 1.x      |
+| 3.x            | 3.x            | 3.x (mandatory) | 1.x      |
 | 2.x            | 2.x            | 1.x-2.x | -        |
-| 1.x            | -              | 1.x     | -        |
+| -              | 1.x            | 1.x     | -        |
+
+- Polymer elements using `i18n-element.js` must depend on `@polymer/polymer` NPM package themselves
 
 ## Browser Compatibility
 
 - Polyfilled by `@webcomponents/webcomponentsjs/webcomponents-{bundle|loader}.js`
 
-| Browser   | Chrome  | Firefox  | Edge 13+  | IE 11  | Safari 9+ | Chrome Android  | Mobile Safari  | Opera  |
+| Browser   | Chrome  | Firefox  | Edge 13+  | IE 11  | Safari 10+ | Chrome Android  | Mobile Safari  | Opera  |
 |:----------|:-------:|:--------:|:---------:|:------:|:---------:|:---------------:|:--------------:|:------:|
 | Supported | ✔       | ✔        | ✔         | ✔      | ✔         | ✔               | ✔              | ✔      |
 
