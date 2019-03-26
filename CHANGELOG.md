@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- `static get observeHtmlLang()` can be overridden to set `this.observeHtmlLang` at `super()` constructor
+
+### Changed
+- `this._fetchStatus` object is maintained per instance when `this.observeHtmlLang` is `false`
+
+### Removed
+- Support of `this.observeHtmlLang = false` after `super()` call in `constructor()`
+
 ## [4.0.0] 2019-3-20
 ### Added
 - `i18n-core.js` for preprocessed sources

@@ -85,7 +85,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 'no-persist'
               ]
             ).forEach(function (type) {
-              suites.push(phase + '/' + type + '-test.html' + (dom ? dom + '&syntax=' + syntax : '?syntax=' + syntax));
+              let _dom = dom;
+              if (type === 'minimal') {
+                _dom = _dom.replace('xhr=fake&', '');
+              }
+              suites.push(phase + '/' + type + '-test.html' + (_dom ? _dom + '&syntax=' + syntax : '?syntax=' + syntax));
             });            
           })
         });

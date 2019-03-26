@@ -44,6 +44,10 @@ export class LitClock extends i18n(HTMLElement) {
     return attributes;
   }
 
+  static get observeHtmlLang() {
+    return false;
+  }
+
   get date() { return this._date; }
   set date(v) { this._date = v; this.invalidate(); }
 
@@ -260,7 +264,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({mode: 'open'});
-    this.timezones = [ 0, -new Date().getTimezoneOffset() /*, +new Date().getTimezoneOffset() */];
+    this.timezones = [ [0, 'en'], [-new Date().getTimezoneOffset(), 'ja'] /*, +new Date().getTimezoneOffset() */];
     let _langUpdatedBindThis = this._langUpdated.bind(this);
     this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
   }
@@ -292,7 +296,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
       ${repeat(this.timezones,
                (item) => item,
                (item, index) => 
-                 /* no I18N for this template itself */html`<world-clock .timezone=${item}></world-clock>`)}
+                 /* no I18N for this template itself */html`<world-clock .timezone=${item[0]} lang=${item[1]}></world-clock>`)}
       <i18n-format id="compound-format-text" class="text">
         <json-data>{
           "0": "No timezones",

@@ -44,6 +44,9 @@ export class LitClock extends i18n(HTMLElement) {
     attributesSet.forEach(attr => attributes.push(attr));
     return attributes;
   }
+  static get observeHtmlLang() {
+    return false;
+  }
   get date() {
     return this._date;
   }
@@ -236,10 +239,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.timezones = [
-      0,
-      -new Date().getTimezoneOffset()
-    ];
+    this.timezones = [ [0, 'en'], [-new Date().getTimezoneOffset(), 'ja'] /*, +new Date().getTimezoneOffset() */];
     let _langUpdatedBindThis = this._langUpdated.bind(this);
     this.addEventListener('lang-updated', _langUpdatedBindThis);
   }
@@ -266,7 +266,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
     ], ...bind(this, (_bind, text, model, effectiveLang) => [
       _bind,
       text['div_1'],
-      repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item }></world-clock>`),
+      repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item[0] } lang=${ item[1] }></world-clock>`),
       effectiveLang,
       text['compound-format-text']['0'],
       effectiveLang,

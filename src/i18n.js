@@ -109,6 +109,16 @@ uncommented part of i18n-core.js: END */
   }
 
   /**
+   * static observeHtmlLang property to set the default value for this.observeHtmlLang
+   *
+   * Note:
+   * - Override this static property to set observeHtmlLang to false
+   */
+  static get observeHtmlLang() {
+    return true;
+  }
+
+  /**
    * constructor
    */
   constructor() {
@@ -116,18 +126,40 @@ uncommented part of i18n-core.js: END */
     this.is = this.constructor.is;
     this.importMeta = this.constructor.importMeta;
     this.templateDefaultLang = 'en';
-    this.observeHtmlLang = true;
-    if (!this.__proto__._fetchStatus) {
-      this.__proto__._fetchStatus = { // per custom element
-        fetchingInstance: null,
-        ajax: null,
-        ajaxLang: null,
-        lastLang: null,
-        fallbackLanguageList: null,
-        targetLang: null,
-        lastResponse: {},
-        rawResponses: {}
-      };
+    this.observeHtmlLang = Boolean(this.constructor.observeHtmlLang);
+    if (!this.constructor.prototype.hasOwnProperty('_fetchStatus')) {
+      Object.defineProperty(this.constructor.prototype, '_fetchStatus', {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        value: { // per custom element
+          fetchingInstance: null,
+          ajax: null,
+          ajaxLang: null,
+          lastLang: null,
+          fallbackLanguageList: null,
+          targetLang: null,
+          lastResponse: {},
+          rawResponses: {}
+        }
+      });
+    }
+    if (!this.observeHtmlLang) {
+      Object.defineProperty(this, '_fetchStatus', {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        value: { // per instance if observeHtmlLang === false
+          fetchingInstance: null,
+          ajax: null,
+          ajaxLang: null,
+          lastLang: null,
+          fallbackLanguageList: null,
+          targetLang: null,
+          lastResponse: {},
+          rawResponses: {}
+        }
+      });
     }
     this.addEventListener('lang-updated', this._updateEffectiveLang.bind(this));
     this._startMutationObserver();
@@ -235,38 +267,40 @@ uncommented part of i18n-core.js: END */
    * @return {HTMLElement} Bound element
    */
   getBoundElement(name, meta) {
-    let boundElement = boundElements.get(name);
+    let boundElement = boundElements.get(this.observeHtmlLang === false ? this : name);
     if (!boundElement) {
-      class BoundElementClass extends i18n(HTMLElement) {
-        static get is() {
-          return name;
+      boundElement = boundElements.get(name);
+      if (!boundElement) {
+        let elementClass = customElements.get(name);
+        let observeHtmlLang = elementClass ? elementClass.observeHtmlLang : true;
+        class BoundElementClass extends i18n(HTMLElement) {
+          static get is() {
+            return name;
+          }
+          static get importMeta() {
+            return meta;
+          }
+          static get observeHtmlLang() {
+            return observeHtmlLang;
+          }
+          constructor() {
+            super(observeHtmlLang);
+            this.importMeta = meta;
+          }
+          langUpdated(event) { // not called for this
+            this.notifyPath('text', this.text);
+            this.fire('lang-updated', event.detail);
+          }
         }
-        static get importMeta() {
-          return meta;
-        }
-        constructor() {
-          super();
-          this.importMeta = meta;
-          Object.defineProperty(this.constructor.prototype, '_fetchStatus', {
-            configurable: true,
-            enumerable: true,
-            writable: true,
-            value: { // per bound element
-              fetchingInstance: null,
-              ajax: null,
-              ajaxLang: null,
-              lastLang: null,
-              fallbackLanguageList: null,
-              targetLang: null,
-              lastResponse: {},
-              rawResponses: {}
-            }
-          });
-        }
+        customElements.define('html-binding-namespace-' + name, BoundElementClass);
+        boundElement = document.createElement('html-binding-namespace-' + name);
+        boundElements.set(name, boundElement);
       }
-      customElements.define('html-binding-namespace-' + name, BoundElementClass);
-      boundElement = document.createElement('html-binding-namespace-' + name);
-      boundElements.set(name, boundElement);
+      if (this.observeHtmlLang === false) {
+        boundElement = document.createElement('html-binding-namespace-' + name);
+        boundElement.addEventListener('lang-updated', boundElement.langUpdated.bind(this));
+        boundElements.set(this, boundElement);
+      }
     }
     return boundElement;    
   }
