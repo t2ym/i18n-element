@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [4.0.1] 2019-3-27
 ### Added
 - `static get observeHtmlLang()` can be overridden to set `this.observeHtmlLang` at `super()` constructor
 
