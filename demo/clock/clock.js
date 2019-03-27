@@ -257,7 +257,9 @@ class WorldClock extends LitClock {
   connectedCallback() {
     super.connectedCallback();
     this.__date = new Date();
-    this.timezone = -this._date.getTimezoneOffset();
+    if (this.timezone === undefined) {
+      this.timezone = -this._date.getTimezoneOffset();
+    }
   }
 
   render() {
