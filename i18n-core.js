@@ -248,39 +248,59 @@ export const i18n = (base) => mixinMethods(I18nControllerCoreMixin, class I18nBa
    * @return {HTMLElement} Bound element
    */
   getBoundElement(name, meta) {
-    let boundElement = boundElements.get(this.observeHtmlLang === false ? this : name);
+    let { boundElement, elements } = boundElements.get(name) || { boundElement: null, elements: new Map() };
+    /*
+      Data structures of boundElements
+        boundElements.get(name) -> { boundElement: boundElement, elements: elements }
+        if this.observeHtmlLang === true
+          elements -> { this: boundElement } // single item in the map
+        if this.observeHtmlLang === false
+          elements -> { this: boundElementForThis, ... } // dedicated bound element for each `this`
+        if this.observeHtmlLang === undefined // NameBinding
+          elements -> { } // empty
+    */
     if (!boundElement) {
-      boundElement = boundElements.get(name);
-      if (!boundElement) {
-        let elementClass = customElements.get(name);
-        let observeHtmlLang = elementClass ? elementClass.observeHtmlLang : true;
-        class BoundElementClass extends i18n(HTMLElement) {
-          static get is() {
-            return name;
-          }
-          static get importMeta() {
-            return meta;
-          }
-          static get observeHtmlLang() {
-            return observeHtmlLang;
-          }
-          constructor() {
-            super(observeHtmlLang);
-            this.importMeta = meta;
-          }
-          langUpdated(event) { // not called for this
-            this.notifyPath('text', this.text);
+      let elementClass = customElements.get(name);
+      let observeHtmlLang = elementClass ? elementClass.observeHtmlLang : true;
+      class BoundElementClass extends i18n(HTMLElement) {
+        static get is() {
+          return name;
+        }
+        static get importMeta() {
+          return meta;
+        }
+        static get observeHtmlLang() {
+          return observeHtmlLang;
+        }
+        constructor() {
+          super();
+          this.importMeta = meta;
+        }
+        langUpdated(event) { // not called for this
+          //console.log(`${name}.langUpdated.bind(${this.is}), ${event.target.is} ${event.target.lang}: ${JSON.stringify(event.detail)}`, this);
+          this.notifyPath('text', this.text);
+          if (observeHtmlLang || this.lang !== event.target.lang) {
             this.fire('lang-updated', event.detail);
           }
         }
-        customElements.define('html-binding-namespace-' + name, BoundElementClass);
-        boundElement = document.createElement('html-binding-namespace-' + name);
-        boundElements.set(name, boundElement);
       }
-      if (this.observeHtmlLang === false) {
+      customElements.define('html-binding-namespace-' + name, BoundElementClass);
+      boundElement = document.createElement('html-binding-namespace-' + name);
+      boundElements.set(name, { boundElement, elements });
+    }
+    if (this.observeHtmlLang === false) {
+      boundElement = elements.get(this);
+      if (!boundElement) {
         boundElement = document.createElement('html-binding-namespace-' + name);
         boundElement.addEventListener('lang-updated', boundElement.langUpdated.bind(this));
-        boundElements.set(this, boundElement);
+        elements.set(this, boundElement);
+      }
+    }
+    else if (this !== ObserverElement.prototype) {
+      if (!elements.has(this)) {
+        //console.log(`boundElement(${boundElement.is}).addEventListener('lang-updated', boundElement.langUpdated.bind(${this.is}))`);
+        boundElement.addEventListener('lang-updated', boundElement.langUpdated.bind(this));
+        elements.set(this, boundElement);
       }
     }
     return boundElement;    
