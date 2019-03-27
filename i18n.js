@@ -52,6 +52,12 @@ const defaultBundles = bundles[''];
  *  effectiveLang - {string} set as this.lang value when locale resources are updated
  *  observeHtmlLang - {boolean} default value: true; set to false in constructor if html.lang changes must not be reflected to the element
  *  _fetchStatus - {Object} internally used object to store status of fetching locale resources; the object is shared among all the instances of a custom element
+ *  _i18nElementConnected - {boolean} set as true on connectedCallback and false on disconnectedCallback, undefined before connection
+ *
+ * Attributes:
+ *  discard-on-disconnect - boolean attribute to discard the element on disconnection if exists
+ *    - this removes lang-updated event listeners bound to this element for boundElement
+ *    - disconnectedCallback() must call super.disconnectedCallback() and clean up resources for the element instance
  *
  * @polymer
  * @mixinFunction
@@ -147,8 +153,78 @@ export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseEl
         }
       });
     }
-    this.addEventListener('lang-updated', this._updateEffectiveLang.bind(this));
+    this._updateEffectiveLangBindThis = this._updateEffectiveLang.bind(this);
+    this.addEventListener('lang-updated', this._updateEffectiveLangBindThis);
     this._startMutationObserver();
+  }
+
+  /**
+   * custom elements connectedCallback()
+   *
+   * Tasks:
+   * - Call super.connectedCallback() if exists
+   * - Set this._i18nElementConnected as true
+   */
+  connectedCallback() {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+    this._i18nElementConnected = true;
+  }
+
+  /**
+   * custom elements disconnectedCallback()
+   *
+   * Tasks:
+   * - Call super.disconnectedCallback() if exists
+   * - Set this._i18nElementConnected as false
+   * - Remove lang-updated event listener
+   * - Remove lang-updated event listeners for boundElement
+   * - Stop MutationObserver
+   */
+  disconnectedCallback() {
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
+    this._i18nElementConnected = false;
+    if (this.hasAttribute('discard-on-disconnect')) {
+      this.removeEventListener('lang-updated', this._updateEffectiveLangBindThis);
+      this._removeBoundLangUpdatedListeners();
+      this._stopMutationObserver();
+    }
+  }
+
+  /**
+   * Registers lang-updated event lister for boundElement to clean up on disconnection
+   *
+   * @param {I18nBaseElement} boundElement bound element to register
+   * @param {function} listener lang-updated event listener to register
+   */
+  _registerBoundLangUpdatedListener(boundElement, listener) {
+    if (!this._boundLangUpdatedListeners) {
+      this._boundLangUpdatedListeners = new Set();
+    }
+    this._boundLangUpdatedListeners.add({ boundElement, listener });
+  }
+
+  /**
+   * Removes lang-updated listeners for boundElement
+   */
+  _removeBoundLangUpdatedListeners() {
+    if (this._boundLangUpdatedListeners) {
+      for (let { boundElement, listener } of this._boundLangUpdatedListeners) {
+        boundElement.removeEventListener('lang-updated', listener);
+        let _bound = boundElements.get(boundElement.constructor.is);
+        if (_bound && _bound.elements) {
+          if (_bound.elements.has(this)) {
+            _bound.elements.delete(this);
+            //console.log(`${this.is}._removeBoundLangUpdatedListeners: removing from boundElements.get(${boundElement.constructor.is}).elements elements.size = ${_bound.elements.size}`);
+          }
+        }
+        //console.log(`${this.is}._removeBoundLangUpdatedListeners: removing lang-updated listener`, listener, ' from ', boundElement.constructor.is);
+      }
+      this._boundLangUpdatedListeners = null;
+    }
   }
 
   /**
@@ -254,11 +330,12 @@ export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseEl
    */
   getBoundElement(name, meta) {
     let { boundElement, elements } = boundElements.get(name) || { boundElement: null, elements: new Map() };
+    let listener;
     /*
       Data structures of boundElements
         boundElements.get(name) -> { boundElement: boundElement, elements: elements }
         if this.observeHtmlLang === true
-          elements -> { this: boundElement } // single item in the map
+          elements -> { this: boundElement, ... } // all values are the same boundElement object
         if this.observeHtmlLang === false
           elements -> { this: boundElementForThis, ... } // dedicated bound element for each `this`
         if this.observeHtmlLang === undefined // NameBinding
@@ -282,10 +359,12 @@ export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseEl
           this.importMeta = meta;
         }
         langUpdated(event) { // not called for this
-          //console.log(`${name}.langUpdated.bind(${this.is}), ${event.target.is} ${event.target.lang}: ${JSON.stringify(event.detail)}`, this);
-          this.notifyPath('text', this.text);
-          if (observeHtmlLang || this.lang !== event.target.lang) {
-            this.fire('lang-updated', event.detail);
+          //console.log(`${name}.langUpdated.bind(${this.is}) connected=${this._i18nElementConnected}, ${event.target.is} ${event.target.lang}: ${JSON.stringify(event.detail)}`, this);
+          if (this._i18nElementConnected) {
+            this.notifyPath('text', this.text);
+            if (observeHtmlLang || this.lang !== event.target.lang) {
+              this.fire('lang-updated', event.detail);
+            }
           }
         }
       }
@@ -297,15 +376,19 @@ export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseEl
       boundElement = elements.get(this);
       if (!boundElement) {
         boundElement = document.createElement('html-binding-namespace-' + name);
-        boundElement.addEventListener('lang-updated', boundElement.langUpdated.bind(this));
+        listener = boundElement.langUpdated.bind(this);
+        boundElement.addEventListener('lang-updated', listener);
+        this._registerBoundLangUpdatedListener(boundElement, listener);
         elements.set(this, boundElement);
       }
     }
     else if (this !== ObserverElement.prototype) {
-      if (!elements.has(this)) {
-        //console.log(`boundElement(${boundElement.is}).addEventListener('lang-updated', boundElement.langUpdated.bind(${this.is}))`);
-        boundElement.addEventListener('lang-updated', boundElement.langUpdated.bind(this));
+      if (!elements.has(this) && (this.hasAttribute('discard-on-disconnect') ? this._i18nElementConnected : true)) {
+        listener = boundElement.langUpdated.bind(this);
+        boundElement.addEventListener('lang-updated', listener);
+        this._registerBoundLangUpdatedListener(boundElement, listener);
         elements.set(this, boundElement);
+        //console.log(`boundElement(${boundElement.is}).addEventListener('lang-updated', boundElement.langUpdated.bind(${this.is})) connected=${this._i18nElementConnected} elements.size=${elements.size}`);
       }
     }
     return boundElement;    
@@ -334,6 +417,16 @@ export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseEl
           this._updateEffectiveLang();
         }
       }, 0);
+    }
+  }
+
+  /**
+   * Disconnects mutation observer
+   */
+  _stopMutationObserver() {
+    if (this._htmlLangObserver) {
+      this._htmlLangObserver.disconnect();
+      this._htmlLangObserver = null;
     }
   }
 
