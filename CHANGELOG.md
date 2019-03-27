@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.0.2] 2019-3-27
+### Added
+
+### Changed
+- `boundElements` `Map` object stores `{ boundElement: boundElement, elements: elementsMapObject }` with the key `name`
+  - `elementsMapObject` `Map` objects store maps from `this` element to `boundElementForThis` element
+
+### Removed
+
 ## [4.0.1] 2019-3-27
 ### Added
 - `static get observeHtmlLang()` can be overridden to set `this.observeHtmlLang` at `super()` constructor
