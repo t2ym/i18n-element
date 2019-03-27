@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- `discard-on-disconnect` boolean attribute to perform cleanup on disconnection
+  - Cleanup targets: `boundElements`, `lang-updated` event listeners, `MutationObserver` for `<html lang>` attribute
+- `_i18nElementConnected` boolean property to store connection status of the element
+- `demo/clock.js`:
+  - Workaround for issue #85: Add `lang=${this.lang}` attribute explicitly
+
+### Changed
+
+### Removed
+
 ## [4.0.2] 2019-3-27
 ### Added
 
