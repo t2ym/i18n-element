@@ -28,10 +28,22 @@
   },
   "world-clock-container": {
     "meta": {
-      "todo": []
+      "todo": [
+        {
+          "op": "replace",
+          "path": "/compound-format-text/1",
+          "value": "{{parts.2 - 1}}"
+        },
+        {
+          "op": "replace",
+          "path": "/compound-format-text/2",
+          "value": "{{parts.3}}"
+        }
+      ]
     },
     "model": {},
     "div_1": "ja 世界時計",
+    "button_2": "ja 隠す",
     "compound-format-text": [
       {
         "0": "どのタイムゾーンも表示されていません。",
@@ -39,8 +51,8 @@
         "one": "{2}以外に、{1}つのタイムゾーンが表示されています。",
         "other": "{2}以外に、{1}つのタイムゾーンが表示されています。"
       },
-      "{{parts.1 - 1}}",
-      "{{parts.2}}"
+      "{{parts.2 - 1}}",
+      "{{parts.3}}"
     ]
   },
   "world-clock": {

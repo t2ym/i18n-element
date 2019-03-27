@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file xml:space="default" source-language="en" target-language="ja" datatype="plaintext" original="messages" date="2019-03-17T07:01:13Z" product-name="messages">
+  <file xml:space="default" source-language="en" target-language="ja" datatype="plaintext" original="messages" date="2019-03-27T15:48:30Z" product-name="messages">
     <header>
       <tool tool-id="xliff-conv" tool-name="xliff-conv" tool-version="1.0.12"/>
     </header>
@@ -42,6 +42,10 @@
         <source>World Clocks</source>
         <target state="translated">ja 世界時計</target>
       </trans-unit>
+      <trans-unit id="world-clock-container.button_2" approved="yes">
+        <source>Hide</source>
+        <target state="translated">ja 隠す</target>
+      </trans-unit>
       <trans-unit id="world-clock-container.compound-format-text.0.0" approved="yes">
         <source>No timezones</source>
         <target state="translated">どのタイムゾーンも表示されていません。</target>
@@ -58,13 +62,13 @@
         <source>{1} timezones other than {2} are shown.</source>
         <target state="translated">{2}以外に、{1}つのタイムゾーンが表示されています。</target>
       </trans-unit>
-      <trans-unit id="world-clock-container.compound-format-text.1" approved="yes">
-        <source>{{parts.1 - 1}}</source>
-        <target state="translated">{{parts.1 - 1}}</target>
+      <trans-unit id="world-clock-container.compound-format-text.1">
+        <source>{{parts.2 - 1}}</source>
+        <target state="needs-translation">{{parts.2 - 1}}</target>
       </trans-unit>
-      <trans-unit id="world-clock-container.compound-format-text.2" approved="yes">
-        <source>{{parts.2}}</source>
-        <target state="translated">{{parts.2}}</target>
+      <trans-unit id="world-clock-container.compound-format-text.2">
+        <source>{{parts.3}}</source>
+        <target state="needs-translation">{{parts.3}}</target>
       </trans-unit>
       <trans-unit id="world-clock.div_1.0" approved="yes">
         <source> Timezone: GMT{1}

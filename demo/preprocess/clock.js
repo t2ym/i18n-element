@@ -52,13 +52,35 @@ export class LitClock extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this._langUpdatedBindThis = this._langUpdated.bind(this);
+    this.addEventListener('lang-updated', this._langUpdatedBindThis);
+    messageBinding.element.addEventListener('lang-updated', this._langUpdatedBindThis);
+  }
+  connectedCallback() {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+    this.start();
+  }
+  disconnectedCallback() {
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
+    this.stop();
+    if (this.hasAttribute('discard-on-disconnect')) {
+      this.removeEventListener('lang-updated', this._langUpdatedBindThis);
+      messageBinding.element.removeEventListener('lang-updated', this._langUpdatedBindThis);
+    }
+  }
+  start() {
     this.date = new Date();
-    setInterval(() => {
+    this.intervalId = setInterval(() => {
       this.date = new Date();
     }, 1000);
-    let _langUpdatedBindThis = this._langUpdated.bind(this);
-    this.addEventListener('lang-updated', _langUpdatedBindThis);
-    messageBinding.element.addEventListener('lang-updated', _langUpdatedBindThis);
+  }
+  stop() {
+    clearInterval(this.intervalId);
+    this.intervalId = undefined;
   }
   _langUpdated(event) {
     this.invalidate();
@@ -188,6 +210,9 @@ class WorldClock extends LitClock {
   }
   constructor() {
     super();
+  }
+  connectedCallback() {
+    super.connectedCallback();
     this.__date = new Date();
     this.timezone = -this._date.getTimezoneOffset();
   }
@@ -233,7 +258,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.timezones = [
+    this._timezones = this.timezones = [
       0,
       -new Date().getTimezoneOffset()
     ];
@@ -246,6 +271,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
     }
   }
   connectedCallback() {
+    super.connectedCallback();
     this.connected = true;
     this.invalidate();
   }
@@ -253,17 +279,25 @@ class WorldClockContainer extends i18n(HTMLElement) {
     return html([
       '<!-- localizable -->',
       '\n      <style>\n        :host {\n          display: block;\n          width: 100%;\n        }\n        world-clock {\n          display: flow;\n          max-width: 300px;\n        }\n      </style>\n      <div>',
-      '</div>\n      ',
+      '</div>\n      <button @click="',
+      '">',
+      '</button>\n      ',
       '\n      <i18n-format id="compound-format-text" class="text" lang="',
       '" .data=',
-      '>\n        <!-- <json-data> is preprocessed as .data property -->\n        <json-data preprocessed></json-data>\n        <i18n-number offset="1" slot="1" lang="',
+      '>\n        <!-- <json-data> is to be preprocessed as .data property -->\n        <json-data preprocessed></json-data>\n        <i18n-number offset="1" slot="1" lang="',
       '">',
       '</i18n-number>\n        <span slot="2">',
       '</span>\n      </i18n-format>\n    '
     ], ...bind(this, (_bind, text, model, effectiveLang) => [
       _bind,
       text['div_1'],
-      repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item }></world-clock>`),
+      () => {
+        this.timezones = this.timezones.length === 0 ? this._timezones : [];
+        setTimeout(() => this.invalidate(), 100);
+      },
+      text['button_2'],
+      repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item } lang=${ this.lang } discard-on-disconnect>
+                 <!-- explicitly set lang attribute to work around the flapping language issue #85 on reconnect --></world-clock>`),
       effectiveLang,
       text['compound-format-text']['0'],
       effectiveLang,
@@ -273,6 +307,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
       'meta': {},
       'model': {},
       'div_1': 'World Clocks',
+      'button_2': 'Hide',
       'compound-format-text': [
         {
           '0': 'No timezones',
@@ -280,8 +315,8 @@ class WorldClockContainer extends i18n(HTMLElement) {
           'one': '{1} timezone other than {2} is shown.',
           'other': '{1} timezones other than {2} are shown.'
         },
-        '{{parts.1 - 1}}',
-        '{{parts.2}}'
+        '{{parts.2 - 1}}',
+        '{{parts.3}}'
       ]
     }));
   }

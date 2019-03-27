@@ -140,12 +140,13 @@
         }
       </style>
       <div>{{text.div_1}}</div>
-      {{parts.0}}
+      <button @click="{{parts.0}}">{{text.button_2}}</button>
+      {{parts.1}}
       <i18n-format id="compound-format-text" class="text" lang="{{effectiveLang}}">
-        <!-- <json-data> is preprocessed as .data property -->
+        <!-- <json-data> is to be preprocessed as .data property -->
         <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
-        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{parts.1}}</i18n-number>
-        <span slot="2">{{parts.2}}</span>
+        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{parts.2}}</i18n-number>
+        <span slot="2">{{parts.3}}</span>
       </i18n-format>
     <template id="localizable-text">
 <json-data>
@@ -153,6 +154,7 @@
   "meta": {},
   "model": {},
   "div_1": "World Clocks",
+  "button_2": "Hide",
   "compound-format-text": [
     {
       "0": "No timezones",
@@ -160,8 +162,8 @@
       "one": "{1} timezone other than {2} is shown.",
       "other": "{1} timezones other than {2} are shown."
     },
-    "{{parts.1 - 1}}",
-    "{{parts.2}}"
+    "{{parts.2 - 1}}",
+    "{{parts.3}}"
   ]
 }
 </json-data>

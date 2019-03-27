@@ -48,13 +48,42 @@ export class LitClock extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({mode: 'open'});
+    this._langUpdatedBindThis = this._langUpdated.bind(this);
+    this.addEventListener('lang-updated', this._langUpdatedBindThis); // invalidate on this 'lang-updated'
+    messageBinding.element.addEventListener('lang-updated', this._langUpdatedBindThis); // invalidate on getMessage()'s 'lang-updated'
+  }
+
+  connectedCallback() {
+    //console.log(`${this.is}.connectedCallback()`);
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+    this.start();
+  }
+
+  disconnectedCallback() {
+    //console.log(`${this.is}.disconnectedCallback()`);
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
+    this.stop();
+    if (this.hasAttribute('discard-on-disconnect')) {
+      this.removeEventListener('lang-updated', this._langUpdatedBindThis);
+      messageBinding.element.removeEventListener('lang-updated', this._langUpdatedBindThis);
+    }
+  }
+
+  start() {
     this.date = new Date();
-    setInterval(() => {
+    this.intervalId = setInterval(() => {
+      //console.log(`${this.is}: ticking`);
       this.date = new Date();
     }, 1000);
-    let _langUpdatedBindThis = this._langUpdated.bind(this);
-    this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
-    messageBinding.element.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on getMessage()'s 'lang-updated'
+  }
+
+  stop() {
+    clearInterval(this.intervalId);
+    this.intervalId = undefined;
   }
 
   _langUpdated(event) {
@@ -168,6 +197,7 @@ export class LitClock extends i18n(HTMLElement) {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
+    //console.log(`${this.is}.attributeChangedCallback: name=${name} oldValue=${oldValue} newValue=${newValue}`);
     const handleOnlyBySelf = [];
     if (handleOnlyBySelf.indexOf(name) < 0) {
       if (super.attributeChangedCallback) {
@@ -222,6 +252,10 @@ class WorldClock extends LitClock {
 
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
     this.__date = new Date();
     this.timezone = -this._date.getTimezoneOffset();
   }
@@ -257,7 +291,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({mode: 'open'});
-    this.timezones = [ 0, -new Date().getTimezoneOffset() /*, +new Date().getTimezoneOffset() */];
+    this._timezones = this.timezones = [ 0, -new Date().getTimezoneOffset() /*, +new Date().getTimezoneOffset() */];
     let _langUpdatedBindThis = this._langUpdated.bind(this);
     this.addEventListener('lang-updated', _langUpdatedBindThis); // invalidate on this 'lang-updated'
   }
@@ -269,6 +303,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.connected = true;
     this.invalidate();
   }
@@ -286,10 +321,12 @@ class WorldClockContainer extends i18n(HTMLElement) {
         }
       </style>
       <div>World Clocks</div>
+      <button @click=${() => { this.timezones = this.timezones.length === 0 ? this._timezones : []; setTimeout(() => this.invalidate(), 100); } }>Hide</button>
       ${repeat(this.timezones,
                (item) => item,
                (item, index) => 
-                 /* no I18N for this template itself */html`<world-clock .timezone=${item}></world-clock>`)}
+                 /* no I18N for this template itself */html`<world-clock .timezone=${item} lang=${this.lang} discard-on-disconnect>
+                 <!-- explicitly set lang attribute to work around the flapping language issue #85 on reconnect --></world-clock>`)}
       <i18n-format id="compound-format-text" class="text">
         <!-- <json-data> is to be preprocessed as .data property -->
         <json-data>{
