@@ -296,7 +296,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
       ${repeat(this.timezones,
                (item) => item,
                (item, index) => 
-                 /* no I18N for this template itself */html`<world-clock .timezone=${item[0]} lang=${item[1]}></world-clock>`)}
+                 /* no I18N for this template itself */html`<world-clock .timezone=${item[0]} lang=${item[1]} discard-on-disconnect></world-clock>`)}
       <i18n-format id="compound-format-text" class="text">
         <json-data>{
           "0": "No timezones",
