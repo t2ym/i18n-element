@@ -329,7 +329,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
         >${this.text.hide_labels ? this.text.hide_labels[this.hide ? 1 : 0] : ''}</button>
       <button @click=${() => { this.hide = false; this.disconnect = !this.disconnect; setTimeout(() => this.invalidate(), 100); } }
         >${this.text.disconnect_labels ? this.text.disconnect_labels[this.disconnect ? 1 : 0] : ''}</button>
-      <shadow-repeat .repeater=${() => repeat(this.hide ? [] : this.timezones, (item, index) => html`<slot name=${index}>`)}>
+      <shadow-repeat .repeater=${() => repeat(this.hide ? [] : this.timezones, (item, index) => html`<slot name=${index}></slot>`)}>
         <!-- stock views in Light DOM and show selected views in shadow DOM via slot names -->
         ${repeat(this.disconnect ? [] : this.timezones,
                (item, index) => index, // index as the key
