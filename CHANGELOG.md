@@ -5,8 +5,10 @@
 - `discard-on-disconnect` boolean attribute to perform cleanup on disconnection
   - Cleanup targets: `boundElements`, `lang-updated` event listeners, `MutationObserver` for `<html lang>` attribute
 - `_i18nElementConnected` boolean property to store connection status of the element
-- `demo/clock.js`:
+- `demo/clock/clock.js`:
   - Workaround for issue #85: Add `lang=${this.lang}` attribute explicitly
+- `demo/clock/shadow-repeat.js`: (experimental)
+  - Element repeater in Shadow DOM to avoid disconnection in selective drawing
 
 ### Changed
 

@@ -25,6 +25,7 @@ import {
   getMessage,
   binding as messageBinding
 } from './message.js';
+import './shadow-repeat.js';
 const i18nAttrRepoContainer = document.createElement('template');
 i18nAttrRepoContainer.innerHTML = `<i18n-attr-repo>
   <template id="custom">
@@ -283,33 +284,47 @@ class WorldClockContainer extends i18n(HTMLElement) {
       '\n      <style>\n        :host {\n          display: block;\n          width: 100%;\n        }\n        world-clock {\n          display: flow;\n          max-width: 300px;\n        }\n      </style>\n      <div>',
       '</div>\n      <button @click="',
       '">',
-      '</button>\n      ',
-      '\n      <i18n-format id="compound-format-text" class="text" lang="',
+      '</button>\n      <button @click="',
+      '">',
+      '</button>\n      <shadow-repeat .repeater="',
+      '">\n        <!-- stock views in Light DOM and show selected views in shadow DOM via slot names -->\n        ',
+      '\n      </shadow-repeat>\n      <i18n-format id="compound-format-text" class="text" lang="',
       '" .data=',
       '>\n        <!-- <json-data> is to be preprocessed as .data property -->\n        <json-data preprocessed></json-data>\n        <i18n-number offset="1" slot="1" lang="',
       '">',
       '</i18n-number>\n        <span slot="2">',
-      '</span>\n      </i18n-format>\n    '
+      '</span>\n      </i18n-format>\n      <template>\n        <json-data id="hide_labels">',
+      '</json-data>\n        <json-data id="disconnect_labels">',
+      '</json-data>\n      </template>\n    '
     ], ...bind(this, (_bind, text, model, effectiveLang) => [
       _bind,
       text['div_1'],
       () => {
-        this.timezones = this.timezones.length === 0 ? this._timezones : [];
+        this.hide = !this.hide;
+        this.disconnect = false;
         setTimeout(() => this.invalidate(), 100);
       },
-      text['button_2'],
-      repeat(this.timezones, item => item, (item, index) => html`<world-clock .timezone=${ item } lang=${ this.lang } discard-on-disconnect>
+      this.text.hide_labels ? this.text.hide_labels[this.hide ? 1 : 0] : '',
+      () => {
+        this.hide = false;
+        this.disconnect = !this.disconnect;
+        setTimeout(() => this.invalidate(), 100);
+      },
+      this.text.disconnect_labels ? this.text.disconnect_labels[this.disconnect ? 1 : 0] : '',
+      () => repeat(this.hide ? [] : this.timezones, (item, index) => html`<slot name=${ index }>`),
+      repeat(this.disconnect ? [] : this.timezones, (item, index) => index, (item, index) => html`<world-clock slot=${ index } .timezone=${ this.timezones[item] } lang=${ this.lang } discard-on-disconnect>
                  <!-- explicitly set lang attribute to work around the flapping language issue #85 on reconnect --></world-clock>`),
       effectiveLang,
       text['compound-format-text']['0'],
       effectiveLang,
-      this.timezones.length,
-      'GMT' + (this.timezones[0] < 0 ? '' : '+') + this.timezones[0] / 60
+      this.hide || this.disconnect ? 0 : this.timezones.length,
+      'GMT' + (this.timezones[0] < 0 ? '' : '+') + this.timezones[0] / 60,
+      text['hide_labels'],
+      text['disconnect_labels']
     ], {
       'meta': {},
       'model': {},
       'div_1': 'World Clocks',
-      'button_2': 'Hide',
       'compound-format-text': [
         {
           '0': 'No timezones',
@@ -317,8 +332,16 @@ class WorldClockContainer extends i18n(HTMLElement) {
           'one': '{1} timezone other than {2} is shown.',
           'other': '{1} timezones other than {2} are shown.'
         },
-        '{{parts.2 - 1}}',
-        '{{parts.3}}'
+        '{{parts.6 - 1}}',
+        '{{parts.7}}'
+      ],
+      'hide_labels': [
+        'Hide',
+        'Show'
+      ],
+      'disconnect_labels': [
+        'Disconnect',
+        'Redraw'
       ]
     }));
   }

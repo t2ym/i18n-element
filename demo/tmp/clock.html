@@ -140,21 +140,28 @@
         }
       </style>
       <div>{{text.div_1}}</div>
-      <button @click="{{parts.0}}">{{text.button_2}}</button>
-      {{parts.1}}
+      <button @click="{{parts.0}}">{{parts.1}}</button>
+      <button @click="{{parts.2}}">{{parts.3}}</button>
+      <shadow-repeat .repeater="{{parts.4}}">
+        <!-- stock views in Light DOM and show selected views in shadow DOM via slot names -->
+        {{parts.5}}
+      </shadow-repeat>
       <i18n-format id="compound-format-text" class="text" lang="{{effectiveLang}}">
         <!-- <json-data> is to be preprocessed as .data property -->
         <json-data>{{serialize(text.compound-format-text.0)}}</json-data>
-        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{parts.2}}</i18n-number>
-        <span slot="2">{{parts.3}}</span>
+        <i18n-number offset="1" slot="1" lang="{{effectiveLang}}">{{parts.6}}</i18n-number>
+        <span slot="2">{{parts.7}}</span>
       </i18n-format>
+      <template>
+        <json-data id="hide_labels">{{text.hide_labels}}</json-data>
+        <json-data id="disconnect_labels">{{text.disconnect_labels}}</json-data>
+      </template>
     <template id="localizable-text">
 <json-data>
 {
   "meta": {},
   "model": {},
   "div_1": "World Clocks",
-  "button_2": "Hide",
   "compound-format-text": [
     {
       "0": "No timezones",
@@ -162,8 +169,16 @@
       "one": "{1} timezone other than {2} is shown.",
       "other": "{1} timezones other than {2} are shown."
     },
-    "{{parts.2 - 1}}",
-    "{{parts.3}}"
+    "{{parts.6 - 1}}",
+    "{{parts.7}}"
+  ],
+  "hide_labels": [
+    "Hide",
+    "Show"
+  ],
+  "disconnect_labels": [
+    "Disconnect",
+    "Redraw"
   ]
 }
 </json-data>

@@ -38,7 +38,6 @@
     },
     "model": {},
     "div_1": "World Clocks",
-    "button_2": "Hide",
     "compound-format-text": [
       {
         "0": "No timezones",
@@ -46,8 +45,16 @@
         "one": "{1} timezone other than {2} is shown.",
         "other": "{1} timezones other than {2} are shown."
       },
-      "{{parts.2 - 1}}",
-      "{{parts.3}}"
+      "{{parts.6 - 1}}",
+      "{{parts.7}}"
+    ],
+    "hide_labels": [
+      "Hide",
+      "Show"
+    ],
+    "disconnect_labels": [
+      "Disconnect",
+      "Redraw"
     ]
   },
   "world-clock": {
