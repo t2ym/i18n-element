@@ -334,8 +334,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
         ${repeat(this.disconnect ? [] : this.timezones,
                (item, index) => index, // index as the key
                (item, index) =>
-                 /* no I18N for this template itself */html`<world-clock slot=${index} .timezone=${this.timezones[item]} discard-on-disconnect>
-                 <!-- explicitly set lang attribute to work around the flapping language issue #85 on reconnect --></world-clock>`)}
+                 /* no I18N for this template itself */html`<world-clock slot=${index} .timezone=${this.timezones[item]} discard-on-disconnect></world-clock>`)}
       </shadow-repeat>
       <i18n-format id="compound-format-text" class="text">
         <!-- <json-data> is to be preprocessed as .data property -->
