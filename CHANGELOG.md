@@ -1,6 +1,6 @@
 # Changelog
 
-## [4.0.3] 2019-3-28
+## [4.1.0] 2019-3-28
 ### Added
 - `discard-on-disconnect` boolean attribute to perform cleanup on disconnection
   - Cleanup targets: `boundElements`, `lang-updated` event listeners, `MutationObserver` for `<html lang>` attribute
