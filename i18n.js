@@ -388,6 +388,9 @@ export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseEl
         boundElement.addEventListener('lang-updated', listener);
         this._registerBoundLangUpdatedListener(boundElement, listener);
         elements.set(this, boundElement);
+        if (this.lang !== boundElement.lang) {
+          this.lang = boundElement.lang;
+        }
         //console.log(`boundElement(${boundElement.is}).addEventListener('lang-updated', boundElement.langUpdated.bind(${this.is})) connected=${this._i18nElementConnected} elements.size=${elements.size}`);
       }
     }

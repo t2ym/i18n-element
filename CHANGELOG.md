@@ -5,14 +5,15 @@
 - `discard-on-disconnect` boolean attribute to perform cleanup on disconnection
   - Cleanup targets: `boundElements`, `lang-updated` event listeners, `MutationObserver` for `<html lang>` attribute
 - `_i18nElementConnected` boolean property to store connection status of the element
-- `demo/clock/clock.js`:
-  - Workaround for issue #85: Add `lang=${this.lang}` attribute explicitly
 - `demo/clock/shadow-repeat.js`: (experimental)
   - Element repeater in Shadow DOM to avoid disconnection in selective drawing
 
 ### Changed
 
 ### Removed
+
+### Fixed
+- [Issue #85](https://github.com/t2ym/i18n-element/issues/85) [super.render()] lang attribute flips to en with re-rendered elements
 
 ## [4.0.2] 2019-3-27
 ### Added
