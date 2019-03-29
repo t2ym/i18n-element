@@ -1278,18 +1278,37 @@ suite('lit-html I18N with ' +
   window.dispatchEvent(new CustomEvent('suites-loaded'));
   suitesRunner(suites, 1000);
 
-  /*
-  suite('lit-clock test', function () {
-    test('connect', function (done) {
-  });
+  if (location.href.indexOf('syntax=element-name-binding') >= 0) {
+    suite('suspend and resume', function () {
+      var el;
+      test('connect', function (done) {
+        el = document.createElement('world-clock');
+        el.timezone = 0;
+        document.body.appendChild(el);
+        setTimeout(() => {
+          assert.equal(el.is, 'world-clock', 'is property');
+          assert.isOk(el._i18nElementConnected, 'connected');
+          done();
+        }, 200);
+      });
 
-  if (location.href.indexOf('syntax=thin') >= 0) {
-    suite('thin syntax extra test', function () {
-      test('Define(id)', function (done) {
-        assert.isOk(Define('simple-text-element') === customElements.get('simple-text-element'), 'Define(id) is customElements.get(id)');
-        done();
+      test('disconnect', function (done) {
+        document.body.removeChild(el);
+        setTimeout(() => {
+          assert.equal(el.is, 'world-clock', 'is property');
+          assert.isNotOk(el._i18nElementConnected, 'disconnected');
+          done();
+        }, 200);
+      });
+
+      test('reconnect', function (done) {
+        document.body.appendChild(el);
+        setTimeout(() => {
+          assert.equal(el.is, 'world-clock', 'is property');
+          assert.isOk(el._i18nElementConnected, 'connected');
+          done();
+        }, 200);
       });
     });
   }
-  */
 });
