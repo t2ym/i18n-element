@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.1.1] 2019-3-29
+### Added
+- [Issue #89](https://github.com/t2ym/i18n-element/issues/89) Automate cleanup and resume I18N features on disconnection and reconnection
+  - Disconnected elements are garbage-collected if no references to them exist
+  - Note: Each element must handle its own cleanup and resume tasks on disconnection and reconnection, respectively
+
+### Changed
+
+### Removed
+- `discard-on-disconnect` boolean attribute is no longer required and has no effects
+
 ## [4.1.0] 2019-3-28
 ### Added
 - `discard-on-disconnect` boolean attribute to perform cleanup on disconnection
