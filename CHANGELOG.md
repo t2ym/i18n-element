@@ -1,6 +1,6 @@
 # Changelog
 
-## [4.1.1] 2019-3-29
+## [4.1.2] 2019-3-29
 ### Added
 - [Issue #89](https://github.com/t2ym/i18n-element/issues/89) Automate cleanup and resume I18N features on disconnection and reconnection
   - Disconnected elements are garbage-collected if no references to them exist
