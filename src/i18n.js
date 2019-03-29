@@ -47,6 +47,8 @@ const templateCache = new Map();
 /* unnecessary part of i18n-core.js: END */
 const boundElements = new Map();
 
+const suspendedBoundElements = new WeakMap();
+
 /* default bundles */
 const defaultBundles = bundles[''];
 
@@ -64,9 +66,6 @@ const defaultBundles = bundles[''];
  *  _i18nElementConnected - {boolean} set as true on connectedCallback and false on disconnectedCallback, undefined before connection
  *
  * Attributes:
- *  discard-on-disconnect - boolean attribute to discard the element on disconnection if exists
- *    - this removes lang-updated event listeners bound to this element for boundElement
- *    - disconnectedCallback() must call super.disconnectedCallback() and clean up resources for the element instance
  *
  * @polymer
  * @mixinFunction
@@ -184,6 +183,12 @@ uncommented part of i18n-core.js: END */
       super.connectedCallback();
     }
     this._i18nElementConnected = true;
+    if (!this._updateEffectiveLangBindThis) {
+      this._updateEffectiveLangBindThis = this._updateEffectiveLang.bind(this);
+      this.addEventListener('lang-updated', this._updateEffectiveLangBindThis);
+    }
+    this._reviveBoundLangUpdatedListeners(); // Noop if it has not been disconnected
+    this._startMutationObserver(); // Noop if already started
   }
 
   /**
@@ -201,11 +206,10 @@ uncommented part of i18n-core.js: END */
       super.disconnectedCallback();
     }
     this._i18nElementConnected = false;
-    if (this.hasAttribute('discard-on-disconnect')) {
-      this.removeEventListener('lang-updated', this._updateEffectiveLangBindThis);
-      this._removeBoundLangUpdatedListeners();
-      this._stopMutationObserver();
-    }
+    this.removeEventListener('lang-updated', this._updateEffectiveLangBindThis);
+    this._updateEffectiveLangBindThis = null;
+    this._removeBoundLangUpdatedListeners();
+    this._stopMutationObserver();
   }
 
   /**
@@ -226,18 +230,49 @@ uncommented part of i18n-core.js: END */
    */
   _removeBoundLangUpdatedListeners() {
     if (this._boundLangUpdatedListeners) {
+      let boundElementsForThis = new Map();
       for (let { boundElement, listener } of this._boundLangUpdatedListeners) {
         boundElement.removeEventListener('lang-updated', listener);
         let _bound = boundElements.get(boundElement.constructor.is);
         if (_bound && _bound.elements) {
           if (_bound.elements.has(this)) {
             _bound.elements.delete(this);
+            boundElementsForThis.set(boundElement.constructor.is, boundElement);
             //console.log(`${this.is}._removeBoundLangUpdatedListeners: removing from boundElements.get(${boundElement.constructor.is}).elements elements.size = ${_bound.elements.size}`);
           }
         }
         //console.log(`${this.is}._removeBoundLangUpdatedListeners: removing lang-updated listener`, listener, ' from ', boundElement.constructor.is);
       }
+      suspendedBoundElements.set(this, boundElementsForThis);
+      this._boundLangUpdatedListeners.clear();
       this._boundLangUpdatedListeners = null;
+    }
+  }
+
+  /**
+   * Revives lang-updated listeners for boundElement
+   */
+  _reviveBoundLangUpdatedListeners() {
+    let suspendedBoundElementsForThis = suspendedBoundElements.get(this);
+    if (suspendedBoundElementsForThis) {
+      this._boundLangUpdatedListeners = new Set();
+      for (let [ name, boundElement ] of suspendedBoundElementsForThis.entries()) {
+        let listener = boundElement.langUpdated.bind(this);
+        boundElement.addEventListener('lang-updated', listener);
+        let _bound = boundElements.get(name);
+        if (_bound && _bound.elements) {
+          if (!_bound.elements.has(this)) {
+            _bound.elements.set(this, boundElement);
+            this._boundLangUpdatedListeners.add({ boundElement, listener });
+            if (this.lang !== boundElement.lang) {
+              this.lang = boundElement.lang;
+            }
+            //console.log(`${this.is}._reviveBoundLangUpdatedListeners: reviving boundElements.get(${boundElement.constructor.is}).elements elements.size = ${_bound.elements.size}`);
+          }
+        }
+        //console.log(`${this.is}._reviveBoundLangUpdatedListeners: reviving lang-updated listener`, listener, ' from ', boundElement.constructor.is);
+      }
+      suspendedBoundElements.delete(this);
     }
   }
 
@@ -397,7 +432,7 @@ uncommented part of i18n-core.js: END */
       }
     }
     else if (this !== ObserverElement.prototype) {
-      if (!elements.has(this) && (this.hasAttribute('discard-on-disconnect') ? this._i18nElementConnected : true)) {
+      if (!elements.has(this) && !suspendedBoundElements.has(this)) {
         listener = boundElement.langUpdated.bind(this);
         boundElement.addEventListener('lang-updated', listener);
         this._registerBoundLangUpdatedListener(boundElement, listener);
