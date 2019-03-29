@@ -53,14 +53,13 @@ export class LitClock extends i18n(HTMLElement) {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this._langUpdatedBindThis = this._langUpdated.bind(this);
-    this.addEventListener('lang-updated', this._langUpdatedBindThis);
-    messageBinding.element.addEventListener('lang-updated', this._langUpdatedBindThis);
+    this.setupListeners();
   }
   connectedCallback() {
     if (super.connectedCallback) {
       super.connectedCallback();
     }
+    this.setupListeners();
     this.start();
   }
   disconnectedCallback() {
@@ -68,10 +67,7 @@ export class LitClock extends i18n(HTMLElement) {
       super.disconnectedCallback();
     }
     this.stop();
-    if (this.hasAttribute('discard-on-disconnect')) {
-      this.removeEventListener('lang-updated', this._langUpdatedBindThis);
-      messageBinding.element.removeEventListener('lang-updated', this._langUpdatedBindThis);
-    }
+    this.teardownListeners();
   }
   start() {
     this.date = new Date();
@@ -82,6 +78,20 @@ export class LitClock extends i18n(HTMLElement) {
   stop() {
     clearInterval(this.intervalId);
     this.intervalId = undefined;
+  }
+  setupListeners() {
+    if (!this._langUpdatedBindThis) {
+      this._langUpdatedBindThis = this._langUpdated.bind(this);
+      this.addEventListener('lang-updated', this._langUpdatedBindThis);
+      messageBinding.element.addEventListener('lang-updated', this._langUpdatedBindThis);
+    }
+  }
+  teardownListeners() {
+    if (this._langUpdatedBindThis) {
+      this.removeEventListener('lang-updated', this._langUpdatedBindThis);
+      messageBinding.element.removeEventListener('lang-updated', this._langUpdatedBindThis);
+      this._langUpdatedBindThis = null;
+    }
   }
   _langUpdated(event) {
     this.invalidate();
@@ -211,12 +221,17 @@ class WorldClock extends LitClock {
   }
   constructor() {
     super();
+    this.__date = this._date = new Date();
   }
   connectedCallback() {
     super.connectedCallback();
-    this.__date = new Date();
     if (this.timezone === undefined) {
       this.timezone = -this._date.getTimezoneOffset();
+    }
+  }
+  invalidate() {
+    if (this.timezone !== undefined) {
+      super.invalidate();
     }
   }
   render() {
@@ -312,7 +327,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
       },
       this.text.disconnect_labels ? this.text.disconnect_labels[this.disconnect ? 1 : 0] : '',
       () => repeat(this.hide ? [] : this.timezones, (item, index) => html`<slot name=${ index }></slot>`),
-      repeat(this.disconnect ? [] : this.timezones, (item, index) => index, (item, index) => html`<world-clock slot=${ index } .timezone=${ this.timezones[item] } discard-on-disconnect></world-clock>`),
+      repeat(this.disconnect ? [] : this.timezones, (item, index) => index, (item, index) => html`<world-clock slot=${ index } .timezone=${ this.timezones[item] }></world-clock>`),
       effectiveLang,
       text['compound-format-text']['0'],
       effectiveLang,

@@ -50,9 +50,7 @@ export class LitClock extends i18n(HTMLElement) {
     super();
     //console.log(`${this.is}.constructor()`);
     this.attachShadow({mode: 'open'});
-    this._langUpdatedBindThis = this._langUpdated.bind(this);
-    this.addEventListener('lang-updated', this._langUpdatedBindThis); // invalidate on this 'lang-updated'
-    messageBinding.element.addEventListener('lang-updated', this._langUpdatedBindThis); // invalidate on getMessage()'s 'lang-updated'
+    this.setupListeners();
   }
 
   connectedCallback() {
@@ -60,6 +58,7 @@ export class LitClock extends i18n(HTMLElement) {
     if (super.connectedCallback) {
       super.connectedCallback();
     }
+    this.setupListeners();
     this.start();
   }
 
@@ -69,10 +68,7 @@ export class LitClock extends i18n(HTMLElement) {
       super.disconnectedCallback();
     }
     this.stop();
-    if (this.hasAttribute('discard-on-disconnect')) {
-      this.removeEventListener('lang-updated', this._langUpdatedBindThis);
-      messageBinding.element.removeEventListener('lang-updated', this._langUpdatedBindThis);
-    }
+    this.teardownListeners();
   }
 
   start() {
@@ -86,6 +82,22 @@ export class LitClock extends i18n(HTMLElement) {
   stop() {
     clearInterval(this.intervalId);
     this.intervalId = undefined;
+  }
+
+  setupListeners() {
+    if (!this._langUpdatedBindThis) {
+      this._langUpdatedBindThis = this._langUpdated.bind(this);
+      this.addEventListener('lang-updated', this._langUpdatedBindThis); // invalidate on this 'lang-updated'
+      messageBinding.element.addEventListener('lang-updated', this._langUpdatedBindThis); // invalidate on getMessage()'s 'lang-updated'
+    }
+  }
+
+  teardownListeners() {
+    if (this._langUpdatedBindThis) {
+      this.removeEventListener('lang-updated', this._langUpdatedBindThis);
+      messageBinding.element.removeEventListener('lang-updated', this._langUpdatedBindThis);
+      this._langUpdatedBindThis = null;
+    }
   }
 
   _langUpdated(event) {
@@ -254,13 +266,19 @@ class WorldClock extends LitClock {
 
   constructor() {
     super();
+    this.__date = this._date = new Date();
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.__date = new Date();
     if (this.timezone === undefined) {
       this.timezone = -this._date.getTimezoneOffset();
+    }
+  }
+
+  invalidate() {
+    if (this.timezone !== undefined) {
+      super.invalidate();
     }
   }
 
@@ -334,7 +352,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
         ${repeat(this.disconnect ? [] : this.timezones,
                (item, index) => index, // index as the key
                (item, index) =>
-                 /* no I18N for this template itself */html`<world-clock slot=${index} .timezone=${this.timezones[item]} discard-on-disconnect></world-clock>`)}
+                 /* no I18N for this template itself */html`<world-clock slot=${index} .timezone=${this.timezones[item]}></world-clock>`)}
       </shadow-repeat>
       <i18n-format id="compound-format-text" class="text">
         <!-- <json-data> is to be preprocessed as .data property -->
