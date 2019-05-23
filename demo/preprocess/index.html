@@ -12,6 +12,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html>
   <head>
     <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script type="importmap">{
+      "imports": {
+        "lit-html/lit-html.js": [ "/components/lit-html/lit-html.js" ],
+        "lit-html/directives/repeat.js": [ "/components/lit-html/directives/repeat.js" ],
+        "i18n-element/i18n.js": [ "/components/i18n-element/i18n.js" ],
+        "i18n-element/i18n-core.js": [ "/components/i18n-element/i18n-core.js" ],
+        "i18n-behavior/i18n-controller.js": [ "/components/i18n-behavior/i18n-controller.js" ],
+        "i18n-behavior/i18n-controller-core.js": [ "/components/i18n-behavior/i18n-controller-core.js" ],
+        "i18n-format/i18n-format.js": [ "/components/i18n-format/i18n-format.js" ],
+        "i18n-number/i18n-number.js": [ "/components/i18n-number/i18n-number.js" ],
+        "wc-putty/polyfill.js": [ "/components/wc-putty/polyfill.js" ],
+        "deepcopy/dist/deepcopy.js": [ "/components/deepcopy/dist/deepcopy.js" ],
+        "make-plural/es6/plurals.js": [ "/components/make-plural/es6/plurals.js" ]
+      }
+    }</script>
     <script type="module" src="./clock.js"></script>
     <style>
       body {

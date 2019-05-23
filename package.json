@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/t2ym/i18n-element#readme",
   "name": "i18n-element",
-  "version": "4.1.2",
+  "version": "4.1.3",
   "main": "i18n.js",
   "directories": {
     "test": "test"
@@ -32,6 +32,7 @@
   },
   "scripts": {
     "demo": "cd demo && gulp",
+    "demoServer": "node demo/demoServer.js -p 8080 #import maps feature must be enabled at the browser and the server",
     "demo-rollup-esm-bundled": "rollup -c demo/preprocess/esm-bundled.rollup.config.js",
     "demo-webpack": "webpack --config demo/preprocess/webpack.config.js --display-modules --mode none",
     "size-polymer-build": "cd test && polymer build --root ..",
