@@ -1027,6 +1027,6 @@ gulp.task('i18n-attr-repo.html', function () {
     .pipe(gulp.dest(tmpDir));
 });
 
-gulp.task('default', (cb) => {
-  runSequence('clean', 'i18n-attr-repo.html', 'i18n', cb);
-});
+gulp.task('default',
+  gulp.series('clean', 'i18n-attr-repo.html', 'i18n')
+);

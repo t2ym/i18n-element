@@ -73,7 +73,7 @@
     "del": "^2.2.2",
     "escodegen": "github:t2ym/escodegen#es2018",
     "espree": "github:t2ym/espree#es2018",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-babel": "^6.1.2",
     "gulp-crisper": "^1.0.0",
     "gulp-debug": "^2.1.2",
