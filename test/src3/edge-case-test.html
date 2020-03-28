@@ -63,8 +63,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     </test-fixture>
 
     <div class="test-container">
-      <template id="edge-case-dom-bind"
-        is="i18n-dom-bind">
+    <i18n-dom-bind id="edge-case-dom-bind">
+      <template>
         name = {{text.name}}
         <i18n-number>1</i18n-number>
         <i18n-format>
@@ -83,6 +83,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         <p>hello<template is="dom-repeat" items="[0,1]"><br></template>world</p>
         hello <br><span></span> <span> </span> world
       </template>
+    </i18n-dom-bind>
         <template>
           <json-data text-id="target" data="{}"></json-data>
           <json-data id="func">{
@@ -96,7 +97,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           }</json-data>
           <span text-id="name">John</span>
         </template>
-      </template>
     </div>
     <i18n-preference></i18n-preference>
   </body>
