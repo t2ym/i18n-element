@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.1.4] 2020-3-28
+### Added
+- Workaround for [Known Issue #92](https://github.com/t2ym/i18n-element/issues/92) in demo
+
+### Changed
+- Update dependencies (gulp, polymerfire, etc.) and package-lock.json
+
+### Removed
+
 ## [4.1.2] 2019-3-29
 ### Added
 - [Issue #89](https://github.com/t2ym/i18n-element/issues/89) Automate cleanup and resume I18N features on disconnection and reconnection
