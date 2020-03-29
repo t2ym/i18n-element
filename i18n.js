@@ -332,7 +332,9 @@ export const i18n = (base) => mixinMethods(I18nControllerMixin, class I18nBaseEl
       // bound element
       let boundElement = this.getBoundElement(name, meta);
       if (boundElement.lang !== this.lang) {
-        boundElement.lang = this.lang;
+        if (!(boundElement.observeHtmlLang && boundElement._html.lang === boundElement.lang)) {
+          boundElement.lang = this.lang;
+        }
       }
       if (boundElement.templateDefaultLang !== this.templateDefaultLang) {
         boundElement.templateDefaultLang = this.templateDefaultLang;
