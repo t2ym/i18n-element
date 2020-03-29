@@ -327,7 +327,7 @@ class WorldClockContainer extends i18n(HTMLElement) {
       },
       this.text.disconnect_labels ? this.text.disconnect_labels[this.disconnect ? 1 : 0] : '',
       () => repeat(this.hide ? [] : this.timezones, (item, index) => html`<slot name=${ index }></slot>`),
-      repeat(this.disconnect ? [] : this.timezones, (item, index) => index, (item, index) => html`<world-clock slot=${ index } .timezone=${ this.timezones[item] } .lang=${ this.lang }></world-clock>`),
+      repeat(this.disconnect ? [] : this.timezones, (item, index) => index, (item, index) => html`<world-clock slot=${ index } .timezone=${ this.timezones[item] }></world-clock>`),
       effectiveLang,
       text['compound-format-text']['0'],
       effectiveLang,
