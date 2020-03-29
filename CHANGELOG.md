@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.1.5] 2020-3-29
+### Added
+
+### Changed
+
+### Removed
+- Workaround for [Known Issue #92](https://github.com/t2ym/i18n-element/issues/92) in demo
+
+### Fixed
+- [Issue #92](https://github.com/t2ym/i18n-element/issues/92) Skip updating `boundElement.lang` if it has already been synchronized with `<html lang>`
+
 ## [4.1.4] 2020-3-28
 ### Added
 - Workaround for [Known Issue #92](https://github.com/t2ym/i18n-element/issues/92) in demo
