@@ -182,4 +182,10 @@ Mixins.Logger = Logger;
  * @memberof BaseElements
  */
 export const I18nElement = Mixins.Localizable(LegacyElementMixin(HTMLElement));
-BaseElements.I18nElement = I18nElement;
+Object.defineProperty(BaseElements, 'I18nElement', {
+  get: function() {
+    return Mixins.Localizable(LegacyElementMixin(HTMLElement));
+  },
+  enumerable: true,
+  configurable: false,
+});
