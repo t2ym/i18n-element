@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.1.6] 2020-3-30
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+- [Partially Fixed Issue #93](https://github.com/t2ym/i18n-element/issues/93) Make `BaseElements.I18nElement` a dynamic property
+
 ## [4.1.5] 2020-3-29
 ### Added
 
