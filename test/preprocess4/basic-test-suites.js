@@ -274,9 +274,9 @@ suite('I18nElement with ' +
   var localDOM_plural_gender_4 = [
     { select: '#compound-format-text', 'root.PolymerDom.textContent': 'You () gave no gifts.' },
     { select: '#compound-format-text', 'PolymerDom.children.1.PolymerDom.childNodes.0.data.raw': '0' },
-    { select: '#compound-format-text', 'PolymerDom.children.2.PolymerDom.childNodes.0.data.raw': '' },
+    { select: '#compound-format-text', 'PolymerDom.children.2.PolymerDom.textContent.raw': '' },
     { select: '#compound-format-text', 'PolymerDom.children.3.PolymerDom.childNodes.0.data.raw': 'Joe' },
-    { select: '#compound-format-text', 'PolymerDom.children.4.PolymerDom.childNodes.0.data.raw': '' },
+    { select: '#compound-format-text', 'PolymerDom.children.4.PolymerDom.textContent.raw': '' },
     { select: '#compound-format-text', 'PolymerDom.children.5.PolymerDom.childNodes.0.data': 'a gift' }
   ];
   var text_simple_attribute = {

@@ -21,22 +21,12 @@ module.exports = {
         {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
-          "version":      "17"
-        },
-        {
-          "browserName":  "internet explorer",
-          "platform":     "Windows 8.1",
-          "version":      "11"
+          "version":      "93"
         },
         {
           "browserName":  "safari",
-          "platform":     "OS X 10.13",
-          "version":      "12"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.13",
-          "version":      "11.1"
+          "platform":     "macOS 11.00",
+          "version":      "14"
         }
       ]
     },

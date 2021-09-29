@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.0.0] 2021-9-29
+### Added
+- [Issue #95](https://github.com/t2ym/i18n-element/issues/95) Support lit-html@2.0.0
+- Tests on Edge 93 and Safari 14
+
+### Changed
+
+### Removed
+- Tests on IE, legacy Edge, and old Safari
+
+### Fixed
+
 ## [4.1.6] 2020-3-30
 ### Added
 

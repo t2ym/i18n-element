@@ -5,7 +5,7 @@
 
 # i18n-element
 
-I18N Base Element for [`lit-html`](https://lit-html.polymer-project.org/) and [Polymer](https://polymer-library.polymer-project.org/) with [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) as I18N engine
+I18N Base Element for [`Lit`](https://lit.dev/) and [Polymer](https://polymer-library.polymer-project.org/) with [`i18n-behavior`](https://github.com/t2ym/i18n-behavior) as I18N engine
 
 - `i18n-element` inserts **I18N layer** into UI definitions in HTML templates transparently
 - `i18n-element` comes with the full-featured automation [tools](#Tools)
@@ -232,6 +232,7 @@ They are fully integrated in these samples:
 
 | i18n-element   | i18n-behavior  | Polymer | lit-html |
 |:---------------|:---------------|:--------|:---------|
+| 5.x            | 5.x            | 3.x (optional) | 2.x      |
 | 4.x            | 4.x            | 3.x (optional) | 1.x      |
 | 3.x            | 3.x            | 3.x (mandatory) | 1.x      |
 | 2.x            | 2.x            | 1.x-2.x | -        |
@@ -241,6 +242,7 @@ They are fully integrated in these samples:
 
 ## Browser Compatibility
 
+- TODO: To be updated
 - Polyfilled by `@webcomponents/webcomponentsjs/webcomponents-{bundle|loader}.js`
 
 | Browser   | Chrome  | Firefox  | Edge 13+  | IE 11  | Safari 10+ | Chrome Android  | Mobile Safari  | Opera  |
